@@ -1,0 +1,19 @@
+<div class="app-container">
+  <div class="layout-wrapper">
+    <mat-drawer-container class="drawer-container" autosize>
+      <mat-drawer #drawer mode="side" [opened]="sidebarOpen" class="sidebar-drawer">
+        <app-sidebar></app-sidebar>
+      </mat-drawer>
+
+      <mat-drawer-content class="drawer-content">
+        <app-header (toggleSidebar)="toggleSidebar()" [sidebarOpen]="sidebarOpen"></app-header>
+
+        <div class="main-content">
+          <div class="content-wrapper">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </mat-drawer-content>
+    </mat-drawer-container>
+  </div>
+</div>

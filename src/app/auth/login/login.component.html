@@ -1,0 +1,181 @@
+<div class="login-container">
+  <!-- Left Side - Image Section -->
+  <div class="image-section">
+    <!-- Floating Decorative Elements -->
+    <div class="floating-elements">
+      <!-- Small Stat Badge 1 - Sales -->
+      <div class="stat-badge badge-1">
+        <mat-icon>shopping_cart</mat-icon>
+        <div class="badge-content">
+          <span class="label">Sales</span>
+          <span class="value">$45K</span>
+        </div>
+      </div>
+
+      <!-- Small Stat Badge 2 - Inventory -->
+      <div class="stat-badge badge-2">
+        <mat-icon>inventory_2</mat-icon>
+        <div class="badge-content">
+          <span class="label">Inventory</span>
+          <span class="value">1,245</span>
+        </div>
+      </div>
+
+      <!-- Small Stat Badge 3 - Orders -->
+      <div class="stat-badge badge-3">
+        <mat-icon>local_shipping</mat-icon>
+        <div class="badge-content">
+          <span class="label">Orders</span>
+          <span class="value">23</span>
+        </div>
+      </div>
+
+      <!-- Small Stat Badge 4 - Revenue -->
+      <div class="stat-badge badge-4">
+        <mat-icon>attach_money</mat-icon>
+        <div class="badge-content">
+          <span class="label">Revenue</span>
+          <span class="value">$125K</span>
+        </div>
+      </div>
+
+      <!-- Small Stat Badge 5 - Employees -->
+      <div class="stat-badge badge-5">
+        <mat-icon>groups</mat-icon>
+        <div class="badge-content">
+          <span class="label">Employees</span>
+          <span class="value">156</span>
+        </div>
+      </div>
+
+      <!-- Mini Icon Badge 1 -->
+      <div class="icon-badge icon-badge-1">
+        <mat-icon>trending_up</mat-icon>
+      </div>
+
+      <!-- Mini Icon Badge 2 -->
+      <div class="icon-badge icon-badge-2">
+        <mat-icon>assessment</mat-icon>
+      </div>
+
+      <!-- Mini Icon Badge 3 -->
+      <div class="icon-badge icon-badge-3">
+        <mat-icon>notifications_active</mat-icon>
+      </div>
+
+      <!-- Floating Shapes -->
+      <div class="floating-shape shape-circle-1"></div>
+      <div class="floating-shape shape-circle-2"></div>
+      <div class="floating-shape shape-circle-3"></div>
+      <div class="floating-shape shape-square-1"></div>
+    </div>
+
+    <div class="image-overlay">
+      <div class="overlay-content">
+        <div class="brand-logo">
+          <mat-icon class="brand-icon">business</mat-icon>
+        </div>
+        <h1 class="brand-title">ERP System</h1>
+        <p class="brand-description">Streamline your business operations with our comprehensive Enterprise Resource Planning solution</p>
+        <p class="brand-tagline">Empowering businesses with intelligent automation and real-time insights</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side - Login Form Section -->
+  <div class="form-section">
+    <div class="form-wrapper">
+      <div class="login-card">
+        <div class="logo-section-mobile">
+          <div class="logo-icon">
+            <mat-icon>business</mat-icon>
+          </div>
+          <h1 class="app-name">ERP System</h1>
+        </div>
+
+        <div class="form-header">
+          <h2>Welcome Back</h2>
+          <p>Sign in to continue to your dashboard</p>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+          <div class="form-fields">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Username</mat-label>
+              <input
+                matInput
+                formControlName="username"
+                placeholder="Enter your username"
+                autocomplete="username"
+                [class.is-invalid]="submitted && f['username'].errors"
+              />
+              <mat-icon matPrefix>person</mat-icon>
+              <mat-error *ngIf="submitted && f['username'].errors?.['required']">
+                Username is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Password</mat-label>
+              <input
+                matInput
+                [type]="hidePassword ? 'password' : 'text'"
+                formControlName="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                [class.is-invalid]="submitted && f['password'].errors"
+              />
+              <mat-icon matPrefix>lock</mat-icon>
+              <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="togglePasswordVisibility()"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hidePassword"
+              >
+                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="submitted && f['password'].errors?.['required']">
+                Password is required
+              </mat-error>
+            </mat-form-field>
+
+            <div class="form-options">
+              <mat-checkbox formControlName="rememberMe" class="remember-me">
+                Remember me
+              </mat-checkbox>
+              <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+
+            <div class="error-message" *ngIf="error">
+              <mat-icon>error_outline</mat-icon>
+              <span>{{ error }}</span>
+            </div>
+
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              class="login-button"
+              [disabled]="loading"
+            >
+              <span *ngIf="!loading">Sign In</span>
+              <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+            </button>
+          </div>
+
+          <!-- <div class="demo-credentials">
+            <p class="demo-title">Demo Credentials</p>
+            <p class="demo-text">Username: <strong>admin</strong></p>
+            <p class="demo-text">Password: <strong>password</strong></p>
+          </div> -->
+        </form>
+
+        <div class="login-footer">
+          <p>&copy; 2026 ERP System. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

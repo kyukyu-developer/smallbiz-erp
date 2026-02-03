@@ -1,0 +1,70 @@
+<div class="dashboard-container">
+  <div class="page-header">
+    <h1 class="page-title">Dashboard</h1>
+    <button mat-raised-button class="primary-btn">
+      <mat-icon>add</mat-icon>
+      New Entry
+    </button>
+  </div>
+
+  <div class="stats-grid">
+    <mat-card *ngFor="let stat of stats" class="stat-card">
+      <mat-card-content>
+        <div class="stat-header">
+          <div class="stat-icon" [style.background-color]="stat.color">
+            <mat-icon>{{ stat.icon }}</mat-icon>
+          </div>
+          <div class="stat-trend" *ngIf="stat.trend">
+            {{ stat.trend }}
+          </div>
+        </div>
+        <div class="stat-content">
+          <h2 class="stat-value">{{ stat.value }}</h2>
+          <p class="stat-title">{{ stat.title }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="dashboard-content">
+    <div class="row">
+      <mat-card class="content-card">
+        <mat-card-header>
+          <mat-card-title>Recent Activities</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Your recent business activities will appear here.</p>
+          <ul>
+            <li>New sale order #1234 created</li>
+            <li>Purchase order #5678 approved</li>
+            <li>Inventory updated for Product A</li>
+            <li>Monthly payroll processed</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="content-card">
+        <mat-card-header>
+          <mat-card-title>Quick Links</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Quick access to frequently used features:</p>
+          <div class="quick-links">
+            <button mat-raised-button color="primary" routerLink="/sales">
+              <mat-icon>add</mat-icon> New Sale
+            </button>
+            <button mat-raised-button color="accent" routerLink="/purchases">
+              <mat-icon>add</mat-icon> New Purchase
+            </button>
+            <button mat-raised-button routerLink="/inventory">
+              <mat-icon>inventory</mat-icon> View Inventory
+            </button>
+            <button mat-raised-button routerLink="/reports">
+              <mat-icon>assessment</mat-icon> View Reports
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

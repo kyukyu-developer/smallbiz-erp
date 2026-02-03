@@ -1,0 +1,138 @@
+<div class="warehouse-list-container">
+  <!-- Stats Card -->
+  <div class="stats-card">
+    <div class="stats-left">
+      <div class="stat-icon-circle">
+        <mat-icon>warehouse</mat-icon>
+      </div>
+      <div class="stat-main">
+        <div class="stat-label">TOTAL WAREHOUSES</div>
+        <div class="stat-value">{{ warehouses.length }}</div>
+      </div>
+    </div>
+
+    <div class="stats-right">
+      <div class="summary-count">{{ warehouses.length }} <span>warehouse</span></div>
+      <div class="status-bars">
+        <div class="status-bar-group">
+          <div class="bar active" [style.width.%]="(getActiveCount() / warehouses.length) * 100"></div>
+          <div class="bar maintenance" [style.width.%]="((warehouses.length - getActiveCount()) / warehouses.length) * 100"></div>
+        </div>
+        <div class="status-labels">
+          <div class="status-item">
+            <span class="dot active"></span>
+            <span class="label">Active: <strong>{{ getActiveCount() }}</strong></span>
+          </div>
+          <div class="status-item">
+            <span class="dot maintenance"></span>
+            <span class="label">Maintenance: <strong>{{ warehouses.length - getActiveCount() }}</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions Bar -->
+  <div class="actions-bar">
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+      <input type="text" [(ngModel)]="searchTerm" (keyup)="applyFilter()" placeholder="Search">
+    </div>
+    <div class="action-buttons">
+      <button mat-stroked-button class="filter-btn">
+        <mat-icon>tune</mat-icon>
+        Filters
+      </button>
+      <button mat-raised-button class="add-btn" (click)="addNewWarehouse()">
+        <mat-icon>add</mat-icon>
+        Add Warehouse
+      </button>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="table-container">
+    <table class="warehouse-table">
+      <thead>
+        <tr>
+          <th>CODE</th>
+          <th>WAREHOUSE NAME</th>
+          <th>LOCATION</th>
+          <th>MANAGER</th>
+          <th>CAPACITY</th>
+          <th>OCCUPANCY</th>
+          <th>STATUS</th>
+          <th>ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let warehouse of warehouses" class="table-row">
+          <td class="warehouse-code">
+            <div class="code-text">{{ warehouse.code }}</div>
+          </td>
+          <td class="warehouse-name">
+            <div class="name-wrapper">
+              <div class="name-text">{{ warehouse.warehouse_name }}</div>
+              <div class="description-text">{{ warehouse.description }}</div>
+            </div>
+          </td>
+          <td class="location">
+            <mat-icon>place</mat-icon>
+            <span>{{ warehouse.city }}, {{ warehouse.state }}</span>
+          </td>
+          <td class="manager">
+            <mat-icon>person</mat-icon>
+            <span>{{ warehouse.manager }}</span>
+          </td>
+          <td class="capacity">
+            {{ warehouse.capacity | number }} sq ft
+          </td>
+          <td class="occupancy">
+            <div class="occupancy-wrapper">
+              <div class="occupancy-bar-container">
+                <div class="occupancy-bar" [ngClass]="getOccupancyStatus(warehouse)">
+                  <div class="occupancy-fill" [style.width.%]="getOccupancyPercentage(warehouse)"></div>
+                </div>
+              </div>
+              <span class="occupancy-text">{{ getOccupancyPercentage(warehouse) | number:'1.0-0' }}%</span>
+            </div>
+          </td>
+          <td class="status">
+            <span class="status-badge" [ngClass]="warehouse.status">
+              {{ warehouse.status | titlecase }}
+            </span>
+          </td>
+          <td class="actions">
+            <button mat-button class="view-btn" (click)="viewWarehouse(warehouse)">
+              View
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editWarehouse(warehouse)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="deleteWarehouse(warehouse)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="warehouses.length === 0">
+      <mat-icon>warehouse</mat-icon>
+      <h3>No Warehouses Found</h3>
+      <p>Try adjusting your search criteria or add a new warehouse</p>
+      <button mat-raised-button class="add-btn" (click)="addNewWarehouse()">
+        <mat-icon>add</mat-icon>
+        Add Your First Warehouse
+      </button>
+    </div>
+  </div>
+</div>
