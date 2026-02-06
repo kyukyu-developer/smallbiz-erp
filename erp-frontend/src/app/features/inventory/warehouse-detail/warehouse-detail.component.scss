@@ -1,0 +1,555 @@
+// Modern Color Palette
+$primary-color: #6366f1;
+$primary-dark: #4f46e5;
+$primary-light: #818cf8;
+$secondary-color: #8b5cf6;
+$success-color: #10b981;
+$warning-color: #f59e0b;
+$danger-color: #ef4444;
+$text-primary: #111827;
+$text-secondary: #6b7280;
+$text-muted: #9ca3af;
+$bg-primary: #ffffff;
+$bg-secondary: #f9fafb;
+$bg-tertiary: #f3f4f6;
+$border-color: #e5e7eb;
+$border-light: #f3f4f6;
+
+.warehouse-detail-container {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 50%, #f9fafb 100%);
+}
+
+// Two Column Layout
+.two-column-layout {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 0;
+  align-items: start;
+}
+
+.form-column {
+  border-right: 1px solid $border-light;
+}
+
+.tips-column {
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+// Modern Form Card
+.modern-form-card {
+  background: $bg-primary;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+
+.warehouse-form {
+  .form-section {
+    padding: 48px;
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid $border-light;
+
+      mat-icon {
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+        color: $primary-color;
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: $text-primary;
+        letter-spacing: -0.3px;
+      }
+    }
+
+    .form-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+  }
+
+  // Field Wrapper
+  .field-wrapper {
+    .field-label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: $text-primary;
+      letter-spacing: 0.2px;
+
+      .required {
+        color: $danger-color;
+        margin-left: 2px;
+      }
+    }
+
+    .modern-field {
+      width: 100%;
+
+      ::ng-deep {
+        .mat-mdc-text-field-wrapper {
+          background: $bg-secondary;
+          border-radius: 12px;
+          padding: 4px 0;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+          &:hover {
+            background: darken($bg-secondary, 2%);
+          }
+        }
+
+        .mat-mdc-form-field-focus-overlay {
+          background: transparent;
+        }
+
+        .mdc-line-ripple {
+          display: none;
+        }
+
+        .mat-mdc-form-field-subscript-wrapper {
+          margin-top: 8px;
+        }
+
+        input {
+          color: $text-primary;
+          font-size: 0.9375rem;
+          font-weight: 500;
+          padding: 16px 16px 16px 0;
+          caret-color: $primary-color;
+
+          &::placeholder {
+            color: $text-muted;
+            font-weight: 400;
+          }
+        }
+
+        .mat-mdc-form-field-icon-prefix {
+          padding: 0 16px;
+
+          mat-icon {
+            color: $text-secondary;
+            font-size: 22px;
+            width: 22px;
+            height: 22px;
+          }
+        }
+
+        // Focused state
+        .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+          background: $bg-primary;
+          box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+
+          .mat-mdc-form-field-icon-prefix mat-icon {
+            color: $primary-color;
+          }
+        }
+
+        // Error state
+        .mat-mdc-text-field-wrapper.mdc-text-field--invalid {
+          background: rgba(239, 68, 68, 0.05);
+          box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+
+          .mat-mdc-form-field-icon-prefix mat-icon {
+            color: $danger-color;
+          }
+        }
+
+        .mat-mdc-form-field-error {
+          color: $danger-color;
+          font-size: 0.8125rem;
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+      }
+    }
+  }
+
+  // Form Actions
+  .form-actions {
+    padding: 32px 48px 24px;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    border-top: 2px solid $border-light;
+    margin-top: 32px;
+
+    button {
+      height: 48px;
+      padding: 0 28px;
+      border-radius: 12px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: none;
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+      }
+
+      &:active:not(:disabled) {
+        transform: translateY(0);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+    }
+
+    .btn-cancel {
+      background: $bg-primary;
+      color: $text-secondary;
+      border: 2px solid $border-color;
+
+      &:hover {
+        background: $bg-secondary;
+        color: $text-primary;
+        border-color: darken($border-color, 10%);
+      }
+    }
+
+    .btn-reset {
+      background: $bg-tertiary;
+      color: $text-primary;
+
+      &:hover:not(:disabled) {
+        background: darken($bg-tertiary, 5%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  // Form Footer
+  .form-footer {
+    padding: 20px 48px;
+    background: $bg-secondary;
+    border-top: 1px solid $border-light;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .footer-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: $text-secondary;
+      font-size: 0.875rem;
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        color: $primary-color;
+      }
+
+      strong {
+        color: $danger-color;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// Modern Info Card
+.modern-info-card {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border-radius: 0;
+  padding: 48px 32px;
+  border: none;
+  box-shadow: none;
+  min-height: 100vh;
+
+  .info-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+
+    mat-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      color: #3b82f6;
+    }
+
+    h4 {
+      margin: 0;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #1e40af;
+    }
+  }
+
+  .info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: #1e3a8a;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      line-height: 1.6;
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+        color: #10b981;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      span {
+        flex: 1;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .two-column-layout {
+    grid-template-columns: 1fr 350px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .two-column-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .form-column {
+    border-right: none;
+    border-bottom: 1px solid $border-light;
+  }
+
+  .tips-column {
+    position: static;
+    max-height: none;
+  }
+
+  .modern-info-card {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .warehouse-detail-container {
+    padding: 0;
+  }
+
+  .warehouse-form {
+    .form-section {
+      padding: 28px 20px;
+
+      .section-header {
+        margin-bottom: 24px;
+
+        h3 {
+          font-size: 1.125rem;
+        }
+      }
+    }
+
+    .form-actions {
+      padding: 24px 20px 20px;
+      flex-direction: column;
+
+      button {
+        width: 100%;
+        height: 52px;
+        justify-content: center;
+      }
+    }
+
+    .form-footer {
+      padding: 20px;
+
+      .footer-note {
+        justify-content: center;
+        font-size: 0.8125rem;
+      }
+    }
+  }
+
+  .modern-info-card {
+    padding: 28px 20px;
+
+    .info-header {
+      margin-bottom: 16px;
+
+      h4 {
+        font-size: 1rem;
+      }
+    }
+
+    .info-list {
+      gap: 10px;
+
+      li {
+        font-size: 0.875rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .warehouse-detail-container {
+    padding: 0;
+  }
+
+  .warehouse-form {
+    .form-section {
+      padding: 20px 16px;
+
+      .section-header {
+        margin-bottom: 20px;
+
+        mat-icon {
+          font-size: 24px;
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      .form-fields {
+        gap: 24px;
+      }
+    }
+
+    .field-wrapper {
+      .field-label {
+        font-size: 0.8125rem;
+        margin-bottom: 8px;
+      }
+    }
+
+    .form-actions {
+      padding: 20px 16px 16px;
+      gap: 8px;
+
+      button {
+        height: 48px;
+        padding: 0 20px;
+        font-size: 0.875rem;
+
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+
+    .form-footer {
+      padding: 16px;
+    }
+  }
+
+  .modern-info-card {
+    padding: 20px 16px;
+
+    .info-header {
+      margin-bottom: 14px;
+
+      mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+      }
+
+      h4 {
+        font-size: 0.9375rem;
+      }
+    }
+
+    .info-list {
+      gap: 8px;
+
+      li {
+        font-size: 0.8125rem;
+
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+  }
+}
+
+// Animation for form field transitions
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.field-wrapper {
+  animation: fadeIn 0.4s ease-out;
+  animation-fill-mode: backwards;
+
+  &:nth-child(1) { animation-delay: 0.1s; }
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.3s; }
+}

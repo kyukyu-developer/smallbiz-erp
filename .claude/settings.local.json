@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ng version:*)",
+      "Bash(ng new:*)",
+      "Bash(tree:*)",
+      "Bash(dir:*)",
+      "Bash(ng generate:*)",
+      "Bash(ng add:*)",
+      "Bash(ng build:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd ERP features: auth, inventory management, and warehouse tracking\n\n- Implemented authentication module with login functionality\n- Added comprehensive inventory management system with product tracking\n- Created warehouse management with detail and list views\n- Added feature modules for accounting, HR, sales, purchases, and reports\n- Included complete ERP operation documentation\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(npm run build:*)",
+      "Bash(git commit:*)",
+      "Bash(dotnet new:*)",
+      "Bash(dotnet sln:*)",
+      "Bash(dotnet sln add:*)",
+      "Bash(dotnet add reference:*)",
+      "Bash(dotnet add package:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(dotnet ef migrations add:*)",
+      "Bash(dotnet build:*)",
+      "Bash(Select-String:*)",
+      "Bash(Select-Object -First 20)",
+      "Bash(dotnet ef migrations remove:*)",
+      "Bash(dotnet ef database update:*)",
+      "Bash(dotnet run:*)",
+      "Bash(timeout 10 cmd:*)",
+      "Bash(curl:*)",
+      "Bash(findstr:*)"
+    ]
+  }
+}

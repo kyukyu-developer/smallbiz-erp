@@ -1,0 +1,124 @@
+<div class="warehouse-detail-container">
+  <!-- Two Column Layout -->
+  <div class="two-column-layout">
+    <!-- Left Column: Form -->
+    <div class="form-column">
+      <div class="modern-form-card">
+        <form id="warehouseForm" [formGroup]="warehouseForm" (ngSubmit)="onSave()" class="warehouse-form">
+
+          <div class="form-section">
+            <div class="section-header">
+              <mat-icon>inventory_2</mat-icon>
+              <h3>Warehouse Information</h3>
+            </div>
+
+            <div class="form-fields">
+              <!-- Warehouse Name Field -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Warehouse Name <span class="required">*</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>warehouse</mat-icon>
+                  <input
+                    matInput
+                    formControlName="warehouse_name"
+                    placeholder="e.g., Main Warehouse, Distribution Center A">
+                  <mat-error *ngIf="hasError('warehouse_name', 'required')">
+                    Warehouse name is required
+                  </mat-error>
+                  <mat-error *ngIf="hasError('warehouse_name', 'minlength')">
+                    Name must be at least 2 characters
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!-- Location Field -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Location <span class="required">*</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>location_on</mat-icon>
+                  <input
+                    matInput
+                    formControlName="location"
+                    placeholder="e.g., 123 Industrial Blvd, City, State">
+                  <mat-error *ngIf="hasError('location', 'required')">
+                    Location is required
+                  </mat-error>
+                  <mat-error *ngIf="hasError('location', 'minlength')">
+                    Location must be at least 2 characters
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="form-actions">
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="onCancel()"
+              class="btn-cancel">
+              <mat-icon>arrow_back</mat-icon>
+              Cancel
+            </button>
+
+            <button
+              mat-flat-button
+              type="button"
+              (click)="onReset()"
+              class="btn-reset"
+              [disabled]="!warehouseForm.dirty">
+              <mat-icon>restart_alt</mat-icon>
+              Reset
+            </button>
+
+            <button
+              mat-flat-button
+              type="submit"
+              class="btn-primary"
+              [disabled]="warehouseForm.invalid">
+              <mat-icon>{{ isEditMode ? 'check_circle' : 'save' }}</mat-icon>
+              {{ isEditMode ? 'Update Warehouse' : 'Create Warehouse' }}
+            </button>
+          </div>
+
+          <!-- Footer Note -->
+          <div class="form-footer">
+            <div class="footer-note">
+              <mat-icon>info_outline</mat-icon>
+              <span>Fields marked with <strong>*</strong> are required</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Column: Quick Tips -->
+    <div class="tips-column">
+      <div class="modern-info-card">
+        <div class="info-header">
+          <mat-icon>lightbulb</mat-icon>
+          <h4>Quick Tips</h4>
+        </div>
+        <ul class="info-list">
+          <li>
+            <mat-icon>check_circle</mat-icon>
+            <span>Use descriptive names to easily identify warehouses</span>
+          </li>
+          <li>
+            <mat-icon>check_circle</mat-icon>
+            <span>Include full address details for accurate location tracking</span>
+          </li>
+          <li>
+            <mat-icon>check_circle</mat-icon>
+            <span>Warehouses become available for stock operations immediately after creation</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

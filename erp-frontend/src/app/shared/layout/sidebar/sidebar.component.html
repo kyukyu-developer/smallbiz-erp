@@ -1,0 +1,60 @@
+<div class="sidebar">
+  <!-- Logo and Company Info -->
+  <div class="sidebar-header">
+    <div class="logo-section">
+      <mat-icon class="logo-icon">business</mat-icon>
+      <span class="company-name">{{ companyName }}</span>
+    </div>
+    <div class="company-info">
+      <mat-icon class="info-icon">location_on</mat-icon>
+      <span class="company-address">{{ companyAddress }}</span>
+    </div>
+  </div>
+
+  <!-- Navigation Menu -->
+  <div class="sidebar-content">
+    <mat-nav-list>
+      <ng-container *ngFor="let section of menuSections">
+        <!-- Section Header -->
+        <div *ngIf="section.title" class="section-header">
+          {{ section.title }}
+        </div>
+
+        <!-- Menu Items -->
+        <ng-container *ngFor="let item of section.items">
+          <div class="menu-item-wrapper">
+            <a
+              mat-list-item
+              [routerLink]="!hasChildren(item) ? item.route : null"
+              [routerLinkActive]="!hasChildren(item) ? 'active' : ''"
+              [class.has-children]="hasChildren(item)"
+              [class.expanded]="item.expanded"
+              class="menu-item"
+              (click)="hasChildren(item) ? toggleSubmenu(item) : null"
+            >
+              <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+              <span matListItemTitle>{{ item.label }}</span>
+              <mat-icon *ngIf="hasChildren(item)" class="expand-icon">
+                {{ item.expanded ? 'expand_less' : 'expand_more' }}
+              </mat-icon>
+            </a>
+
+            <!-- Submenu items -->
+            <div class="submenu" *ngIf="hasChildren(item) && item.expanded">
+              <a
+                mat-list-item
+                *ngFor="let child of item.children"
+                [routerLink]="child.route"
+                routerLinkActive="active"
+                class="submenu-item"
+              >
+                <mat-icon matListItemIcon class="submenu-icon">{{ child.icon }}</mat-icon>
+                <span matListItemTitle>{{ child.label }}</span>
+              </a>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </mat-nav-list>
+  </div>
+</div>

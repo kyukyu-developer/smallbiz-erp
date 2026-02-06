@@ -1,0 +1,11 @@
+C:\Guu\ERP_Project\erp-backend\ERP.Domain\bin\Debug\net8.0\ERP.Domain.deps.json
+C:\Guu\ERP_Project\erp-backend\ERP.Domain\bin\Debug\net8.0\ERP.Domain.dll
+C:\Guu\ERP_Project\erp-backend\ERP.Domain\bin\Debug\net8.0\ERP.Domain.pdb
+C:\Guu\ERP_Project\erp-backend\ERP.Domain\obj\Debug\net8.0\ERP.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Guu\ERP_Project\erp-backend\ERP.Domain\obj\Debug\net8.0\ERP.Domain.AssemblyInfoInputs.cache
+C:\Guu\ERP_Project\erp-backend\ERP.Domain\obj\Debug\net8.0\ERP.Domain.AssemblyInfo.cs
+C:\Guu\ERP_Project\erp-backend\ERP.Domain\obj\Debug\net8.0\ERP.Domain.csproj.CoreCompileInputs.cache
+C:\Guu\ERP_Project\erp-backend\ERP.Domain\obj\Debug\net8.0\ERP.Domain.dll
+C:\Guu\ERP_Project\erp-backend\ERP.Domain\obj\Debug\net8.0\refint\ERP.Domain.dll
+C:\Guu\ERP_Project\erp-backend\ERP.Domain\obj\Debug\net8.0\ERP.Domain.pdb
+C:\Guu\ERP_Project\erp-backend\ERP.Domain\obj\Debug\net8.0\ref\ERP.Domain.dll
