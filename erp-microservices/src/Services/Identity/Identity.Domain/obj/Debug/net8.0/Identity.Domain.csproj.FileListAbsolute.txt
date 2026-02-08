@@ -1,0 +1,12 @@
+C:\Guu\ERP_Project\erp-microservices\src\Services\Identity\Identity.Domain\bin\Debug\net8.0\Identity.Domain.deps.json
+C:\Guu\ERP_Project\erp-microservices\src\Services\Identity\Identity.Domain\bin\Debug\net8.0\Identity.Domain.dll
+C:\Guu\ERP_Project\erp-microservices\src\Services\Identity\Identity.Domain\bin\Debug\net8.0\Identity.Domain.pdb
+C:\Guu\ERP_Project\erp-microservices\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Guu\ERP_Project\erp-microservices\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.AssemblyInfoInputs.cache
+C:\Guu\ERP_Project\erp-microservices\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.AssemblyInfo.cs
+C:\Guu\ERP_Project\erp-microservices\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.csproj.CoreCompileInputs.cache
+C:\Guu\ERP_Project\erp-microservices\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.sourcelink.json
+C:\Guu\ERP_Project\erp-microservices\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.dll
+C:\Guu\ERP_Project\erp-microservices\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\refint\Identity.Domain.dll
+C:\Guu\ERP_Project\erp-microservices\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\Identity.Domain.pdb
+C:\Guu\ERP_Project\erp-microservices\src\Services\Identity\Identity.Domain\obj\Debug\net8.0\ref\Identity.Domain.dll

@@ -1,0 +1,16 @@
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\bin\Debug\net8.0\ERP.Shared.MessageBus.deps.json
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\bin\Debug\net8.0\ERP.Shared.MessageBus.dll
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\bin\Debug\net8.0\ERP.Shared.MessageBus.pdb
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\bin\Debug\net8.0\ERP.Shared.Contracts.dll
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\bin\Debug\net8.0\ERP.Shared.Contracts.pdb
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\obj\Debug\net8.0\ERP.Shared.MessageBus.csproj.AssemblyReference.cache
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\obj\Debug\net8.0\ERP.Shared.MessageBus.GeneratedMSBuildEditorConfig.editorconfig
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\obj\Debug\net8.0\ERP.Shared.MessageBus.AssemblyInfoInputs.cache
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\obj\Debug\net8.0\ERP.Shared.MessageBus.AssemblyInfo.cs
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\obj\Debug\net8.0\ERP.Shared.MessageBus.csproj.CoreCompileInputs.cache
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\obj\Debug\net8.0\ERP.Shared.MessageBus.sourcelink.json
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\obj\Debug\net8.0\ERP.Shar.EABB1D82.Up2Date
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\obj\Debug\net8.0\ERP.Shared.MessageBus.dll
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\obj\Debug\net8.0\refint\ERP.Shared.MessageBus.dll
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\obj\Debug\net8.0\ERP.Shared.MessageBus.pdb
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.MessageBus\obj\Debug\net8.0\ref\ERP.Shared.MessageBus.dll

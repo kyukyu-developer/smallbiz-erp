@@ -1,0 +1,12 @@
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.Contracts\bin\Debug\net8.0\ERP.Shared.Contracts.deps.json
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.Contracts\bin\Debug\net8.0\ERP.Shared.Contracts.dll
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.Contracts\bin\Debug\net8.0\ERP.Shared.Contracts.pdb
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.Contracts\obj\Debug\net8.0\ERP.Shared.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.Contracts\obj\Debug\net8.0\ERP.Shared.Contracts.AssemblyInfoInputs.cache
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.Contracts\obj\Debug\net8.0\ERP.Shared.Contracts.AssemblyInfo.cs
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.Contracts\obj\Debug\net8.0\ERP.Shared.Contracts.csproj.CoreCompileInputs.cache
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.Contracts\obj\Debug\net8.0\ERP.Shared.Contracts.sourcelink.json
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.Contracts\obj\Debug\net8.0\ERP.Shared.Contracts.dll
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.Contracts\obj\Debug\net8.0\refint\ERP.Shared.Contracts.dll
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.Contracts\obj\Debug\net8.0\ERP.Shared.Contracts.pdb
+C:\Guu\ERP_Project\erp-microservices\src\Shared\ERP.Shared.Contracts\obj\Debug\net8.0\ref\ERP.Shared.Contracts.dll

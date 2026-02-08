@@ -30,7 +30,9 @@
       "Bash(dotnet run:*)",
       "Bash(timeout 10 cmd:*)",
       "Bash(curl:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(git fetch:*)",
+      "Bash(dotnet add:*)"
     ]
   }
 }

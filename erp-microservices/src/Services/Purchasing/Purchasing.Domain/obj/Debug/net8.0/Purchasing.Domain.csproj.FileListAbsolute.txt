@@ -1,0 +1,12 @@
+C:\Guu\ERP_Project\erp-microservices\src\Services\Purchasing\Purchasing.Domain\bin\Debug\net8.0\Purchasing.Domain.deps.json
+C:\Guu\ERP_Project\erp-microservices\src\Services\Purchasing\Purchasing.Domain\bin\Debug\net8.0\Purchasing.Domain.dll
+C:\Guu\ERP_Project\erp-microservices\src\Services\Purchasing\Purchasing.Domain\bin\Debug\net8.0\Purchasing.Domain.pdb
+C:\Guu\ERP_Project\erp-microservices\src\Services\Purchasing\Purchasing.Domain\obj\Debug\net8.0\Purchasing.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Guu\ERP_Project\erp-microservices\src\Services\Purchasing\Purchasing.Domain\obj\Debug\net8.0\Purchasing.Domain.AssemblyInfoInputs.cache
+C:\Guu\ERP_Project\erp-microservices\src\Services\Purchasing\Purchasing.Domain\obj\Debug\net8.0\Purchasing.Domain.AssemblyInfo.cs
+C:\Guu\ERP_Project\erp-microservices\src\Services\Purchasing\Purchasing.Domain\obj\Debug\net8.0\Purchasing.Domain.csproj.CoreCompileInputs.cache
+C:\Guu\ERP_Project\erp-microservices\src\Services\Purchasing\Purchasing.Domain\obj\Debug\net8.0\Purchasing.Domain.sourcelink.json
+C:\Guu\ERP_Project\erp-microservices\src\Services\Purchasing\Purchasing.Domain\obj\Debug\net8.0\Purchasing.Domain.dll
+C:\Guu\ERP_Project\erp-microservices\src\Services\Purchasing\Purchasing.Domain\obj\Debug\net8.0\refint\Purchasing.Domain.dll
+C:\Guu\ERP_Project\erp-microservices\src\Services\Purchasing\Purchasing.Domain\obj\Debug\net8.0\Purchasing.Domain.pdb
+C:\Guu\ERP_Project\erp-microservices\src\Services\Purchasing\Purchasing.Domain\obj\Debug\net8.0\ref\Purchasing.Domain.dll

@@ -1,0 +1,12 @@
+C:\Guu\ERP_Project\erp-microservices\src\Services\Sales\Sales.Domain\bin\Debug\net8.0\Sales.Domain.deps.json
+C:\Guu\ERP_Project\erp-microservices\src\Services\Sales\Sales.Domain\bin\Debug\net8.0\Sales.Domain.dll
+C:\Guu\ERP_Project\erp-microservices\src\Services\Sales\Sales.Domain\bin\Debug\net8.0\Sales.Domain.pdb
+C:\Guu\ERP_Project\erp-microservices\src\Services\Sales\Sales.Domain\obj\Debug\net8.0\Sales.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Guu\ERP_Project\erp-microservices\src\Services\Sales\Sales.Domain\obj\Debug\net8.0\Sales.Domain.AssemblyInfoInputs.cache
+C:\Guu\ERP_Project\erp-microservices\src\Services\Sales\Sales.Domain\obj\Debug\net8.0\Sales.Domain.AssemblyInfo.cs
+C:\Guu\ERP_Project\erp-microservices\src\Services\Sales\Sales.Domain\obj\Debug\net8.0\Sales.Domain.csproj.CoreCompileInputs.cache
+C:\Guu\ERP_Project\erp-microservices\src\Services\Sales\Sales.Domain\obj\Debug\net8.0\Sales.Domain.sourcelink.json
+C:\Guu\ERP_Project\erp-microservices\src\Services\Sales\Sales.Domain\obj\Debug\net8.0\Sales.Domain.dll
+C:\Guu\ERP_Project\erp-microservices\src\Services\Sales\Sales.Domain\obj\Debug\net8.0\refint\Sales.Domain.dll
+C:\Guu\ERP_Project\erp-microservices\src\Services\Sales\Sales.Domain\obj\Debug\net8.0\Sales.Domain.pdb
+C:\Guu\ERP_Project\erp-microservices\src\Services\Sales\Sales.Domain\obj\Debug\net8.0\ref\Sales.Domain.dll
