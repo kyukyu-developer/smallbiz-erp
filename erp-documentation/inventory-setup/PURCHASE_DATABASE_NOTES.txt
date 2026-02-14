@@ -1,0 +1,251 @@
+PURCHASE DATABASE NOTES
+=============================
+
+====================
+SUPPLIER
+====================
+CREATE TABLE supplier (
+    id VARCHAR(50) PRIMARY KEY,
+    code VARCHAR(20) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+
+    phone VARCHAR(50),
+    email VARCHAR(100),
+    address VARCHAR(255),
+
+    credit_limit DECIMAL(18,4),
+    payment_term_days INT DEFAULT 0,
+
+    active BOOLEAN DEFAULT TRUE,
+
+    -- Audit Fields
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_by VARCHAR(50),
+    modified_by VARCHAR(50),
+    last_action VARCHAR(50)
+);
+Your Notes:
+Supplier used for PO, Invoice, and Payment.
+Shared with Finance (AP module).
+
+Suggestions:
+Add UNIQUE(code).
+Consider adding tax_no.
+Do not delete supplier once used.
+
+====================
+PURCHASE ORDER
+====================
+CREATE TABLE purchase_order (
+    id VARCHAR(50) PRIMARY KEY,
+    po_no VARCHAR(50) NOT NULL,
+
+    supplier_id VARCHAR(50) NOT NULL,
+    warehouse_id VARCHAR(50) NOT NULL,
+
+    order_date DATE NOT NULL,
+    expected_date DATE,
+
+    status VARCHAR(20) NOT NULL,
+    -- DRAFT, APPROVED, PARTIAL_RECEIVED, FULL_RECEIVED, CANCELLED
+
+    total_amount DECIMAL(18,4),
+    total_tax DECIMAL(18,4),
+    grand_total DECIMAL(18,4),
+
+    remarks VARCHAR(255),
+
+    active BOOLEAN DEFAULT TRUE,
+
+    -- Audit Fields
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_by VARCHAR(50),
+    modified_by VARCHAR(50),
+    last_action VARCHAR(50),
+
+    FOREIGN KEY (supplier_id) REFERENCES supplier(id),
+    FOREIGN KEY (warehouse_id) REFERENCES warehouse(id)
+);
+Your Notes:
+Purchase Order does NOT affect stock.
+Only after stock_receive is posted, inventory increases.
+
+Suggestions:
+Add UNIQUE(po_no).
+Enforce warehouse must be main warehouse if required.
+Do not allow editing after APPROVED.
+
+====================
+PURCHASE ORDER LINE
+====================
+CREATE TABLE purchase_order_line (
+    id VARCHAR(50) PRIMARY KEY,
+    po_id VARCHAR(50) NOT NULL,
+
+    product_id VARCHAR(50) NOT NULL,
+    variant_id VARCHAR(50) NULL,
+
+    uom_id VARCHAR(50) NOT NULL,
+    quantity DECIMAL(18,4) NOT NULL,
+    received_quantity DECIMAL(18,4) DEFAULT 0,
+
+    unit_price DECIMAL(18,4) NOT NULL,
+    line_total DECIMAL(18,4) NOT NULL,
+
+    status VARCHAR(20),
+    -- OPEN, PARTIAL, CLOSED
+
+    active BOOLEAN DEFAULT TRUE,
+
+    -- Audit Fields
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_by VARCHAR(50),
+    modified_by VARCHAR(50),
+    last_action VARCHAR(50),
+
+    FOREIGN KEY (po_id) REFERENCES purchase_order(id),
+    FOREIGN KEY (product_id) REFERENCES product(id),
+    FOREIGN KEY (variant_id) REFERENCES product_variant(id),
+    FOREIGN KEY (uom_id) REFERENCES uom(id)
+);
+Your Notes:
+received_quantity updated when stock_receive_line created.
+Status auto-calculated from received quantity.
+
+Suggestions:
+Enforce UNIQUE(po_id, product_id, variant_id).
+Prevent over-receiving (received_quantity > quantity).
+
+====================
+PURCHASE INVOICE
+====================
+CREATE TABLE purchase_invoice (
+    id VARCHAR(50) PRIMARY KEY,
+    invoice_no VARCHAR(50) NOT NULL,
+
+    supplier_id VARCHAR(50) NOT NULL,
+
+    invoice_date DATE NOT NULL,
+    due_date DATE,
+
+    po_id VARCHAR(50) NULL,
+    grn_id VARCHAR(50) NULL,
+
+    status VARCHAR(20) NOT NULL,
+    -- DRAFT, POSTED, PARTIAL_PAID, PAID, CANCELLED
+
+    total_amount DECIMAL(18,4),
+    total_tax DECIMAL(18,4),
+    grand_total DECIMAL(18,4),
+
+    remarks VARCHAR(255),
+
+    active BOOLEAN DEFAULT TRUE,
+
+    -- Audit Fields
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_by VARCHAR(50),
+    modified_by VARCHAR(50),
+    last_action VARCHAR(50),
+
+    FOREIGN KEY (supplier_id) REFERENCES supplier(id),
+    FOREIGN KEY (po_id) REFERENCES purchase_order(id)
+);
+Your Notes:
+Does NOT change stock quantity.
+Used for Accounts Payable.
+
+Suggestions:
+Add UNIQUE(invoice_no, supplier_id).
+Do not allow delete after POSTED.
+
+====================
+PURCHASE INVOICE LINE
+====================
+CREATE TABLE purchase_invoice_line (
+    id VARCHAR(50) PRIMARY KEY,
+    invoice_id VARCHAR(50) NOT NULL,
+
+    product_id VARCHAR(50),
+    variant_id VARCHAR(50),
+
+    quantity DECIMAL(18,4) NOT NULL,
+    unit_price DECIMAL(18,4) NOT NULL,
+    line_total DECIMAL(18,4) NOT NULL,
+
+    active BOOLEAN DEFAULT TRUE,
+
+    -- Audit Fields
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_by VARCHAR(50),
+    modified_by VARCHAR(50),
+    last_action VARCHAR(50),
+
+    FOREIGN KEY (invoice_id) REFERENCES purchase_invoice(id),
+    FOREIGN KEY (product_id) REFERENCES product(id),
+    FOREIGN KEY (variant_id) REFERENCES product_variant(id)
+);
+Your Notes:
+Invoice quantity may differ from received quantity.
+Used for financial reconciliation.
+
+Suggestions:
+Consider linking to stock_receive_line for 3-way matching.
+Validate quantity does not exceed received quantity (optional).
+
+====================
+PURCHASE PAYMENT
+====================
+CREATE TABLE purchase_payment (
+    id VARCHAR(50) PRIMARY KEY,
+    payment_no VARCHAR(50) NOT NULL,
+
+    supplier_id VARCHAR(50) NOT NULL,
+    invoice_id VARCHAR(50) NULL,
+
+    payment_date DATE NOT NULL,
+    amount DECIMAL(18,4) NOT NULL,
+
+    payment_method VARCHAR(20),
+    -- CASH, BANK, TRANSFER
+
+    reference_no VARCHAR(50),
+
+    status VARCHAR(20) NOT NULL,
+    -- DRAFT, CONFIRMED, CANCELLED
+
+    active BOOLEAN DEFAULT TRUE,
+
+    -- Audit Fields
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_by VARCHAR(50),
+    modified_by VARCHAR(50),
+    last_action VARCHAR(50),
+
+    FOREIGN KEY (supplier_id) REFERENCES supplier(id),
+    FOREIGN KEY (invoice_id) REFERENCES purchase_invoice(id)
+);
+
+Your Notes:
+Can support partial payment.
+Linked to AP ledger in future.
+
+Suggestions:
+Prevent payment > invoice outstanding.
+Support multi-invoice payment in future via payment_line table.
+
+
+🔥 PURCHASE FLOW SUMMARY
+Purchase Order (no stock impact)
+        ↓
+Stock Receive (writes stock_ledger)
+        ↓
+Purchase Invoice (creates AP)
+        ↓
+Purchase Payment (settles AP)

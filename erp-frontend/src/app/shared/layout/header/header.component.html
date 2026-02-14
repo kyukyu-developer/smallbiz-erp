@@ -5,39 +5,19 @@
   </button>
 
   <!-- Page Title -->
-  <h1 class="page-title">{{ pageTitle }}</h1>
-
-  <!-- Center - Search Bar -->
-  <div class="header-search">
-    <mat-icon class="search-icon">search</mat-icon>
-    <input type="text" class="search-input" placeholder="Search for anything here...">
-  </div>
+  <h1 class="page-title">
+    <ng-container *ngIf="hasDetailParam; else plainTitle">
+      <a [routerLink]="baseRoute" class="breadcrumb-link">{{ baseTitle }}</a>
+      <span class="breadcrumb-separator">/</span>
+      <span class="breadcrumb-detail">{{ detailParam }}</span>
+    </ng-container>
+    <ng-template #plainTitle>{{ pageTitle }}</ng-template>
+  </h1>
 
   <span class="spacer"></span>
 
   <!-- Right side - User actions -->
   <div class="header-actions">
-    <button mat-mini-fab class="add-btn">
-      <mat-icon>add</mat-icon>
-    </button>
-
-    <button mat-icon-button class="icon-btn">
-      <mat-icon>help_outline</mat-icon>
-    </button>
-
-    <button mat-icon-button class="icon-btn">
-      <mat-icon>show_chart</mat-icon>
-    </button>
-
-    <button mat-icon-button class="icon-btn">
-      <mat-icon>star_border</mat-icon>
-    </button>
-
-    <div class="progress-indicator">
-      <mat-icon class="progress-icon">flag</mat-icon>
-      <span class="progress-text">1/4</span>
-    </div>
-
     <div class="user-profile" [matMenuTriggerFor]="userMenu" *ngIf="currentUser$ | async as user">
       <div class="user-avatar">
         <mat-icon>account_circle</mat-icon>

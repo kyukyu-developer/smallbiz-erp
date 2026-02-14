@@ -54,6 +54,45 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    // Breadcrumb link
+    .breadcrumb-link {
+      background: linear-gradient(135deg, #001f3f 0%, #003d7a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: linear-gradient(135deg, #003d7a 0%, #005a9e 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    }
+
+    // Breadcrumb separator
+    .breadcrumb-separator {
+      background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 400;
+      padding: 0 8px;
+    }
+
+    // Breadcrumb detail (non-clickable part)
+    .breadcrumb-detail {
+      background: linear-gradient(135deg, #001f3f 0%, #003d7a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
   }
 
   // Center - Search Bar

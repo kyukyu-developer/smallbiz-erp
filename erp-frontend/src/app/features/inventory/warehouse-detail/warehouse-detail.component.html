@@ -1,15 +1,26 @@
 <div class="warehouse-detail-container">
+  <!-- Toggle Button for Tips Column -->
+  <button
+    mat-mini-fab
+    class="tips-toggle-btn"
+    (click)="toggleTipsColumn()"
+    [matTooltip]="showTipsColumn ? 'Hide Rules and Tips' : 'Show Rules and Tips'"
+    matTooltipPosition="left">
+    <mat-icon>{{ showTipsColumn ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+  </button>
+
   <!-- Two Column Layout -->
-  <div class="two-column-layout">
+  <div class="two-column-layout" [class.full-width]="!showTipsColumn">
     <!-- Left Column: Form -->
     <div class="form-column">
       <div class="modern-form-card">
         <form id="warehouseForm" [formGroup]="warehouseForm" (ngSubmit)="onSave()" class="warehouse-form">
 
+          <!-- Section 1: Basic Information -->
           <div class="form-section">
             <div class="section-header">
               <mat-icon>inventory_2</mat-icon>
-              <h3>Warehouse Information</h3>
+              <h3>Basic Information</h3>
             </div>
 
             <div class="form-fields">
@@ -22,35 +33,164 @@
                   <mat-icon matPrefix>warehouse</mat-icon>
                   <input
                     matInput
-                    formControlName="warehouse_name"
-                    placeholder="e.g., Main Warehouse, Distribution Center A">
-                  <mat-error *ngIf="hasError('warehouse_name', 'required')">
+                    formControlName="name"
+                    placeholder="e.g., Main Warehouse, Distribution Center A"
+                    maxlength="50">
+                  <mat-hint align="end">{{ warehouseForm.get('name')?.value?.length || 0 }}/50</mat-hint>
+                  <mat-error *ngIf="hasError('name', 'required')">
                     Warehouse name is required
                   </mat-error>
-                  <mat-error *ngIf="hasError('warehouse_name', 'minlength')">
+                  <mat-error *ngIf="hasError('name', 'minlength')">
                     Name must be at least 2 characters
                   </mat-error>
                 </mat-form-field>
               </div>
 
-              <!-- Location Field -->
+              <!-- City Field -->
               <div class="field-wrapper">
                 <label class="field-label">
-                  Location <span class="required">*</span>
+                  City <span class="required">*</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>location_city</mat-icon>
+                  <input
+                    matInput
+                    formControlName="city"
+                    placeholder="e.g., New York, Los Angeles"
+                    maxlength="50">
+                  <mat-hint align="end">{{ warehouseForm.get('city')?.value?.length || 0 }}/50</mat-hint>
+                  <mat-error *ngIf="hasError('city', 'required')">
+                    City is required
+                  </mat-error>
+                  <mat-error *ngIf="hasError('city', 'minlength')">
+                    City must be at least 2 characters
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!-- Address Field (Optional) -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Address <span class="optional">(Optional)</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>home</mat-icon>
+                  <textarea
+                    matInput
+                    formControlName="address"
+                    placeholder="Full address details"
+                    rows="2"
+                    maxlength="255"></textarea>
+                  <mat-hint align="end">{{ warehouseForm.get('address')?.value?.length || 0 }}/255</mat-hint>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Warehouse Type & Hierarchy -->
+          <div class="form-section">
+            <div class="section-header">
+              <mat-icon>account_tree</mat-icon>
+              <h3>Warehouse Type & Hierarchy</h3>
+            </div>
+
+            <div class="form-fields">
+              <!-- Branch Type Field -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Branch Type <span class="required">*</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>category</mat-icon>
+                  <mat-select formControlName="branch_type">
+                    <mat-option *ngFor="let type of branchTypes" [value]="type">
+                      {{ type }}
+                      <span *ngIf="type === 'Main'" class="type-badge main-badge">Can Receive Stock</span>
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>
+                    <span *ngIf="warehouseForm.get('branch_type')?.value === 'Main'" class="hint-success">
+                      ✓ This warehouse can receive stock
+                    </span>
+                    <span *ngIf="warehouseForm.get('branch_type')?.value !== 'Main'" class="hint-warning">
+                      ⚠ Only Main warehouses can receive stock
+                    </span>
+                  </mat-hint>
+                  <mat-error *ngIf="hasError('branch_type', 'required')">
+                    Branch type is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!-- Parent Warehouse Field (Conditional) -->
+              <div class="field-wrapper" *ngIf="showParentWarehouse">
+                <label class="field-label">
+                  Parent Warehouse <span class="required">*</span>
                 </label>
                 <mat-form-field appearance="fill" class="modern-field">
                   <mat-icon matPrefix>location_on</mat-icon>
-                  <input
-                    matInput
-                    formControlName="location"
-                    placeholder="e.g., 123 Industrial Blvd, City, State">
-                  <mat-error *ngIf="hasError('location', 'required')">
-                    Location is required
-                  </mat-error>
-                  <mat-error *ngIf="hasError('location', 'minlength')">
-                    Location must be at least 2 characters
+                  <mat-select formControlName="parent_warehouse_id" placeholder="Select parent warehouse">
+                    <mat-option [value]="null">-- Select Parent Warehouse --</mat-option>
+                    <mat-option *ngFor="let parent of availableParentWarehouses" [value]="parent.id">
+                      {{ parent.name }} ({{ parent.city }})
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>
+                    Branch/Sub warehouses must have a parent warehouse
+                  </mat-hint>
+                  <mat-error *ngIf="hasError('parent_warehouse_id', 'required')">
+                    Parent warehouse is required for Branch/Sub warehouses
                   </mat-error>
                 </mat-form-field>
+              </div>
+
+              <!-- Info Alert for Hierarchy -->
+              <div class="info-alert" *ngIf="warehouseForm.get('branch_type')?.value !== 'Main'">
+                <mat-icon>info</mat-icon>
+                <div class="alert-content">
+                  <strong>Warehouse Hierarchy:</strong>
+                  <p>{{ warehouseForm.get('branch_type')?.value }} warehouses cannot receive stock directly. Stock must be transferred from Main warehouse.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Status Flags -->
+          <div class="form-section">
+            <div class="section-header">
+              <mat-icon>settings</mat-icon>
+              <h3>Status Settings</h3>
+            </div>
+
+            <div class="form-fields checkbox-group">
+              <!-- Is Used Warehouse -->
+              <div class="checkbox-wrapper">
+                <mat-checkbox formControlName="is_used_warehouse" color="primary">
+                  <div class="checkbox-label">
+                    <strong>Is Used Warehouse</strong>
+                    <span class="checkbox-hint">Enable this warehouse for operations</span>
+                  </div>
+                </mat-checkbox>
+              </div>
+
+              <!-- Active Status -->
+              <!-- <div class="checkbox-wrapper">
+                <mat-checkbox formControlName="active" color="primary">
+                  <div class="checkbox-label">
+                    <strong>Active</strong>
+                    <span class="checkbox-hint">Warehouse is active and operational</span>
+                  </div>
+                </mat-checkbox>
+              </div> -->
+
+              <!-- Is Main Warehouse (Read-only, auto-set by branch_type) -->
+              <div class="checkbox-wrapper readonly-checkbox">
+                <mat-checkbox formControlName="is_main_warehouse" [disabled]="true" color="accent">
+                  <div class="checkbox-label">
+                    <strong>Is Main Warehouse</strong>
+                    <span class="checkbox-hint">Automatically set based on Branch Type</span>
+                  </div>
+                </mat-checkbox>
               </div>
             </div>
           </div>
@@ -97,8 +237,35 @@
       </div>
     </div>
 
-    <!-- Right Column: Quick Tips -->
-    <div class="tips-column">
+    <!-- Right Column: Business Rules & Tips -->
+    <div class="tips-column" *ngIf="showTipsColumn">
+      <!-- Business Rules Card -->
+      <div class="modern-info-card business-rules">
+        <div class="info-header">
+          <mat-icon>rule</mat-icon>
+          <h4>Business Rules</h4>
+        </div>
+        <ul class="info-list">
+          <li>
+            <mat-icon class="icon-warning">warning</mat-icon>
+            <span><strong>Stock Receiving:</strong> Only Main Warehouses can receive stock from suppliers</span>
+          </li>
+          <li>
+            <mat-icon class="icon-info">info</mat-icon>
+            <span><strong>Hierarchy:</strong> Main → Branch → Sub warehouse structure</span>
+          </li>
+          <li>
+            <mat-icon class="icon-info">info</mat-icon>
+            <span><strong>Unique Constraint:</strong> Warehouse name + city must be unique</span>
+          </li>
+          <li>
+            <mat-icon class="icon-info">info</mat-icon>
+            <span><strong>Parent Required:</strong> Branch/Sub warehouses must have a parent warehouse</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Quick Tips Card -->
       <div class="modern-info-card">
         <div class="info-header">
           <mat-icon>lightbulb</mat-icon>
@@ -111,14 +278,74 @@
           </li>
           <li>
             <mat-icon>check_circle</mat-icon>
-            <span>Include full address details for accurate location tracking</span>
+            <span>Main warehouses are required before creating Branch/Sub warehouses</span>
           </li>
           <li>
             <mat-icon>check_circle</mat-icon>
-            <span>Warehouses become available for stock operations immediately after creation</span>
+            <span>Stock can be transferred from Main to Branch/Sub warehouses</span>
+          </li>
+          <li>
+            <mat-icon>check_circle</mat-icon>
+            <span>Inactive warehouses will not appear in stock operations</span>
           </li>
         </ul>
       </div>
+
+      <!-- Warehouse Type Legend -->
+      <div class="modern-info-card type-legend">
+        <div class="info-header">
+          <mat-icon>help_outline</mat-icon>
+          <h4>Warehouse Types</h4>
+        </div>
+        <div class="type-items">
+          <div class="type-item">
+            <div class="type-badge main">Main</div>
+            <span>Can receive stock from suppliers. Top-level warehouse.</span>
+          </div>
+          <div class="type-item">
+            <div class="type-badge branch">Branch</div>
+            <span>Regional warehouse. Receives stock via transfer from Main.</span>
+          </div>
+          <div class="type-item">
+            <div class="type-badge sub">Sub</div>
+            <span>Local warehouse. Receives stock from Main or Branch.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Action Buttons (shown when original buttons are not visible) -->
+  <div class="sticky-actions" [class.visible]="showStickyButtons" [class.tips-visible]="showTipsColumn">
+    <div class="sticky-actions-container">
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="onCancel()"
+        class="btn-cancel">
+        <mat-icon>arrow_back</mat-icon>
+        Cancel
+      </button>
+
+      <button
+        mat-flat-button
+        type="button"
+        (click)="onReset()"
+        class="btn-reset"
+        [disabled]="!warehouseForm.dirty">
+        <mat-icon>restart_alt</mat-icon>
+        Reset
+      </button>
+
+      <button
+        mat-flat-button
+        type="submit"
+        (click)="onSave()"
+        class="btn-primary"
+        [disabled]="warehouseForm.invalid">
+        <mat-icon>{{ isEditMode ? 'check_circle' : 'save' }}</mat-icon>
+        {{ isEditMode ? 'Update Warehouse' : 'Create Warehouse' }}
+      </button>
     </div>
   </div>
 </div>

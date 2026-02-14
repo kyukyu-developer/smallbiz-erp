@@ -19,7 +19,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
 import { WarehouseComponent } from './warehouse/warehouse.component';
+import { WarehouseFilterDialogComponent } from './warehouse-filter-dialog/warehouse-filter-dialog.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
     ProductDetailComponent,
     WarehouseListComponent,
     WarehouseDetailComponent,
-    WarehouseComponent
+    WarehouseComponent,
+    WarehouseFilterDialogComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +47,9 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
     MatSelectModule,
     MatTooltipModule,
     MatDividerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatCheckboxModule,
+    MatDialogModule
   ]
 })
 export class InventoryModule { }

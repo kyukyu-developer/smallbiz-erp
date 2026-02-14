@@ -1,0 +1,104 @@
+<div class="filter-dialog">
+  <!-- Dialog Header -->
+  <div class="dialog-header">
+    <div class="header-left">
+      <mat-icon class="header-icon">tune</mat-icon>
+      <h2 mat-dialog-title>Filter Warehouses</h2>
+    </div>
+    <button mat-icon-button class="close-btn" (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Dialog Content -->
+  <div mat-dialog-content class="dialog-content">
+    <!-- Active Filters Summary -->
+    <div class="active-filters-summary" *ngIf="activeFilterCount > 0">
+      <div class="summary-text">
+        <mat-icon>filter_alt</mat-icon>
+        <span>{{ activeFilterCount }} filter{{ activeFilterCount !== 1 ? 's' : '' }} active</span>
+      </div>
+      <button class="clear-all-btn" (click)="clearAllFilters()">
+        <mat-icon>clear_all</mat-icon>
+        Clear All
+      </button>
+    </div>
+
+    <!-- Filter Sections -->
+    <div class="filter-sections">
+      <!-- Warehouse Type Filter -->
+      <div class="filter-section">
+        <div class="section-header">
+          <mat-icon class="section-icon">warehouse</mat-icon>
+          <h3 class="section-title">Warehouse Type</h3>
+        </div>
+        <div class="filter-options">
+          <button
+            *ngFor="let type of availableBranchTypes"
+            class="filter-option-chip"
+            [class.selected]="isBranchTypeSelected(type)"
+            (click)="toggleBranchTypeFilter(type)">
+            <span class="type-badge" [ngClass]="getBranchTypeBadgeClass(type)">{{ type }}</span>
+            <mat-icon class="check-icon" *ngIf="isBranchTypeSelected(type)">check_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- City Filter -->
+      <div class="filter-section">
+        <div class="section-header">
+          <mat-icon class="section-icon">location_city</mat-icon>
+          <h3 class="section-title">City</h3>
+        </div>
+        <div class="filter-options">
+          <button
+            *ngFor="let city of availableCities"
+            class="filter-option-chip"
+            [class.selected]="isCitySelected(city)"
+            (click)="toggleCityFilter(city)">
+            <mat-icon>location_on</mat-icon>
+            <span>{{ city }}</span>
+            <mat-icon class="check-icon" *ngIf="isCitySelected(city)">check_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Status Filter -->
+      <div class="filter-section">
+        <div class="section-header">
+          <mat-icon class="section-icon">toggle_on</mat-icon>
+          <h3 class="section-title">Status</h3>
+        </div>
+        <div class="filter-options">
+          <button
+            class="filter-option-chip"
+            [class.selected]="filters.isUsed === true"
+            (click)="setStatusFilter('used')">
+            <mat-icon>inventory</mat-icon>
+            <span>In Use</span>
+            <mat-icon class="check-icon" *ngIf="filters.isUsed === true">check_circle</mat-icon>
+          </button>
+          <button
+            class="filter-option-chip"
+            [class.selected]="filters.isActive === true"
+            (click)="setStatusFilter('active')">
+            <mat-icon>check_circle_outline</mat-icon>
+            <span>Active</span>
+            <mat-icon class="check-icon" *ngIf="filters.isActive === true">check_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dialog Actions -->
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-stroked-button class="cancel-btn" (click)="onClose()">
+      Cancel
+    </button>
+    <button mat-raised-button class="apply-btn" (click)="onApply()">
+      <mat-icon>check</mat-icon>
+      Apply Filters
+    </button>
+  </div>
+</div>

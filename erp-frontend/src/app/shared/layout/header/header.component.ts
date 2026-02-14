@@ -28,6 +28,12 @@ export class HeaderComponent implements OnInit {
   currentUser$: Observable<User | null>;
   pageTitle: string = 'Dashboard';
 
+  // Breadcrumb properties for detail pages
+  hasDetailParam: boolean = false;
+  baseTitle: string = '';
+  detailParam: string = '';
+  baseRoute: string = '';
+
   menuItems: MenuItem[] = [
     {
       label: 'Dashboard',
@@ -128,6 +134,29 @@ export class HeaderComponent implements OnInit {
   }
 
   updatePageTitle(url: string) {
+    // Handle warehouse detail pages with parameters (e.g., /inventory/warehouses/WH001 or /inventory/warehouses/new)
+    if (url.includes('/inventory/warehouses/')) {
+      const segments = url.split('/');
+      const warehouseParam = segments[segments.length - 1].split('?')[0]; // Remove query params if any
+      if (warehouseParam) {
+        const formattedParam = warehouseParam === 'new' ? 'New' : warehouseParam.toUpperCase();
+        this.pageTitle = `Warehouses / ${formattedParam}`;
+
+        // Set breadcrumb properties
+        this.hasDetailParam = true;
+        this.baseTitle = 'Warehouses';
+        this.detailParam = formattedParam;
+        this.baseRoute = '/inventory/warehouses';
+        return;
+      }
+    }
+
+    // Reset breadcrumb for other pages
+    this.hasDetailParam = false;
+    this.baseTitle = '';
+    this.detailParam = '';
+    this.baseRoute = '';
+
     // Map routes to titles
     const routeTitleMap: { [key: string]: string } = {
       '/dashboard': 'Dashboard',

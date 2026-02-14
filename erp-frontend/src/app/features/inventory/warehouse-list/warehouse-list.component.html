@@ -12,21 +12,44 @@
     </div>
 
     <div class="stats-right">
-      <div class="summary-count">{{ warehouses.length }} <span>warehouse</span></div>
+      <div class="summary-count">{{ warehouses.length }} <span>warehouse{{ warehouses.length !== 1 ? 's' : '' }}</span></div>
       <div class="status-bars">
         <div class="status-bar-group">
-          <div class="bar active" [style.width.%]="(getActiveCount() / warehouses.length) * 100"></div>
-          <div class="bar maintenance" [style.width.%]="((warehouses.length - getActiveCount()) / warehouses.length) * 100"></div>
+          <div class="bar main" [style.width.%]="warehouses.length > 0 ? (getBranchTypeCount('Main') / warehouses.length) * 100 : 0"></div>
+          <div class="bar branch" [style.width.%]="warehouses.length > 0 ? (getBranchTypeCount('Branch') / warehouses.length) * 100 : 0"></div>
+          <div class="bar sub" [style.width.%]="warehouses.length > 0 ? (getBranchTypeCount('Sub') / warehouses.length) * 100 : 0"></div>
         </div>
         <div class="status-labels">
           <div class="status-item">
-            <span class="dot active"></span>
-            <span class="label">Active: <strong>{{ getActiveCount() }}</strong></span>
+            <span class="dot main"></span>
+            <span class="label">Main: <strong>{{ getBranchTypeCount('Main') }}</strong></span>
           </div>
           <div class="status-item">
-            <span class="dot maintenance"></span>
-            <span class="label">Maintenance: <strong>{{ warehouses.length - getActiveCount() }}</strong></span>
+            <span class="dot branch"></span>
+            <span class="label">Branch: <strong>{{ getBranchTypeCount('Branch') }}</strong></span>
           </div>
+          <div class="status-item">
+            <span class="dot sub"></span>
+            <span class="label">Sub: <strong>{{ getBranchTypeCount('Sub') }}</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Panel -->
+    <div class="info-panel" *ngIf="warehouses.length > 0">
+      <div class="info-item">
+        <mat-icon>inventory</mat-icon>
+        <div class="info-content">
+          <span class="info-label">Can Receive Stock</span>
+          <span class="info-value">{{ getMainWarehouseCount() }} warehouse{{ getMainWarehouseCount() !== 1 ? 's' : '' }}</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <mat-icon>warehouse</mat-icon>
+        <div class="info-content">
+          <span class="info-label">In Use</span>
+          <span class="info-value">{{ getUsedWarehouseCount() }} warehouse{{ getUsedWarehouseCount() !== 1 ? 's' : '' }}</span>
         </div>
       </div>
     </div>
@@ -36,12 +59,13 @@
   <div class="actions-bar">
     <div class="search-box">
       <mat-icon>search</mat-icon>
-      <input type="text" [(ngModel)]="searchTerm" (keyup)="applyFilter()" placeholder="Search">
+      <input type="text" [(ngModel)]="searchTerm" (keyup)="applyFilter()" placeholder="Search warehouses...">
     </div>
     <div class="action-buttons">
-      <button mat-stroked-button class="filter-btn">
+      <button mat-stroked-button class="filter-btn" (click)="toggleFilters()">
         <mat-icon>tune</mat-icon>
         Filters
+        <span class="filter-badge" *ngIf="activeFilterCount > 0">{{ activeFilterCount }}</span>
       </button>
       <button mat-raised-button class="add-btn" (click)="addNewWarehouse()">
         <mat-icon>add</mat-icon>
@@ -50,89 +74,173 @@
     </div>
   </div>
 
-  <!-- Table Section -->
+  <!-- Warehouse Table -->
   <div class="table-container">
     <table class="warehouse-table">
       <thead>
-        <tr>
-          <th>CODE</th>
+        <tr class="table-header-row">
           <th>WAREHOUSE NAME</th>
-          <th>LOCATION</th>
-          <th>MANAGER</th>
-          <th>CAPACITY</th>
-          <th>OCCUPANCY</th>
+          <th>CITY</th>
+          <th>TYPE</th>
+          <th>PARENT WAREHOUSE</th>
           <th>STATUS</th>
-          <th>ACTIONS</th>
+          <th class="actions">ACTIONS</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let warehouse of warehouses" class="table-row">
-          <td class="warehouse-code">
-            <div class="code-text">{{ warehouse.code }}</div>
-          </td>
-          <td class="warehouse-name">
-            <div class="name-wrapper">
-              <div class="name-text">{{ warehouse.warehouse_name }}</div>
-              <div class="description-text">{{ warehouse.description }}</div>
-            </div>
-          </td>
-          <td class="location">
-            <mat-icon>place</mat-icon>
-            <span>{{ warehouse.city }}, {{ warehouse.state }}</span>
-          </td>
-          <td class="manager">
-            <mat-icon>person</mat-icon>
-            <span>{{ warehouse.manager }}</span>
-          </td>
-          <td class="capacity">
-            {{ warehouse.capacity | number }} sq ft
-          </td>
-          <td class="occupancy">
-            <div class="occupancy-wrapper">
-              <div class="occupancy-bar-container">
-                <div class="occupancy-bar" [ngClass]="getOccupancyStatus(warehouse)">
-                  <div class="occupancy-fill" [style.width.%]="getOccupancyPercentage(warehouse)"></div>
+        <!-- Grouped by Parent Warehouse -->
+        <ng-container *ngFor="let group of warehouseGroups">
+          <!-- Parent Warehouse Row -->
+          <tr class="table-row parent-row">
+            <!-- Warehouse Name with Expand/Collapse -->
+            <td class="warehouse-name">
+              <div class="name-wrapper parent-warehouse-item">
+                <button class="expand-btn" (click)="toggleGroup(group)">
+                  <mat-icon>{{ group.expanded ? 'expand_more' : 'chevron_right' }}</mat-icon>
+                </button>
+                <div class="name-content">
+                  <div class="name-text">
+                    {{ group.parent.name }}
+                    <mat-icon
+                      *ngIf="canReceiveStock(group.parent)"
+                      class="stock-icon"
+                      matTooltip="Can receive stock">
+                      inventory
+                    </mat-icon>
+                    <span class="child-count" *ngIf="group.children.length > 0">
+                      ({{ group.children.length }} sub-warehouse{{ group.children.length !== 1 ? 's' : '' }})
+                    </span>
+                  </div>
+                  <div class="id-text">ID: {{ group.parent.id }}</div>
                 </div>
               </div>
-              <span class="occupancy-text">{{ getOccupancyPercentage(warehouse) | number:'1.0-0' }}%</span>
+            </td>
+
+            <!-- City -->
+            <td class="city">{{ group.parent.city }}</td>
+
+            <!-- Type -->
+            <td class="branch-type">
+              <span class="type-badge" [ngClass]="getBranchTypeBadgeClass(group.parent.branch_type)">
+                {{ group.parent.branch_type }}
+              </span>
+            </td>
+
+            <!-- Parent Warehouse -->
+            <td class="parent-warehouse">
+              <span class="no-parent">None</span>
+            </td>
+
+            <!-- Status -->
+            <td class="status">
+              <div class="status-badges">
+                <span
+                  *ngIf="group.parent.is_used_warehouse"
+                  class="status-badge used">
+                  In Use
+                </span>
+              </div>
+            </td>
+
+            <!-- Actions -->
+            <td class="actions">
+              <button mat-button class="view-btn" (click)="viewWarehouse(group.parent)">
+                <mat-icon>visibility</mat-icon>
+                View
+              </button>
+              <button mat-icon-button [matMenuTriggerFor]="parentMenu" class="more-btn">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #parentMenu="matMenu">
+                <button mat-menu-item (click)="editWarehouse(group.parent)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="deleteWarehouse(group.parent)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </td>
+          </tr>
+
+          <!-- Child Warehouses (Branch/Sub) -->
+          <ng-container *ngIf="group.expanded">
+            <tr class="table-row child-row" *ngFor="let warehouse of group.children">
+              <!-- Warehouse Name (Indented) -->
+              <td class="warehouse-name">
+                <div class="name-wrapper child-warehouse-item">
+                  <div class="indent-line"></div>
+                  <div class="name-content">
+                    <div class="name-text">
+                      {{ warehouse.name }}
+                    </div>
+                    <div class="id-text">ID: {{ warehouse.id }}</div>
+                  </div>
+                </div>
+              </td>
+
+              <!-- City -->
+              <td class="city">{{ warehouse.city }}</td>
+
+              <!-- Type -->
+              <td class="branch-type">
+                <span class="type-badge" [ngClass]="getBranchTypeBadgeClass(warehouse.branch_type)">
+                  {{ warehouse.branch_type }}
+                </span>
+              </td>
+
+              <!-- Parent Warehouse -->
+              <td class="parent-warehouse">
+                <span class="parent-name">{{ warehouse.parent_warehouse_name }}</span>
+              </td>
+
+              <!-- Status -->
+              <td class="status">
+                <div class="status-badges">
+                  <span
+                    *ngIf="warehouse.is_used_warehouse"
+                    class="status-badge used">
+                    In Use
+                  </span>
+                </div>
+              </td>
+
+              <!-- Actions -->
+              <td class="actions">
+                <button mat-button class="view-btn" (click)="viewWarehouse(warehouse)">
+                  <mat-icon>visibility</mat-icon>
+                  View
+                </button>
+                <button mat-icon-button [matMenuTriggerFor]="childMenu" class="more-btn">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #childMenu="matMenu">
+                  <button mat-menu-item (click)="editWarehouse(warehouse)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Edit</span>
+                  </button>
+                  <button mat-menu-item (click)="deleteWarehouse(warehouse)">
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete</span>
+                  </button>
+                </mat-menu>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-container>
+
+        <!-- Empty State -->
+        <tr *ngIf="warehouseGroups.length === 0" class="empty-state-row">
+          <td colspan="6">
+            <div class="empty-state">
+              <mat-icon>warehouse</mat-icon>
+              <h3>No Warehouses Found</h3>
+              <p>Try adjusting your search criteria or add a new warehouse</p>
             </div>
-          </td>
-          <td class="status">
-            <span class="status-badge" [ngClass]="warehouse.status">
-              {{ warehouse.status | titlecase }}
-            </span>
-          </td>
-          <td class="actions">
-            <button mat-button class="view-btn" (click)="viewWarehouse(warehouse)">
-              View
-            </button>
-            <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="editWarehouse(warehouse)">
-                <mat-icon>edit</mat-icon>
-                <span>Edit</span>
-              </button>
-              <button mat-menu-item (click)="deleteWarehouse(warehouse)">
-                <mat-icon>delete</mat-icon>
-                <span>Delete</span>
-              </button>
-            </mat-menu>
           </td>
         </tr>
       </tbody>
     </table>
-
-    <!-- Empty State -->
-    <div class="empty-state" *ngIf="warehouses.length === 0">
-      <mat-icon>warehouse</mat-icon>
-      <h3>No Warehouses Found</h3>
-      <p>Try adjusting your search criteria or add a new warehouse</p>
-      <button mat-raised-button class="add-btn" (click)="addNewWarehouse()">
-        <mat-icon>add</mat-icon>
-        Add Your First Warehouse
-      </button>
-    </div>
   </div>
 </div>
