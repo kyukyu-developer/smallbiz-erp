@@ -1,0 +1,22 @@
+# Build artifacts
+**/obj/
+**/bin/
+*.cache
+*.sourcelink.json
+
+# IDE and local settings
+.claude/settings.local.json
+.vs/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+nul
+
+# Dependencies
+node_modules/
+packages/
+
+# Logs
+*.log
