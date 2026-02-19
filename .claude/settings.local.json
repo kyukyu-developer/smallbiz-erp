@@ -32,7 +32,12 @@
       "Bash(curl:*)",
       "Bash(findstr:*)",
       "Bash(git fetch:*)",
-      "Bash(dotnet add:*)"
+      "Bash(dotnet add:*)",
+      "Bash(git rm:*)",
+      "Bash(ls:*)",
+      "Bash(taskkill:*)",
+      "Bash(dotnet ef database drop:*)",
+      "Bash(dotnet test:*)"
     ]
   }
 }

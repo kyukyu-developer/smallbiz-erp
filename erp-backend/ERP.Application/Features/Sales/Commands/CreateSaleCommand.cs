@@ -10,7 +10,7 @@ namespace ERP.Application.Features.Sales.Commands
         public string InvoiceNumber { get; set; } = string.Empty;
         public DateTime SaleDate { get; set; }
         public int CustomerId { get; set; }
-        public int? WarehouseId { get; set; }
+        public string? WarehouseId { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
         public SaleStatus Status { get; set; }
         public DateTime? DueDate { get; set; }

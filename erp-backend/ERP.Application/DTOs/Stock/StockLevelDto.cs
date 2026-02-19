@@ -5,7 +5,7 @@ namespace ERP.Application.DTOs.Stock
         public int ProductId { get; set; }
         public string ProductCode { get; set; } = string.Empty;
         public string ProductName { get; set; } = string.Empty;
-        public int WarehouseId { get; set; }
+        public string WarehouseId { get; set; } = string.Empty;
         public string WarehouseName { get; set; } = string.Empty;
         public decimal AvailableQuantity { get; set; }
         public decimal ReservedQuantity { get; set; }

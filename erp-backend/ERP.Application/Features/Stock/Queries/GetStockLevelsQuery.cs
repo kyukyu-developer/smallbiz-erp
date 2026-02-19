@@ -6,7 +6,7 @@ namespace ERP.Application.Features.Stock.Queries
 {
     public class GetStockLevelsQuery : IRequest<Result<List<StockLevelDto>>>
     {
-        public int? WarehouseId { get; set; }
+        public string? WarehouseId { get; set; }
         public int? ProductId { get; set; }
         public bool? LowStockOnly { get; set; }
     }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ERP.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialCreateWithUserRegistration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -108,13 +108,14 @@ namespace ERP.Infrastructure.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Username = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, defaultValue: "User"),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -129,25 +130,34 @@ namespace ERP.Infrastructure.Migrations
                 name: "Warehouses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ContactPerson = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    BranchType = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    IsMainWarehouse = table.Column<bool>(type: "bit", nullable: false),
+                    ParentWarehouseId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    IsUsedWarehouse = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    ContactPerson = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Warehouses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Warehouses_Warehouses_ParentWarehouseId",
+                        column: x => x.ParentWarehouseId,
+                        principalTable: "Warehouses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -196,11 +206,11 @@ namespace ERP.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsRevoked = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    IsRevoked = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -222,7 +232,7 @@ namespace ERP.Infrastructure.Migrations
                     PurchaseOrderNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PurchaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SupplierId = table.Column<int>(type: "int", nullable: false),
-                    WarehouseId = table.Column<int>(type: "int", nullable: true),
+                    WarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: true),
                     SubTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TotalDiscount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     TotalTax = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
@@ -263,7 +273,7 @@ namespace ERP.Infrastructure.Migrations
                     InvoiceNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SaleDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
-                    WarehouseId = table.Column<int>(type: "int", nullable: true),
+                    WarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: true),
                     SubTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TotalDiscount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     TotalTax = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
@@ -301,7 +311,7 @@ namespace ERP.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    WarehouseId = table.Column<int>(type: "int", nullable: false),
+                    WarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     BatchNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ManufactureDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -321,7 +331,7 @@ namespace ERP.Infrastructure.Migrations
                         column: x => x.WarehouseId,
                         principalTable: "Warehouses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -379,7 +389,7 @@ namespace ERP.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AdjustmentNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    WarehouseId = table.Column<int>(type: "int", nullable: false),
+                    WarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     AdjustmentQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Reason = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -413,8 +423,8 @@ namespace ERP.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TransferNo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FromWarehouseId = table.Column<int>(type: "int", nullable: false),
-                    ToWarehouseId = table.Column<int>(type: "int", nullable: false),
+                    FromWarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    ToWarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TransferDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -488,7 +498,7 @@ namespace ERP.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    WarehouseId = table.Column<int>(type: "int", nullable: false),
+                    WarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     AvailableQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ReservedQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
@@ -507,7 +517,7 @@ namespace ERP.Infrastructure.Migrations
                         column: x => x.WarehouseId,
                         principalTable: "Warehouses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -564,7 +574,7 @@ namespace ERP.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    WarehouseId = table.Column<int>(type: "int", nullable: false),
+                    WarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     MovementType = table.Column<int>(type: "int", nullable: false),
                     ReferenceType = table.Column<int>(type: "int", nullable: false),
                     ReferenceId = table.Column<int>(type: "int", nullable: false),
@@ -592,7 +602,7 @@ namespace ERP.Infrastructure.Migrations
                         column: x => x.WarehouseId,
                         principalTable: "Warehouses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -730,6 +740,16 @@ namespace ERP.Infrastructure.Migrations
                 column: "WarehouseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_ExpiresAt",
+                table: "RefreshTokens",
+                column: "ExpiresAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_Token",
+                table: "RefreshTokens",
+                column: "Token");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_UserId",
                 table: "RefreshTokens",
                 column: "UserId");
@@ -838,10 +858,40 @@ namespace ERP.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_IsActive",
+                table: "Users",
+                column: "IsActive");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_Username",
                 table: "Users",
                 column: "Username",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Warehouse_Active",
+                table: "Warehouses",
+                column: "Active");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Warehouse_BranchType",
+                table: "Warehouses",
+                column: "BranchType");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Warehouse_IsMainWarehouse",
+                table: "Warehouses",
+                column: "IsMainWarehouse");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Warehouse_Name_City",
+                table: "Warehouses",
+                columns: new[] { "Name", "City" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Warehouse_ParentWarehouseId",
+                table: "Warehouses",
+                column: "ParentWarehouseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WarehouseStocks_ProductId",

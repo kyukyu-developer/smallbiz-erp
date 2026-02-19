@@ -19,7 +19,7 @@ namespace ERP.API.Controllers
 
         [HttpGet("levels")]
         public async Task<IActionResult> GetStockLevels(
-            [FromQuery] int? warehouseId,
+            [FromQuery] string? warehouseId,
             [FromQuery] int? productId,
             [FromQuery] bool? lowStockOnly)
         {

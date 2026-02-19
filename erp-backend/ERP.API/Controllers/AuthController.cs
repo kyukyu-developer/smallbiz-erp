@@ -17,6 +17,28 @@ namespace ERP.API.Controllers
             _mediator = mediator;
         }
 
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
+        {
+            var command = new RegisterCommand
+            {
+                Username = request.Username,
+                Email = request.Email,
+                Password = request.Password,
+                ConfirmPassword = request.ConfirmPassword,
+                FirstName = request.FirstName,
+                LastName = request.LastName
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(new { message = result.ErrorMessage });
+
+            return Ok(result.Data);
+        }
+
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto request)

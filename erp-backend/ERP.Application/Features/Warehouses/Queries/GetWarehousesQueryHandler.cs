@@ -16,22 +16,46 @@ namespace ERP.Application.Features.Warehouses.Queries
 
         public async Task<Result<List<WarehouseDto>>> Handle(GetWarehousesQuery request, CancellationToken cancellationToken)
         {
-            var warehouses = await _warehouseRepository.GetAllAsync();
+            IEnumerable<Domain.Entities.Warehouse> warehouses;
 
+            // Filter by branch type if specified
+            if (request.MainWarehousesOnly == true)
+            {
+                warehouses = await _warehouseRepository.GetMainWarehousesAsync();
+            }
+            else if (request.BranchType.HasValue)
+            {
+                warehouses = await _warehouseRepository.GetByBranchTypeAsync(request.BranchType.Value);
+            }
+            else
+            {
+                warehouses = await _warehouseRepository.GetAllAsync();
+            }
+
+            // Apply active filter
             var filteredWarehouses = warehouses
-                .Where(w => (request.IncludeInactive ?? false) || w.IsActive)
+                .Where(w => (request.IncludeInactive ?? false) || w.Active)
                 .Select(w => new WarehouseDto
                 {
                     Id = w.Id,
-                    Code = w.Code,
                     Name = w.Name,
+                    City = w.City,
+                    BranchType = w.BranchType.ToString(),
+                    IsMainWarehouse = w.IsMainWarehouse,
+                    ParentWarehouseId = w.ParentWarehouseId,
+                    ParentWarehouseName = w.ParentWarehouse?.Name,
+                    IsUsedWarehouse = w.IsUsedWarehouse,
+                    Active = w.Active,
                     Location = w.Location,
                     Address = w.Address,
-                    City = w.City,
                     Country = w.Country,
                     ContactPerson = w.ContactPerson,
                     Phone = w.Phone,
-                    IsActive = w.IsActive
+                    CreatedOn = w.CreatedAt,
+                    ModifiedOn = w.UpdatedAt,
+                    CreatedBy = w.CreatedBy,
+                    ModifiedBy = w.UpdatedBy,
+                    LastAction = w.LastAction
                 })
                 .ToList();
 

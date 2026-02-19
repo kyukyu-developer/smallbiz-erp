@@ -21,6 +21,16 @@ namespace ERP.Infrastructure.Repositories
             return await _dbSet.FindAsync(id);
         }
 
+        public async Task<T?> GetByIdAsync(string id)
+        {
+            return await _dbSet.FindAsync(id);
+        }
+
+        public async Task<bool> ExistsAsync(string id)
+        {
+            return await _dbSet.FindAsync(id) != null;
+        }
+
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();

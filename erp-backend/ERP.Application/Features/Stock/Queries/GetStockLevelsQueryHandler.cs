@@ -19,7 +19,7 @@ namespace ERP.Application.Features.Stock.Queries
             var stocks = await _warehouseStockRepository.GetAllWithDetailsAsync();
 
             var stockLevels = stocks
-                .Where(s => !request.WarehouseId.HasValue || s.WarehouseId == request.WarehouseId)
+                .Where(s => string.IsNullOrEmpty(request.WarehouseId) || s.WarehouseId == request.WarehouseId)
                 .Where(s => !request.ProductId.HasValue || s.ProductId == request.ProductId)
                 .Select(s => new StockLevelDto
                 {

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using FluentValidation;
 using System.Reflection;
 
 namespace ERP.Application
@@ -7,8 +8,13 @@ namespace ERP.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
+            var assembly = Assembly.GetExecutingAssembly();
+
             // MediatR
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
+
+            // FluentValidation
+            services.AddValidatorsFromAssembly(assembly);
 
             return services;
         }

@@ -8,7 +8,7 @@ namespace ERP.Application.DTOs.Purchases
         public string PurchaseOrderNumber { get; set; } = string.Empty;
         public DateTime PurchaseDate { get; set; }
         public int SupplierId { get; set; }
-        public int? WarehouseId { get; set; }
+        public string? WarehouseId { get; set; }
         public decimal SubTotal { get; set; }
         public decimal? TotalDiscount { get; set; }
         public decimal? TotalTax { get; set; }

@@ -8,7 +8,7 @@ namespace ERP.Application.DTOs.Sales
         public string InvoiceNumber { get; set; } = string.Empty;
         public DateTime SaleDate { get; set; }
         public int CustomerId { get; set; }
-        public int? WarehouseId { get; set; }
+        public string? WarehouseId { get; set; }
         public decimal SubTotal { get; set; }
         public decimal? TotalDiscount { get; set; }
         public decimal? TotalTax { get; set; }

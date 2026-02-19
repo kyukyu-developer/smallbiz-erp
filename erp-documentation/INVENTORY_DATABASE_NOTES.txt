@@ -10,7 +10,7 @@ CREATE TABLE warehouse (
     city VARCHAR(50),                -- City of Warehouse
     branch_type VARCHAR(20),         -- 'Main', 'Branch', 'Sub'
     is_main_warehouse BOOLEAN,       -- TRUE if this is a main warehouse
-    parent_warehouse_id INT NULL,    -- NULL if main warehouse
+    parent_warehouse_id  VARCHAR(50) NULL,    -- NULL if main warehouse
     is_used_warehouse BOOLEAN DEFAULT TRUE,     -- Active flag
     active BOOLEAN DEFAULT TRUE,     -- Active flag
 

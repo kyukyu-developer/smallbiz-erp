@@ -6,7 +6,7 @@ namespace ERP.Domain.Entities
     public class StockMovement : BaseEntity
     {
         public int ProductId { get; set; }
-        public int WarehouseId { get; set; }
+        public string WarehouseId { get; set; } = string.Empty;
         public MovementType MovementType { get; set; }
         public ReferenceType ReferenceType { get; set; }
         public int ReferenceId { get; set; }

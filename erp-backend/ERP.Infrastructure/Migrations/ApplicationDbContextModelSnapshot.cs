@@ -226,8 +226,9 @@ namespace ERP.Infrastructure.Migrations
                     b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("WarehouseId")
-                        .HasColumnType("int");
+                    b.Property<string>("WarehouseId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -349,8 +350,8 @@ namespace ERP.Infrastructure.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("WarehouseId")
-                        .HasColumnType("int");
+                    b.Property<string>("WarehouseId")
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -427,26 +428,37 @@ namespace ERP.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime>("ExpiresAt")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsRevoked")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ExpiresAt");
+
+                    b.HasIndex("Token");
+
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("ERP.Domain.Entities.Sale", b =>
@@ -506,8 +518,8 @@ namespace ERP.Infrastructure.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("WarehouseId")
-                        .HasColumnType("int");
+                    b.Property<string>("WarehouseId")
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -617,8 +629,9 @@ namespace ERP.Infrastructure.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("WarehouseId")
-                        .HasColumnType("int");
+                    b.Property<string>("WarehouseId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -661,8 +674,9 @@ namespace ERP.Infrastructure.Migrations
                     b.Property<int>("ReferenceType")
                         .HasColumnType("int");
 
-                    b.Property<int>("WarehouseId")
-                        .HasColumnType("int");
+                    b.Property<string>("WarehouseId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -689,8 +703,9 @@ namespace ERP.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FromWarehouseId")
-                        .HasColumnType("int");
+                    b.Property<string>("FromWarehouseId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -704,8 +719,9 @@ namespace ERP.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("ToWarehouseId")
-                        .HasColumnType("int");
+                    b.Property<string>("ToWarehouseId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("TransferDate")
                         .HasColumnType("datetime2");
@@ -846,11 +862,9 @@ namespace ERP.Infrastructure.Migrations
 
             modelBuilder.Entity("ERP.Domain.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -863,8 +877,18 @@ namespace ERP.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -872,8 +896,10 @@ namespace ERP.Infrastructure.Migrations
 
                     b.Property<string>("Role")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasDefaultValue("User");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -891,6 +917,8 @@ namespace ERP.Infrastructure.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
+                    b.HasIndex("IsActive");
+
                     b.HasIndex("Username")
                         .IsUnique();
 
@@ -899,56 +927,99 @@ namespace ERP.Infrastructure.Migrations
 
             modelBuilder.Entity("ERP.Domain.Entities.Warehouse", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<bool>("Active")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("BranchType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ContactPerson")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool>("IsMainWarehouse")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsUsedWarehouse")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("LastAction")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ParentWarehouseId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Warehouses");
+                    b.HasIndex("Active")
+                        .HasDatabaseName("IX_Warehouse_Active");
+
+                    b.HasIndex("BranchType")
+                        .HasDatabaseName("IX_Warehouse_BranchType");
+
+                    b.HasIndex("IsMainWarehouse")
+                        .HasDatabaseName("IX_Warehouse_IsMainWarehouse");
+
+                    b.HasIndex("ParentWarehouseId")
+                        .HasDatabaseName("IX_Warehouse_ParentWarehouseId");
+
+                    b.HasIndex("Name", "City")
+                        .HasDatabaseName("IX_Warehouse_Name_City");
+
+                    b.ToTable("Warehouses", (string)null);
                 });
 
             modelBuilder.Entity("ERP.Domain.Entities.WarehouseStock", b =>
@@ -968,8 +1039,9 @@ namespace ERP.Infrastructure.Migrations
                     b.Property<decimal>("ReservedQuantity")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("WarehouseId")
-                        .HasColumnType("int");
+                    b.Property<string>("WarehouseId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -1019,7 +1091,7 @@ namespace ERP.Infrastructure.Migrations
                     b.HasOne("ERP.Domain.Entities.Warehouse", "Warehouse")
                         .WithMany("ProductBatches")
                         .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -1208,7 +1280,7 @@ namespace ERP.Infrastructure.Migrations
                     b.HasOne("ERP.Domain.Entities.Warehouse", "Warehouse")
                         .WithMany("StockMovements")
                         .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Batch");
@@ -1272,6 +1344,16 @@ namespace ERP.Infrastructure.Migrations
                     b.Navigation("ToUnit");
                 });
 
+            modelBuilder.Entity("ERP.Domain.Entities.Warehouse", b =>
+                {
+                    b.HasOne("ERP.Domain.Entities.Warehouse", "ParentWarehouse")
+                        .WithMany("ChildWarehouses")
+                        .HasForeignKey("ParentWarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ParentWarehouse");
+                });
+
             modelBuilder.Entity("ERP.Domain.Entities.WarehouseStock", b =>
                 {
                     b.HasOne("ERP.Domain.Entities.Product", "Product")
@@ -1283,7 +1365,7 @@ namespace ERP.Infrastructure.Migrations
                     b.HasOne("ERP.Domain.Entities.Warehouse", "Warehouse")
                         .WithMany("WarehouseStocks")
                         .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -1354,6 +1436,8 @@ namespace ERP.Infrastructure.Migrations
 
             modelBuilder.Entity("ERP.Domain.Entities.Warehouse", b =>
                 {
+                    b.Navigation("ChildWarehouses");
+
                     b.Navigation("ProductBatches");
 
                     b.Navigation("StockMovements");
