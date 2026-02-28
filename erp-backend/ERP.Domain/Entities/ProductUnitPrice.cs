@@ -5,7 +5,7 @@ namespace ERP.Domain.Entities
     public class ProductUnitPrice : BaseEntity
     {
         public int ProductId { get; set; }
-        public int UnitId { get; set; }
+        public string UnitId { get; set; } = string.Empty;
         public decimal SalePrice { get; set; }
 
         // Navigation properties
