@@ -3,7 +3,7 @@ namespace ERP.Application.DTOs.Sales
     public class CreateSaleItemDto
     {
         public int ProductId { get; set; }
-        public int UnitId { get; set; }
+        public string UnitId { get; set; } = string.Empty;
         public decimal Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal? DiscountPercent { get; set; }

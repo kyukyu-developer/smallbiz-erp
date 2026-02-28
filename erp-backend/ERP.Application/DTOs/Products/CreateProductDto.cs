@@ -6,7 +6,7 @@ namespace ERP.Application.DTOs.Products
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
         public int CategoryId { get; set; }
-        public int BaseUnitId { get; set; }
+        public string BaseUnitId { get; set; } = string.Empty;
         public decimal? MinimumStock { get; set; }
         public decimal? MaximumStock { get; set; }
         public decimal? ReorderLevel { get; set; }
