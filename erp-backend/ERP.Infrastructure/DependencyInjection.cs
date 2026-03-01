@@ -32,6 +32,8 @@ namespace ERP.Infrastructure
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddScoped<IWarehouseRepository, WarehouseRepository>();
             services.AddScoped<IWarehouseStockRepository, WarehouseStockRepository>();
+            services.AddScoped<IUnitRepository, UnitRepository>();
+
 
             // Services
             services.AddScoped<IJwtTokenService, JwtTokenService>();
