@@ -88,5 +88,20 @@ namespace ERP.API.Controllers
 
             return Ok(result.Data);
         }
+
+        /// <summary>
+        /// Soft-delete a warehouse (sets Active = false)
+        /// </summary>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var command = new DeleteWarehouseCommand { Id = id };
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+                return NotFound(result.ErrorMessage);
+
+            return NoContent();
+        }
     }
 }
