@@ -28,7 +28,7 @@ namespace ERP.Application.Features.Auth.Commands
             // Find user by username
             var user = await _unitOfWork.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
 
-            if (user == null || !user.IsActive)
+            if (user == null || !user.Active)
                 return Result<LoginResponseDto>.Failure("Invalid credentials");
 
             // Verify password

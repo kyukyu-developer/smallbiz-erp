@@ -20,7 +20,7 @@ namespace ERP.Application.Features.Stock.Queries
 
             var stockLevels = stocks
                 .Where(s => string.IsNullOrEmpty(request.WarehouseId) || s.WarehouseId == request.WarehouseId)
-                .Where(s => !request.ProductId.HasValue || s.ProductId == request.ProductId)
+                .Where(s => !String.IsNullOrEmpty(request.ProductId) || s.ProductId == request.ProductId)
                 .Select(s => new StockLevelDto
                 {
                     ProductId = s.ProductId,

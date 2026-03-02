@@ -9,7 +9,7 @@ namespace ERP.Application.Features.Purchases.Commands
     {
         public string PurchaseOrderNumber { get; set; } = string.Empty;
         public DateTime PurchaseDate { get; set; }
-        public int SupplierId { get; set; }
+        public string? SupplierId { get; set; }
         public string? WarehouseId { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
         public PurchaseStatus Status { get; set; }

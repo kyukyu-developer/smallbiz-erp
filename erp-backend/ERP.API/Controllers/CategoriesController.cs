@@ -19,7 +19,7 @@ namespace ERP.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int? parentCategoryId, [FromQuery] bool? includeInactive)
+        public async Task<IActionResult> GetAll([FromQuery] string? parentCategoryId, [FromQuery] bool? includeInactive)
         {
             var query = new GetCategoriesQuery
             {

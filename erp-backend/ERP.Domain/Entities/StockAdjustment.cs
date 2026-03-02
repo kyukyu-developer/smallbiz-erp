@@ -5,8 +5,8 @@ namespace ERP.Domain.Entities
     public class StockAdjustment : AuditableEntity
     {
         public string AdjustmentNo { get; set; } = string.Empty;
-        public string WarehouseId { get; set; } = string.Empty;
-        public int ProductId { get; set; }
+        public string? WarehouseId { get; set; } 
+        public string? ProductId { get; set; }
         public decimal AdjustmentQuantity { get; set; }
         public string Reason { get; set; } = string.Empty;
         public DateTime AdjustmentDate { get; set; }

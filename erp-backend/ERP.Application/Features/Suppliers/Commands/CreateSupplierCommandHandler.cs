@@ -29,7 +29,7 @@ namespace ERP.Application.Features.Suppliers.Commands
                 Country = request.Country,
                 TaxNumber = request.TaxNumber,
                 PaymentTermDays = request.PaymentTermDays,
-                IsActive = request.IsActive
+                Active = request.Active
             };
 
             await _supplierRepository.AddAsync(supplier);
@@ -48,7 +48,7 @@ namespace ERP.Application.Features.Suppliers.Commands
                 Country = supplier.Country,
                 TaxNumber = supplier.TaxNumber,
                 PaymentTermDays = supplier.PaymentTermDays,
-                IsActive = supplier.IsActive
+                IsActive = supplier.Active
             };
 
             return Result<SupplierDto>.Success(supplierDto);

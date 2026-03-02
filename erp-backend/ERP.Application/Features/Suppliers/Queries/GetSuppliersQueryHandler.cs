@@ -19,7 +19,7 @@ namespace ERP.Application.Features.Suppliers.Queries
             var suppliers = await _supplierRepository.GetAllAsync();
 
             var filteredSuppliers = suppliers
-                .Where(s => (request.IncludeInactive ?? false) || s.IsActive)
+                .Where(s => (request.IncludeInactive ?? false) || s.Active)
                 .Where(s => string.IsNullOrEmpty(request.SearchTerm) ||
                            s.Name.Contains(request.SearchTerm, StringComparison.OrdinalIgnoreCase) ||
                            s.Code.Contains(request.SearchTerm, StringComparison.OrdinalIgnoreCase))
@@ -36,7 +36,7 @@ namespace ERP.Application.Features.Suppliers.Queries
                     Country = s.Country,
                     TaxNumber = s.TaxNumber,
                     PaymentTermDays = s.PaymentTermDays,
-                    IsActive = s.IsActive
+                    IsActive = s.Active
                 })
                 .ToList();
 

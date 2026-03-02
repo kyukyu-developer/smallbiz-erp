@@ -6,7 +6,7 @@ namespace ERP.Application.Features.Products.Queries
 {
     public class GetProductsQuery : IRequest<Result<List<ProductDto>>>
     {
-        public int? CategoryId { get; set; }
+        public string CategoryId { get; set; }= string.Empty;
         public string? SearchTerm { get; set; }
     }
 }

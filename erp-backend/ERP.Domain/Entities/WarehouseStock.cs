@@ -4,8 +4,8 @@ namespace ERP.Domain.Entities
 {
     public class WarehouseStock : BaseEntity
     {
-        public string WarehouseId { get; set; } = string.Empty;
-        public int ProductId { get; set; }
+        public string? WarehouseId { get; set; }
+        public string? ProductId { get; set; }
         public decimal AvailableQuantity { get; set; }
         public decimal ReservedQuantity { get; set; }
 

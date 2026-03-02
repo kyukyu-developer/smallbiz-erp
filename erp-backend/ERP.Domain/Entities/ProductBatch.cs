@@ -4,7 +4,7 @@ namespace ERP.Domain.Entities
 {
     public class ProductBatch : BaseEntity
     {
-        public int ProductId { get; set; }
+        public string? ProductId { get; set; }
         public string WarehouseId { get; set; } = string.Empty;
         public string BatchNo { get; set; } = string.Empty;
         public decimal Quantity { get; set; }

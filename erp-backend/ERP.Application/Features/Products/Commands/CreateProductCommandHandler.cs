@@ -37,7 +37,7 @@ namespace ERP.Application.Features.Products.Commands
                 Barcode = request.Barcode,
                 IsBatchTracked = request.IsBatchTracked,
                 IsSerialTracked = request.IsSerialTracked,
-                IsActive = request.IsActive
+                Active = request.Active
             };
 
             await _productRepository.AddAsync(product);
@@ -57,7 +57,7 @@ namespace ERP.Application.Features.Products.Commands
                 Barcode = product.Barcode,
                 IsBatchTracked = product.IsBatchTracked,
                 IsSerialTracked = product.IsSerialTracked,
-                IsActive = product.IsActive
+                Active = product.Active
             };
 
             return Result<ProductDto>.Success(productDto);

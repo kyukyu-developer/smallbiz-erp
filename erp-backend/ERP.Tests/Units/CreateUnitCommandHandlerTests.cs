@@ -47,7 +47,7 @@ public class CreateUnitCommandHandlerTests
 
         result.IsSuccess.Should().BeFalse();
         result.ErrorMessage.Should()
-            .Be("Warehouse with name 'Kilogram' already exists ");
+            .Be("Unit with name 'Kilogram' already exists ");
 
         _repoMock.Verify(r => r.AddAsync(It.IsAny<Unit>()), Times.Never);
         _unitOfWorkMock.Verify(u => u.SaveChangesAsync(), Times.Never);

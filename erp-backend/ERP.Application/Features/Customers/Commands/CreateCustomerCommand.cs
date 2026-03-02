@@ -16,6 +16,6 @@ namespace ERP.Application.Features.Customers.Commands
         public string? Country { get; set; }
         public string? TaxNumber { get; set; }
         public decimal? CreditLimit { get; set; }
-        public bool IsActive { get; set; } = true;
+        public bool Active { get; set; } = true;
     }
 }

@@ -21,7 +21,7 @@ namespace ERP.API.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAll(
-            [FromQuery] int? customerId,
+            [FromQuery] string? customerId,
             [FromQuery] DateTime? startDate,
             [FromQuery] DateTime? endDate,
             [FromQuery] SaleStatus? status,
@@ -45,7 +45,7 @@ namespace ERP.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(string id)
         {
             var query = new GetSaleByIdQuery { Id = id };
             var result = await _mediator.Send(query);

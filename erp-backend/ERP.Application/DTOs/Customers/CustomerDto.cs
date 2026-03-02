@@ -2,7 +2,7 @@ namespace ERP.Application.DTOs.Customers
 {
     public class CustomerDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = string.Empty;
         public string Code { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string? ContactPerson { get; set; }
@@ -13,6 +13,6 @@ namespace ERP.Application.DTOs.Customers
         public string? Country { get; set; }
         public string? TaxNumber { get; set; }
         public decimal? CreditLimit { get; set; }
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
     }
 }

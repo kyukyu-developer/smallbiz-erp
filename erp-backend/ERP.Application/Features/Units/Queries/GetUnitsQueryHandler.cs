@@ -25,7 +25,6 @@ namespace ERP.Application.Features.Units.Queries
 
             // Apply active filter
             var filteredUnits = units
-                .Where(w => (request.IncludeInactive ?? false) || w.Active)
                 .Select(w => new UnitDto
                 {
                     Id = w.Id,

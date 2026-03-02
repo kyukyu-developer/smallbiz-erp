@@ -30,10 +30,6 @@ namespace ERP.Infrastructure.Data.Configurations
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.BaseUnit)
-                .WithMany(u => u.ProductsAsBaseUnit)
-                .HasForeignKey(p => p.BaseUnitId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(p => p.Code).IsUnique();
             builder.HasIndex(p => p.CategoryId);

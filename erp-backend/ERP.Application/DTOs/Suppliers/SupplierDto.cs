@@ -2,7 +2,7 @@ namespace ERP.Application.DTOs.Suppliers
 {
     public class SupplierDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = string.Empty;
         public string Code { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string? ContactPerson { get; set; }

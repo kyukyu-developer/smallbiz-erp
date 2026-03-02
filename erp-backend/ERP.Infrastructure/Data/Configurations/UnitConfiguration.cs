@@ -57,11 +57,7 @@ namespace ERP.Infrastructure.Data.Configurations
             builder.HasIndex(u => u.Active)
                 .HasDatabaseName("IX_Unit_Active");
 
-            // Navigation: Products that use this as base unit
-            builder.HasMany(u => u.ProductsAsBaseUnit)
-                .WithOne(p => p.BaseUnit)
-                .HasForeignKey(p => p.BaseUnitId)
-                .OnDelete(DeleteBehavior.Restrict);
+ 
         }
     }
 }

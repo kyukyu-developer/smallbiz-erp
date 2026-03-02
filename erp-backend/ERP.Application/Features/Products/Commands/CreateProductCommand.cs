@@ -9,7 +9,7 @@ namespace ERP.Application.Features.Products.Commands
         public string Code { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
-        public int CategoryId { get; set; }
+        public string? CategoryId { get; set; } 
         public string BaseUnitId { get; set; } = string.Empty;
         public decimal? MinimumStock { get; set; }
         public decimal? MaximumStock { get; set; }
@@ -17,6 +17,6 @@ namespace ERP.Application.Features.Products.Commands
         public string? Barcode { get; set; }
         public bool IsBatchTracked { get; set; }
         public bool IsSerialTracked { get; set; }
-        public bool IsActive { get; set; } = true;
+        public bool Active { get; set; } = true;
     }
 }

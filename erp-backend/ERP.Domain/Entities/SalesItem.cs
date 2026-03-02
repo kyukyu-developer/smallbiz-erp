@@ -4,9 +4,9 @@ namespace ERP.Domain.Entities
 {
     public class SalesItem : BaseEntity
     {
-        public int SaleId { get; set; }
-        public int ProductId { get; set; }
-        public string UnitId { get; set; } = string.Empty;
+        public string? SaleId { get; set; } 
+        public string? ProductId { get; set; }
+        public string? UnitId { get; set; }
         public decimal Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal? DiscountPercent { get; set; }
@@ -15,8 +15,8 @@ namespace ERP.Domain.Entities
         public decimal? TaxAmount { get; set; }
         public decimal TotalAmount { get; set; }
         public string? Notes { get; set; }
-        public int? BatchId { get; set; }
-        public int? SerialId { get; set; }
+        public string? BatchId { get; set; }
+        public string? SerialId { get; set; }
 
         // Navigation properties
         public Sale Sale { get; set; } = null!;

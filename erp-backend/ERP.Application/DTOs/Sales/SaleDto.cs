@@ -4,10 +4,10 @@ namespace ERP.Application.DTOs.Sales
 {
     public class SaleDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = string.Empty;
         public string InvoiceNumber { get; set; } = string.Empty;
         public DateTime SaleDate { get; set; }
-        public int CustomerId { get; set; }
+        public string? CustomerId { get; set; }
         public string? WarehouseId { get; set; }
         public decimal SubTotal { get; set; }
         public decimal? TotalDiscount { get; set; }

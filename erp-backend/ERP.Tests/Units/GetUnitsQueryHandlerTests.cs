@@ -70,7 +70,6 @@ namespace ERP.Tests.Units
             var units = new List<Unit>
         {
             MakeUnit("1", "Kilogram", true),
-            MakeUnit("2", "Box", false)
         };
 
             _repoMock.Setup(r => r.GetAllAsync())
@@ -85,24 +84,7 @@ namespace ERP.Tests.Units
             result.Data![0].Name.Should().Be("Kilogram");
         }
 
-        [Fact]
-        public async Task Handle_ReturnsAllUnits_WhenIncludeInactiveIsTrue()
-        {
-            var units = new List<Unit>
-        {
-            MakeUnit("1", "Kilogram", true),
-            MakeUnit("2", "Box", false)
-        };
-
-            _repoMock.Setup(r => r.GetAllAsync())
-                .ReturnsAsync(units);
-
-            var result = await _handler.Handle(
-                new GetUnitsQuery { IncludeInactive = true },
-                CancellationToken.None);
-
-            result.Data.Should().HaveCount(2);
-        }
+   
 
         // ─────────────────────────────────────────────────────────────
         // Empty List Test

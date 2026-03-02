@@ -19,7 +19,7 @@ namespace ERP.Application.Features.Sales.Queries
             var sales = await _saleRepository.GetAllWithDetailsAsync();
 
             var filteredSales = sales
-                .Where(s => !request.CustomerId.HasValue || s.CustomerId == request.CustomerId)
+                .Where(s => !String.IsNullOrEmpty(request.CustomerId) || s.CustomerId == request.CustomerId)
                 .Where(s => !request.StartDate.HasValue || s.SaleDate >= request.StartDate)
                 .Where(s => !request.EndDate.HasValue || s.SaleDate <= request.EndDate)
                 .Where(s => !request.Status.HasValue || s.Status == request.Status)

@@ -5,6 +5,6 @@ namespace ERP.Domain.Interfaces
     public interface ISaleRepository : IRepository<Sale>
     {
         Task<List<Sale>> GetAllWithDetailsAsync();
-        Task<Sale?> GetByIdWithDetailsAsync(int id);
+        Task<Sale?> GetByIdWithDetailsAsync(string id);
     }
 }

@@ -19,7 +19,7 @@ namespace ERP.Application.Features.Customers.Queries
             var customers = await _customerRepository.GetAllAsync();
 
             var filteredCustomers = customers
-                .Where(c => (request.IncludeInactive ?? false) || c.IsActive)
+                .Where(c => (request.IncludeInactive ?? false) || c.Active)
                 .Where(c => string.IsNullOrEmpty(request.SearchTerm) ||
                            c.Name.Contains(request.SearchTerm, StringComparison.OrdinalIgnoreCase) ||
                            c.Code.Contains(request.SearchTerm, StringComparison.OrdinalIgnoreCase))
@@ -36,7 +36,7 @@ namespace ERP.Application.Features.Customers.Queries
                     Country = c.Country,
                     TaxNumber = c.TaxNumber,
                     CreditLimit = c.CreditLimit,
-                    IsActive = c.IsActive
+                    Active = c.Active
                 })
                 .ToList();
 

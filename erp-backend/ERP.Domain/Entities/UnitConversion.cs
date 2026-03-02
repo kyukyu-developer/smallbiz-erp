@@ -4,9 +4,9 @@ namespace ERP.Domain.Entities
 {
     public class UnitConversion : BaseEntity
     {
-        public int ProductId { get; set; }
-        public string FromUnitId { get; set; } = string.Empty;
-        public string ToUnitId { get; set; } = string.Empty;
+        public string? ProductId { get; set; }
+        public string? FromUnitId { get; set; }
+        public string? ToUnitId { get; set; } 
         public decimal Factor { get; set; }
 
         // Navigation properties

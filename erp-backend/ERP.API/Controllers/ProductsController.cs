@@ -19,7 +19,7 @@ namespace ERP.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int? categoryId, [FromQuery] string? search)
+        public async Task<IActionResult> GetAll([FromQuery] string? categoryId, [FromQuery] string? search)
         {
             var query = new GetProductsQuery
             {

@@ -48,7 +48,7 @@ namespace ERP.Application.Features.Auth.Commands
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Role = "User",
-                IsActive = true,
+                Active = true,
                 CreatedAt = DateTime.UtcNow
             };
 

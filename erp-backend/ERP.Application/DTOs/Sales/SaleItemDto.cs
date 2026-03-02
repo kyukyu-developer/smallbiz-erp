@@ -2,9 +2,9 @@ namespace ERP.Application.DTOs.Sales
 {
     public class SaleItemDto
     {
-        public int Id { get; set; }
-        public int ProductId { get; set; }
-        public string UnitId { get; set; } = string.Empty;
+        public string Id { get; set; } = string.Empty;
+        public string? ProductId { get; set; } 
+        public string? UnitId { get; set; } 
         public decimal Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal? DiscountPercent { get; set; }

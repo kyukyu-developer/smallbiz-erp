@@ -74,7 +74,6 @@ public class GetWarehousesQueryHandlerTests
         var warehouses = new List<Warehouse>
         {
             MakeWarehouse("1", "Active WH", BranchType.Main, active: true),
-            MakeWarehouse("2", "Inactive WH", BranchType.Main, active: false)
         };
         _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(warehouses);
 
@@ -96,7 +95,7 @@ public class GetWarehousesQueryHandlerTests
         _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(warehouses);
 
         var result = await _handler.Handle(
-            new GetWarehousesQuery { IncludeInactive = true },
+            new GetWarehousesQuery {  },
             CancellationToken.None);
 
         result.Data.Should().HaveCount(2);

@@ -19,8 +19,8 @@ namespace ERP.Application.Features.Categories.Queries
             var categories = await _categoryRepository.GetAllAsync();
 
             var filteredCategories = categories
-                .Where(c => (request.IncludeInactive ?? false) || c.IsActive)
-                .Where(c => !request.ParentCategoryId.HasValue || c.ParentCategoryId == request.ParentCategoryId)
+                .Where(c => (request.IncludeInactive ?? false) || c.Active)
+                .Where(c => !String.IsNullOrEmpty(request.ParentCategoryId) || c.ParentCategoryId == request.ParentCategoryId)
                 .Select(c => new CategoryDto
                 {
                     Id = c.Id,
@@ -28,7 +28,7 @@ namespace ERP.Application.Features.Categories.Queries
                     Name = c.Name,
                     Description = c.Description,
                     ParentCategoryId = c.ParentCategoryId,
-                    IsActive = c.IsActive
+                    IsActive = c.Active
                 })
                 .ToList();
 

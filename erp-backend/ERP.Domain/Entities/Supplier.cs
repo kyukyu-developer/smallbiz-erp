@@ -14,9 +14,7 @@ namespace ERP.Domain.Entities
         public string? Country { get; set; }
         public string? TaxNumber { get; set; }
         public int? PaymentTermDays { get; set; }
-        public bool IsActive { get; set; } = true;
 
-        // Navigation properties
         public ICollection<Purchase> Purchases { get; set; } = new List<Purchase>();
     }
 }

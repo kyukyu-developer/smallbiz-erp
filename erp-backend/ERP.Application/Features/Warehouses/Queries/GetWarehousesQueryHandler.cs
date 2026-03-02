@@ -1,7 +1,8 @@
-using MediatR;
-using ERP.Application.DTOs.Warehouses;
 using ERP.Application.DTOs.Common;
+using ERP.Application.DTOs.Warehouses;
+using ERP.Domain.Entities;
 using ERP.Domain.Interfaces;
+using MediatR;
 
 namespace ERP.Application.Features.Warehouses.Queries
 {
@@ -18,7 +19,8 @@ namespace ERP.Application.Features.Warehouses.Queries
         {
             IEnumerable<Domain.Entities.Warehouse> warehouses;
 
-            // Filter by branch type if specified
+
+            // Get warehouses based on filters
             if (request.MainWarehousesOnly == true)
             {
                 warehouses = await _warehouseRepository.GetMainWarehousesAsync();
@@ -34,7 +36,6 @@ namespace ERP.Application.Features.Warehouses.Queries
 
             // Apply active filter
             var filteredWarehouses = warehouses
-                .Where(w => (request.IncludeInactive ?? false) || w.Active)
                 .Select(w => new WarehouseDto
                 {
                     Id = w.Id,

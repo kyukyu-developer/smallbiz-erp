@@ -19,9 +19,9 @@ namespace ERP.Application.Features.Products.Queries
             var products = await _unitOfWork.Products.GetAllAsync();
 
             // Filter by category if specified
-            if (request.CategoryId.HasValue)
+            if (!String.IsNullOrEmpty(request.CategoryId))
             {
-                products = products.Where(p => p.CategoryId == request.CategoryId.Value);
+                products = products.Where(p => p.CategoryId == request.CategoryId);
             }
 
             // Filter by search term if specified
@@ -48,7 +48,7 @@ namespace ERP.Application.Features.Products.Queries
                 Barcode = p.Barcode,
                 IsBatchTracked = p.IsBatchTracked,
                 IsSerialTracked = p.IsSerialTracked,
-                IsActive = p.IsActive,
+                Active = p.Active,
                 CategoryName = categoryDict.GetValueOrDefault(p.CategoryId, "Unknown")
             }).ToList();
 

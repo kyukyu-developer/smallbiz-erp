@@ -14,7 +14,6 @@ namespace ERP.Domain.Entities
         public string? Country { get; set; }
         public string? TaxNumber { get; set; }
         public decimal? CreditLimit { get; set; }
-        public bool IsActive { get; set; } = true;
 
         // Navigation properties
         public ICollection<Sale> Sales { get; set; } = new List<Sale>();

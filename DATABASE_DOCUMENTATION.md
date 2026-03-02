@@ -1,6 +1,7 @@
 # ERP Inventory Management - Database Documentation
 
 ## Table of Contents
+
 1. [Overview](#overview)
 2. [Database Schema](#database-schema)
 3. [Table Descriptions](#table-descriptions)
@@ -67,21 +68,23 @@ This database schema supports a comprehensive ERP inventory management system wi
 
 **Purpose**: Stores warehouse information with hierarchical structure support.
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT | Primary key |
-| name | VARCHAR(50) | Warehouse name |
-| city | VARCHAR(50) | City location |
-| branch_type | VARCHAR(20) | 'Main', 'Branch', 'Sub' |
-| is_main_warehouse | BOOLEAN | TRUE if main warehouse |
-| parent_warehouse_id | INT | Reference to parent warehouse (NULL for main) |
-| active | BOOLEAN | Active status |
+| Column              | Type        | Description                                   |
+| ------------------- | ----------- | --------------------------------------------- |
+| id                  | INT         | Primary key                                   |
+| name                | VARCHAR(50) | Warehouse name                                |
+| city                | VARCHAR(50) | City location                                 |
+| branch_type         | VARCHAR(20) | 'Main', 'Branch', 'Sub'                       |
+| is_main_warehouse   | BOOLEAN     | TRUE if main warehouse                        |
+| parent_warehouse_id | INT         | Reference to parent warehouse (NULL for main) |
+| active              | BOOLEAN     | Active status                                 |
 
 **Key Business Rule**:
+
 - ⚠️ **Only warehouses with `is_main_warehouse = TRUE` can receive stock**
 - Branch and Sub warehouses receive stock via transfers from main warehouse
 
 **Hierarchy Example**:
+
 ```
 Main Warehouse (is_main_warehouse=TRUE, parent_warehouse_id=NULL)
   ├── Branch Warehouse 1 (parent_warehouse_id=1)
@@ -95,14 +98,15 @@ Main Warehouse (is_main_warehouse=TRUE, parent_warehouse_id=NULL)
 
 **Purpose**: Defines units of measurement used across the system.
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT | Primary key |
-| name | VARCHAR(50) | Unit name (Piece, Kilogram, Box) |
-| symbol | VARCHAR(20) | Unit symbol (pc, kg, bx) |
-| active | BOOLEAN | Active status |
+| Column | Type        | Description                      |
+| ------ | ----------- | -------------------------------- |
+| id     | INT         | Primary key                      |
+| name   | VARCHAR(50) | Unit name (Piece, Kilogram, Box) |
+| symbol | VARCHAR(20) | Unit symbol (pc, kg, bx)         |
+| active | BOOLEAN     | Active status                    |
 
 **Examples**:
+
 - Piece (pc)
 - Kilogram (kg)
 - Box (bx)
@@ -115,14 +119,15 @@ Main Warehouse (is_main_warehouse=TRUE, parent_warehouse_id=NULL)
 
 **Purpose**: High-level categorization of products.
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT | Primary key |
-| name | VARCHAR(50) | Group name |
+| Column      | Type         | Description          |
+| ----------- | ------------ | -------------------- |
+| id          | INT          | Primary key          |
+| name        | VARCHAR(50)  | Group name           |
 | description | VARCHAR(255) | Optional description |
-| active | BOOLEAN | Active status |
+| active      | BOOLEAN      | Active status        |
 
 **Examples**:
+
 - Food & Beverages
 - Electronics
 - Clothing
@@ -134,15 +139,16 @@ Main Warehouse (is_main_warehouse=TRUE, parent_warehouse_id=NULL)
 
 **Purpose**: Detailed categorization within product groups.
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT | Primary key |
-| group_id | INT | Foreign key to product_group |
-| name | VARCHAR(50) | Category name |
-| description | VARCHAR(255) | Optional description |
-| active | BOOLEAN | Active status |
+| Column      | Type         | Description                  |
+| ----------- | ------------ | ---------------------------- |
+| id          | INT          | Primary key                  |
+| group_id    | INT          | Foreign key to product_group |
+| name        | VARCHAR(50)  | Category name                |
+| description | VARCHAR(255) | Optional description         |
+| active      | BOOLEAN      | Active status                |
 
 **Example Hierarchy**:
+
 ```
 Group: Food & Beverages
   ├── Category: Snacks
@@ -156,14 +162,15 @@ Group: Food & Beverages
 
 **Purpose**: Stores brand information for products.
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT | Primary key |
-| name | VARCHAR(50) | Brand name |
+| Column      | Type         | Description          |
+| ----------- | ------------ | -------------------- |
+| id          | INT          | Primary key          |
+| name        | VARCHAR(50)  | Brand name           |
 | description | VARCHAR(255) | Optional description |
-| active | BOOLEAN | Active status |
+| active      | BOOLEAN      | Active status        |
 
 **Examples**:
+
 - Nestle
 - Coca-Cola
 - Samsung
@@ -175,13 +182,14 @@ Group: Food & Beverages
 
 **Purpose**: Defines product attributes for variants (e.g., Color, Size, Flavor).
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT | Primary key |
-| name | VARCHAR(50) | Attribute name |
-| active | BOOLEAN | Active status |
+| Column | Type        | Description    |
+| ------ | ----------- | -------------- |
+| id     | INT         | Primary key    |
+| name   | VARCHAR(50) | Attribute name |
+| active | BOOLEAN     | Active status  |
 
 **Common Attributes**:
+
 - Color
 - Size
 - Flavor
@@ -194,14 +202,15 @@ Group: Food & Beverages
 
 **Purpose**: Stores possible values for each attribute.
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT | Primary key |
-| attribute_id | INT | Foreign key to attribute |
-| value | VARCHAR(50) | Attribute value |
-| active | BOOLEAN | Active status |
+| Column       | Type        | Description              |
+| ------------ | ----------- | ------------------------ |
+| id           | INT         | Primary key              |
+| attribute_id | INT         | Foreign key to attribute |
+| value        | VARCHAR(50) | Attribute value          |
+| active       | BOOLEAN     | Active status            |
 
 **Example**:
+
 ```
 Attribute: Color
   ├── Red
@@ -220,22 +229,22 @@ Attribute: Size
 
 **Purpose**: Central table storing product master data.
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT | Primary key |
-| code | VARCHAR(20) | Unique product code |
-| name | VARCHAR(50) | Product name |
-| group_id | INT | Foreign key to product_group |
-| category_id | INT | Foreign key to product_category |
-| brand_id | INT | Foreign key to product_brand |
-| base_uom_id | INT | Foreign key to uom (base unit) |
-| track_inventory | BOOLEAN | TRUE if stock tracking enabled |
-| has_variant | BOOLEAN | TRUE if product has variants |
-| has_batch | BOOLEAN | TRUE if batch tracking enabled |
-| has_serial | BOOLEAN | TRUE if serial tracking enabled |
-| reorder_level | DECIMAL(10,2) | Stock reorder threshold |
-| allow_negative_stock | BOOLEAN | Allow negative stock |
-| active | BOOLEAN | Active status |
+| Column               | Type          | Description                     |
+| -------------------- | ------------- | ------------------------------- |
+| id                   | INT           | Primary key                     |
+| code                 | VARCHAR(20)   | Unique product code             |
+| name                 | VARCHAR(50)   | Product name                    |
+| group_id             | INT           | Foreign key to product_group    |
+| category_id          | INT           | Foreign key to product_category |
+| brand_id             | INT           | Foreign key to product_brand    |
+| base_uom_id          | INT           | Foreign key to uom (base unit)  |
+| track_inventory      | BOOLEAN       | TRUE if stock tracking enabled  |
+| has_variant          | BOOLEAN       | TRUE if product has variants    |
+| has_batch            | BOOLEAN       | TRUE if batch tracking enabled  |
+| has_serial           | BOOLEAN       | TRUE if serial tracking enabled |
+| reorder_level        | DECIMAL(10,2) | Stock reorder threshold         |
+| allow_negative_stock | BOOLEAN       | Allow negative stock            |
+| active               | BOOLEAN       | Active status                   |
 
 **Key Business Rules**:
 
@@ -261,16 +270,17 @@ Attribute: Size
 
 **Purpose**: Defines which units of measure can be used for each product.
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT | Primary key |
-| product_id | INT | Foreign key to product |
-| uom_id | INT | Foreign key to uom |
+| Column         | Type          | Description                    |
+| -------------- | ------------- | ------------------------------ |
+| id             | INT           | Primary key                    |
+| product_id     | INT           | Foreign key to product         |
+| uom_id         | INT           | Foreign key to uom             |
 | factor_to_base | DECIMAL(18,4) | Conversion factor to base unit |
-| is_base | BOOLEAN | TRUE if this is the base UOM |
-| active | BOOLEAN | Active status |
+| is_base        | BOOLEAN       | TRUE if this is the base UOM   |
+| active         | BOOLEAN       | Active status                  |
 
 **Example**:
+
 ```
 Product: Coca-Cola
 - Piece (base) - factor_to_base = 1.0000, is_base = TRUE
@@ -284,16 +294,17 @@ Product: Coca-Cola
 
 **Purpose**: Defines conversion rules between different units for a product.
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT | Primary key |
-| product_id | INT | Foreign key to product |
-| from_uom_id | INT | Source unit |
-| to_uom_id | INT | Target unit |
-| factor | DECIMAL(18,4) | Conversion multiplier |
-| active | BOOLEAN | Active status |
+| Column      | Type          | Description            |
+| ----------- | ------------- | ---------------------- |
+| id          | INT           | Primary key            |
+| product_id  | INT           | Foreign key to product |
+| from_uom_id | INT           | Source unit            |
+| to_uom_id   | INT           | Target unit            |
+| factor      | DECIMAL(18,4) | Conversion multiplier  |
+| active      | BOOLEAN       | Active status          |
 
 **Example**:
+
 ```
 Product: Coca-Cola
 - From: Piece → To: Pack → Factor: 0.1667 (1/6)
@@ -308,16 +319,17 @@ Product: Coca-Cola
 
 **Purpose**: Stores product variants (SKUs) for products with variations.
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT | Primary key |
-| product_id | INT | Foreign key to product |
-| sku | VARCHAR(50) | Unique SKU (e.g., TS001-R-M) |
-| base_uom_id | INT | Foreign key to uom |
-| track_inventory | BOOLEAN | Track inventory for this variant |
-| active | BOOLEAN | Active status |
+| Column          | Type        | Description                      |
+| --------------- | ----------- | -------------------------------- |
+| id              | INT         | Primary key                      |
+| product_id      | INT         | Foreign key to product           |
+| sku             | VARCHAR(50) | Unique SKU (e.g., TS001-R-M)     |
+| base_uom_id     | INT         | Foreign key to uom               |
+| track_inventory | BOOLEAN     | Track inventory for this variant |
+| active          | BOOLEAN     | Active status                    |
 
 **Example**:
+
 ```
 Product: T-Shirt (TS001)
   ├── Variant: TS001-R-S (Red, Small)
@@ -332,14 +344,15 @@ Product: T-Shirt (TS001)
 
 **Purpose**: Links variants to their specific attribute values.
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT | Primary key |
-| variant_id | INT | Foreign key to product_variant |
-| attribute_id | INT | Foreign key to attribute |
-| value_id | INT | Foreign key to attribute_value |
+| Column       | Type | Description                    |
+| ------------ | ---- | ------------------------------ |
+| id           | INT  | Primary key                    |
+| variant_id   | INT  | Foreign key to product_variant |
+| attribute_id | INT  | Foreign key to attribute       |
+| value_id     | INT  | Foreign key to attribute_value |
 
 **Example**:
+
 ```
 Variant: TS001-R-M (Red, Medium T-Shirt)
   ├── Attribute: Color → Value: Red
@@ -478,21 +491,21 @@ Variant: TS001-R-M (Red, Medium T-Shirt)
 
 ### Table Relationships Summary
 
-| Parent Table | Child Table | Relationship | Cardinality |
-|-------------|-------------|--------------|-------------|
-| product_group | product_category | Group has Categories | 1:N |
-| product_category | product | Category has Products | 1:N |
-| product_brand | product | Brand has Products | 1:N |
-| uom | product | UOM is Base for Products | 1:N |
-| product | product_variant | Product has Variants | 1:N |
-| product_variant | product_variant_attribute | Variant has Attributes | 1:N |
-| attribute | attribute_value | Attribute has Values | 1:N |
-| attribute | product_variant_attribute | Attribute defines Variant Attr | 1:N |
-| attribute_value | product_variant_attribute | Value assigned to Variant | 1:N |
-| warehouse | warehouse | Parent-Child Hierarchy | 1:N |
-| product | product_uom | Product uses UOMs | 1:N |
-| uom | product_uom | UOM used by Products | 1:N |
-| product | product_uom_conversion | Product has Conversions | 1:N |
+| Parent Table     | Child Table               | Relationship                   | Cardinality |
+| ---------------- | ------------------------- | ------------------------------ | ----------- |
+| product_group    | product_category          | Group has Categories           | 1:N         |
+| product_category | product                   | Category has Products          | 1:N         |
+| product_brand    | product                   | Brand has Products             | 1:N         |
+| uom              | product                   | UOM is Base for Products       | 1:N         |
+| product          | product_variant           | Product has Variants           | 1:N         |
+| product_variant  | product_variant_attribute | Variant has Attributes         | 1:N         |
+| attribute        | attribute_value           | Attribute has Values           | 1:N         |
+| attribute        | product_variant_attribute | Attribute defines Variant Attr | 1:N         |
+| attribute_value  | product_variant_attribute | Value assigned to Variant      | 1:N         |
+| warehouse        | warehouse                 | Parent-Child Hierarchy         | 1:N         |
+| product          | product_uom               | Product uses UOMs              | 1:N         |
+| uom              | product_uom               | UOM used by Products           | 1:N         |
+| product          | product_uom_conversion    | Product has Conversions        | 1:N         |
 
 ---
 
@@ -697,12 +710,14 @@ START: User enters quantity in non-base UOM
 **Scenario**: Consulting company offers IT consulting services
 
 **Setup**:
+
 ```sql
 INSERT INTO product (code, name, category_id, base_uom_id, track_inventory, has_variant)
 VALUES ('SVC001', 'IT Consulting Hour', 5, 1, FALSE, FALSE);
 ```
 
 **Behavior**:
+
 - ✅ Can create sales orders
 - ✅ Can generate invoices
 - ❌ No stock ledger entries created
@@ -716,6 +731,7 @@ VALUES ('SVC001', 'IT Consulting Hour', 5, 1, FALSE, FALSE);
 **Scenario**: Retail store selling Coca-Cola bottles
 
 **Setup**:
+
 ```sql
 -- Product
 INSERT INTO product (code, name, brand_id, base_uom_id, track_inventory, has_variant)
@@ -738,6 +754,7 @@ VALUES
 ```
 
 **Transaction**:
+
 ```
 Purchase: 10 Cartons
   → Converted to: 240 Pieces (10 × 24)
@@ -755,6 +772,7 @@ Sale: 3 Packs
 **Scenario**: Clothing store selling T-shirts in different colors and sizes
 
 **Setup**:
+
 ```sql
 -- Product
 INSERT INTO product (code, name, category_id, base_uom_id, track_inventory, has_variant)
@@ -784,6 +802,7 @@ INSERT INTO product_variant_attribute (variant_id, attribute_id, value_id) VALUE
 ```
 
 **Stock Management**:
+
 ```
 Each variant has separate stock:
 - TS001-R-S: 20 pcs
@@ -803,12 +822,14 @@ Total T-Shirt Stock: 150 pcs
 **Scenario**: Pharmacy selling medicines with expiry dates
 
 **Setup**:
+
 ```sql
 INSERT INTO product (code, name, category_id, base_uom_id, track_inventory, has_batch)
 VALUES ('MED001', 'Paracetamol 500mg', 15, 1, TRUE, TRUE);
 ```
 
 **Stock Receipt**:
+
 ```
 Batch 001:
   - Quantity: 100 boxes
@@ -822,6 +843,7 @@ Batch 002:
 ```
 
 **Stock Query**:
+
 ```sql
 -- Get stock by batch
 SELECT batch_no, SUM(quantity) as stock, expiry_date
@@ -842,12 +864,14 @@ Batch 002: 150 boxes (Exp: 2027-06-01)
 **Scenario**: Electronics store selling laptops with unique serial numbers
 
 **Setup**:
+
 ```sql
 INSERT INTO product (code, name, category_id, base_uom_id, track_inventory, has_serial)
 VALUES ('ELEC001', 'Dell Laptop i7', 20, 1, TRUE, TRUE);
 ```
 
 **Stock Receipt**:
+
 ```
 Receipt of 3 Laptops:
   - Serial: SN12345 (Qty: 1)
@@ -858,6 +882,7 @@ Total Stock: 3 units
 ```
 
 **Sale Transaction**:
+
 ```
 Sale: 1 Laptop
   - Serial Number: SN12345
@@ -869,6 +894,7 @@ Remaining Stock:
 ```
 
 **Tracking**:
+
 - Each serial number has complete traceability
 - Purchase receipt → Storage location → Sale → Customer
 - Warranty and support linked to serial number
@@ -880,6 +906,7 @@ Remaining Stock:
 **Scenario**: Retail chain with main warehouse and branches
 
 **Setup**:
+
 ```sql
 -- Main Warehouse
 INSERT INTO warehouse (id, name, city, branch_type, is_main_warehouse, parent_warehouse_id)
@@ -897,6 +924,7 @@ VALUES (4, 'Sub Warehouse CM1', 'Chiang Mai', 'Sub', FALSE, 2);
 ```
 
 **Stock Flow**:
+
 ```
 1. Supplier → Central Warehouse (Bangkok)
      ↓
@@ -908,6 +936,7 @@ VALUES (4, 'Sub Warehouse CM1', 'Chiang Mai', 'Sub', FALSE, 2);
 ```
 
 **Business Rules**:
+
 - ✅ Stock receipt only at Central Warehouse (is_main_warehouse = TRUE)
 - ❌ Branch warehouses cannot receive stock from suppliers
 - ✅ Stock transfers: Main → Branch → Sub
@@ -919,15 +948,16 @@ VALUES (4, 'Sub Warehouse CM1', 'Chiang Mai', 'Sub', FALSE, 2);
 
 All tables include comprehensive audit fields:
 
-| Field | Type | Description |
-|-------|------|-------------|
-| created_on | TIMESTAMP | Record creation timestamp |
-| modified_on | TIMESTAMP | Last modification timestamp |
-| created_by | VARCHAR(50) | User who created record |
-| modified_by | VARCHAR(50) | User who last modified record |
+| Field       | Type        | Description                         |
+| ----------- | ----------- | ----------------------------------- |
+| created_on  | TIMESTAMP   | Record creation timestamp           |
+| modified_on | TIMESTAMP   | Last modification timestamp         |
+| created_by  | VARCHAR(50) | User who created record             |
+| modified_by | VARCHAR(50) | User who last modified record       |
 | last_action | VARCHAR(50) | Last action: CREATE, UPDATE, DELETE |
 
 **Usage**:
+
 - Track who created/modified records
 - Audit compliance and regulatory requirements
 - Troubleshooting and data investigation
@@ -938,6 +968,7 @@ All tables include comprehensive audit fields:
 ## Performance Optimization Tips
 
 1. **Index Recommendations**:
+
    ```sql
    -- Product lookups
    CREATE INDEX idx_product_code ON product(code);

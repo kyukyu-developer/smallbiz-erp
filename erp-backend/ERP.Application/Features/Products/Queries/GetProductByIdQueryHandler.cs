@@ -36,7 +36,7 @@ namespace ERP.Application.Features.Products.Queries
                 Barcode = product.Barcode,
                 IsBatchTracked = product.IsBatchTracked,
                 IsSerialTracked = product.IsSerialTracked,
-                IsActive = product.IsActive
+                Active = product.Active
             };
 
             return Result<ProductDto>.Success(productDto);

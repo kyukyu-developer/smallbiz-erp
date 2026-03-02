@@ -15,18 +15,9 @@ namespace ERP.Infrastructure.Data.Configurations
             builder.Property(uc => uc.Factor)
                 .HasColumnType("decimal(18,6)");
 
-            // Configure the FromUnit relationship
-            builder.HasOne(uc => uc.FromUnit)
-                .WithMany(u => u.ConversionsFrom)
-                .HasForeignKey(uc => uc.FromUnitId)
-                .OnDelete(DeleteBehavior.Restrict);
+     
 
-            // Configure the ToUnit relationship
-            builder.HasOne(uc => uc.ToUnit)
-                .WithMany(u => u.ConversionsTo)
-                .HasForeignKey(uc => uc.ToUnitId)
-                .OnDelete(DeleteBehavior.Restrict);
-
+       
             // Configure the Product relationship
             builder.HasOne(uc => uc.Product)
                 .WithMany(p => p.UnitConversions)

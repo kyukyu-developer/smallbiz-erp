@@ -4,10 +4,10 @@ namespace ERP.Application.DTOs.Purchases
 {
     public class PurchaseDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = string.Empty;
         public string PurchaseOrderNumber { get; set; } = string.Empty;
         public DateTime PurchaseDate { get; set; }
-        public int SupplierId { get; set; }
+        public string? SupplierId { get; set; }
         public string? WarehouseId { get; set; }
         public decimal SubTotal { get; set; }
         public decimal? TotalDiscount { get; set; }

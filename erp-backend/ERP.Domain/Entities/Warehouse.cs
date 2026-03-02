@@ -9,10 +9,7 @@ namespace ERP.Domain.Entities
     /// </summary>
     public class Warehouse : AuditableEntity
     {
-        /// <summary>
-        /// Override base Id to use string instead of int (VARCHAR(50) in database)
-        /// </summary>
-        public new string Id { get; set; } = string.Empty;
+
 
         public string Name { get; set; } = string.Empty;
         public string? City { get; set; }
@@ -37,15 +34,9 @@ namespace ERP.Domain.Entities
         /// </summary>
         public bool IsUsedWarehouse { get; set; } = true;
 
-        /// <summary>
-        /// Active status for soft delete
-        /// </summary>
-        public bool Active { get; set; } = true;
 
-        /// <summary>
-        /// Last action performed (CREATE, UPDATE, DELETE, etc.)
-        /// </summary>
-        public string? LastAction { get; set; }
+
+
 
         // Additional fields for warehouse details
         public string? Location { get; set; }

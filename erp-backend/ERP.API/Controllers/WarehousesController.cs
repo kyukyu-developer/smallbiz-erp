@@ -24,13 +24,11 @@ namespace ERP.API.Controllers
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAll(
-            [FromQuery] bool? includeInactive,
             [FromQuery] BranchType? branchType,
             [FromQuery] bool? mainWarehousesOnly)
         {
             var query = new GetWarehousesQuery
             {
-                IncludeInactive = includeInactive,
                 BranchType = branchType,
                 MainWarehousesOnly = mainWarehousesOnly
             };

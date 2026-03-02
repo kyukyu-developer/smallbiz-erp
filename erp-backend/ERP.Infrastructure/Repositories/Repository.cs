@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ERP.Domain.Interfaces;
 using ERP.Infrastructure.Data;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace ERP.Infrastructure.Repositories
 {
@@ -33,17 +34,20 @@ namespace ERP.Infrastructure.Repositories
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+            return await GetAllWithActiveFilter().ToListAsync();
         }
 
         public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _dbSet.Where(predicate).ToListAsync();
+            return await GetAllWithActiveFilter()
+                .Where(predicate)
+                .ToListAsync();
         }
 
         public async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _dbSet.FirstOrDefaultAsync(predicate);
+            return await GetAllWithActiveFilter()
+                .FirstOrDefaultAsync(predicate);
         }
 
         public async Task AddAsync(T entity)
@@ -79,6 +83,33 @@ namespace ERP.Infrastructure.Repositories
         public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
+        }
+
+        // Always applies Active filter if entity has Active property
+        private IQueryable<T> GetAllWithActiveFilter()
+        {
+            if (HasActiveProperty())
+            {
+                return _dbSet.Where(GetActiveExpression());
+            }
+            return _dbSet;
+        }
+
+        // Check if entity has Active property (bool)
+        private bool HasActiveProperty()
+        {
+            return typeof(T).GetProperty("Active") != null &&
+                   typeof(T).GetProperty("Active")!.PropertyType == typeof(bool);
+        }
+
+        // Create Expression: x => x.Active == true
+        private Expression<Func<T, bool>> GetActiveExpression()
+        {
+            var parameter = Expression.Parameter(typeof(T), "x");
+            var property = Expression.Property(parameter, "Active");
+            var constant = Expression.Constant(true);
+            var comparison = Expression.Equal(property, constant);
+            return Expression.Lambda<Func<T, bool>>(comparison, parameter);
         }
     }
 }

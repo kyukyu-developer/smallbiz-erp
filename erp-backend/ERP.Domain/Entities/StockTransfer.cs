@@ -6,9 +6,9 @@ namespace ERP.Domain.Entities
     public class StockTransfer : AuditableEntity
     {
         public string TransferNo { get; set; } = string.Empty;
-        public string FromWarehouseId { get; set; } = string.Empty;
-        public string ToWarehouseId { get; set; } = string.Empty;
-        public int ProductId { get; set; }
+        public string? FromWarehouseId { get; set; } 
+        public string? ToWarehouseId { get; set; } 
+        public string? ProductId { get; set; }
         public decimal Quantity { get; set; }
         public DateTime TransferDate { get; set; }
         public EntityStatus Status { get; set; }

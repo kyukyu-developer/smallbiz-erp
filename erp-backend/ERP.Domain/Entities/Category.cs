@@ -6,9 +6,8 @@ namespace ERP.Domain.Entities
     {
         public string Code { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
-        public int? ParentCategoryId { get; set; }
+        public string? ParentCategoryId { get; set; }
         public string? Description { get; set; }
-        public bool IsActive { get; set; } = true;
 
         // Navigation properties
         public Category? ParentCategory { get; set; }

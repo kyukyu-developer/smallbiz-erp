@@ -22,12 +22,10 @@ namespace ERP.API.Controllers
         /// Get all units with optional filtering
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetAll(
-            [FromQuery] bool? includeInactive)
+        public async Task<IActionResult> GetAll()
         {
             var query = new GetUnitsQuery
             {
-                IncludeInactive = includeInactive
             };
 
             var result = await _mediator.Send(query);

@@ -20,7 +20,7 @@ namespace ERP.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Sale?> GetByIdWithDetailsAsync(int id)
+        public async Task<Sale?> GetByIdWithDetailsAsync(string id)
         {
             return await _context.Sales
                 .Include(s => s.Customer)

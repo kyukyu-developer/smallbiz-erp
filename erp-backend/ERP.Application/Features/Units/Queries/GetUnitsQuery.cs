@@ -7,7 +7,6 @@ namespace ERP.Application.Features.Units.Queries
 
     public class GetUnitsQuery : IRequest<Result<List<UnitDto>>>
     {
-        public bool? IncludeInactive { get; set; }
 
     }
 }

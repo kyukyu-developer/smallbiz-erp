@@ -35,7 +35,7 @@ public class WarehousesControllerTests
             .Setup(m => m.Send(It.IsAny<GetWarehousesQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<List<WarehouseDto>>.Success(warehouses));
 
-        var result = await _controller.GetAll(null, null, null);
+        var result = await _controller.GetAll( null, null);
 
         var ok = result.Should().BeOfType<OkObjectResult>().Subject;
         ok.Value.Should().BeEquivalentTo(warehouses);
@@ -48,11 +48,11 @@ public class WarehousesControllerTests
             .Setup(m => m.Send(It.IsAny<GetWarehousesQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<List<WarehouseDto>>.Success(new List<WarehouseDto>()));
 
-        await _controller.GetAll(includeInactive: true, branchType: BranchType.Branch, mainWarehousesOnly: false);
+        await _controller.GetAll( branchType: BranchType.Branch, mainWarehousesOnly: false);
 
         _mediatorMock.Verify(m => m.Send(
             It.Is<GetWarehousesQuery>(q =>
-                q.IncludeInactive == true &&
+              
                 q.BranchType == BranchType.Branch &&
                 q.MainWarehousesOnly == false),
             It.IsAny<CancellationToken>()), Times.Once);
@@ -65,7 +65,7 @@ public class WarehousesControllerTests
             .Setup(m => m.Send(It.IsAny<GetWarehousesQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<List<WarehouseDto>>.Failure("Query failed"));
 
-        var result = await _controller.GetAll(null, null, null);
+        var result = await _controller.GetAll(null, null);
 
         var bad = result.Should().BeOfType<BadRequestObjectResult>().Subject;
         bad.Value.Should().Be("Query failed");

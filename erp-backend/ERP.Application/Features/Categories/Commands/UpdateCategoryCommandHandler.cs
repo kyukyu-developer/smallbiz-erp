@@ -26,7 +26,7 @@ namespace ERP.Application.Features.Categories.Commands
             category.Name = request.Name;
             category.Description = request.Description;
             category.ParentCategoryId = request.ParentCategoryId;
-            category.IsActive = request.IsActive;
+            category.Active = request.IsActive;
 
             _categoryRepository.Update(category);
             await _categoryRepository.SaveChangesAsync();
@@ -38,7 +38,7 @@ namespace ERP.Application.Features.Categories.Commands
                 Name = category.Name,
                 Description = category.Description,
                 ParentCategoryId = category.ParentCategoryId,
-                IsActive = category.IsActive
+                IsActive = category.Active
             };
 
             return Result<CategoryDto>.Success(categoryDto);

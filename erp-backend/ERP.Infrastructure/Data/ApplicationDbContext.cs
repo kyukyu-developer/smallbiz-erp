@@ -32,6 +32,9 @@ namespace ERP.Infrastructure.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
 
+        public DbSet<Brand> Brands { get; set; } = null!;
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

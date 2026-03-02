@@ -29,7 +29,7 @@ namespace ERP.Application.Features.Customers.Commands
                 Country = request.Country,
                 TaxNumber = request.TaxNumber,
                 CreditLimit = request.CreditLimit,
-                IsActive = request.IsActive
+                Active = request.Active
             };
 
             await _customerRepository.AddAsync(customer);
@@ -48,7 +48,7 @@ namespace ERP.Application.Features.Customers.Commands
                 Country = customer.Country,
                 TaxNumber = customer.TaxNumber,
                 CreditLimit = customer.CreditLimit,
-                IsActive = customer.IsActive
+                Active = customer.Active
             };
 
             return Result<CustomerDto>.Success(customerDto);

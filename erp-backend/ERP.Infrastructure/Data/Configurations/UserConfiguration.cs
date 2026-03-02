@@ -32,7 +32,7 @@ namespace ERP.Infrastructure.Data.Configurations
                 .HasMaxLength(50)
                 .HasDefaultValue("User");
 
-            builder.Property(u => u.IsActive)
+            builder.Property(u => u.Active)
                 .IsRequired()
                 .HasDefaultValue(true);
 
@@ -45,7 +45,7 @@ namespace ERP.Infrastructure.Data.Configurations
             // Indexes
             builder.HasIndex(u => u.Username).IsUnique();
             builder.HasIndex(u => u.Email).IsUnique();
-            builder.HasIndex(u => u.IsActive);
+            builder.HasIndex(u => u.Active);
 
             // Relationships
             builder.HasMany(u => u.RefreshTokens)

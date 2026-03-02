@@ -5,13 +5,13 @@ namespace ERP.Domain.Entities
 {
     public class StockMovement : BaseEntity
     {
-        public int ProductId { get; set; }
-        public string WarehouseId { get; set; } = string.Empty;
+        public string? ProductId { get; set; }
+        public string? WarehouseId { get; set; } 
         public MovementType MovementType { get; set; }
         public ReferenceType ReferenceType { get; set; }
-        public int ReferenceId { get; set; }
+        public string? ReferenceId { get; set; }
         public decimal BaseQuantity { get; set; }
-        public int? BatchId { get; set; }
+        public string? BatchId { get; set; }
         public DateTime MovementDate { get; set; }
         public string? Notes { get; set; }
 

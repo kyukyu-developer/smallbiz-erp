@@ -20,7 +20,7 @@ namespace ERP.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Purchase?> GetByIdWithDetailsAsync(int id)
+        public async Task<Purchase?> GetByIdWithDetailsAsync(string id)
         {
             return await _context.Purchases
                 .Include(p => p.Supplier)

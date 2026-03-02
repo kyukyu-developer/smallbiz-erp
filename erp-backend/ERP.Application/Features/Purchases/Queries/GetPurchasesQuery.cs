@@ -7,7 +7,7 @@ namespace ERP.Application.Features.Purchases.Queries
 {
     public class GetPurchasesQuery : IRequest<Result<List<PurchaseDto>>>
     {
-        public int? SupplierId { get; set; }
+        public string? SupplierId { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public PurchaseStatus? Status { get; set; }
