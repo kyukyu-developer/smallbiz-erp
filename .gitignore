@@ -20,3 +20,4 @@ packages/
 
 # Logs
 *.log
+/erp-backend/ERP.API/bin/Debug/net8.0/ERP.API.dll
