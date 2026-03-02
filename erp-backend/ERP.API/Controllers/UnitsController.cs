@@ -1,6 +1,5 @@
-﻿using ERP.Application.Features.Units.Queries;
-using ERP.Application.Features.Warehouses.Commands;
-using ERP.Application.Features.Warehouses.Queries;
+﻿using ERP.Application.Features.Units.Commands;
+using ERP.Application.Features.Units.Queries;
 using ERP.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -43,8 +42,34 @@ namespace ERP.API.Controllers
         }
 
         /// <summary>
-        /// Get warehouse by ID
+        /// Get unit by ID
         /// </summary>
-       
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(string id)
+        {
+            var query = new GetUnitByIdQuery { Id = id };
+            var result = await _mediator.Send(query);
+
+            if (!result.IsSuccess)
+                return NotFound(result.ErrorMessage);
+
+            return Ok(result.Data);
+        }
+
+        /// <summary>
+        /// Create a new unit
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateUnitCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.ErrorMessage);
+
+            return CreatedAtAction(nameof(GetById), new { id = result.Data!.Id }, result.Data);
+        }
+
+
     }
 }

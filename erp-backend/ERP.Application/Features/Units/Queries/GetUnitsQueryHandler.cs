@@ -1,14 +1,7 @@
 ﻿using ERP.Application.DTOs.Common;
 using ERP.Application.DTOs.Units;
-using ERP.Application.DTOs.Warehouses;
-using ERP.Application.Features.Warehouses.Queries;
 using ERP.Domain.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ERP.Application.Features.Units.Queries
 {
@@ -25,10 +18,7 @@ namespace ERP.Application.Features.Units.Queries
 
         public async Task<Result<List<UnitDto>>> Handle(GetUnitsQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Unit> units;
-
-            // Filter by branch type if specified
-        
+            IEnumerable<Domain.Entities.Unit> units;        
             
                 units = await _unitRepository.GetAllAsync();
 

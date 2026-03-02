@@ -15,8 +15,16 @@ namespace ERP.Infrastructure.Repositories
         public UnitRepository(ApplicationDbContext context) : base(context)
         {
 
- 
+        }
+      public async Task<Unit?> GetByName(string name)
+        {
+            return await _dbSet
+                .FirstOrDefaultAsync(u =>
+                    u.Name == name 
+                    );
+        }
 
     }
 }
-}
+
+
