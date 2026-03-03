@@ -35,11 +35,11 @@ namespace ERP.Application.Features.Sales.Queries
                 TotalTax = sale.TotalTax,
                 TotalAmount = sale.TotalAmount,
                 PaidAmount = sale.PaidAmount,
-                PaymentStatus = sale.PaymentStatus,
-                Status = sale.Status,
+                PaymentStatus = (ERP.Domain.Enums.PaymentStatus)sale.PaymentStatus,
+                Status = (ERP.Domain.Enums.SaleStatus)sale.Status,
                 DueDate = sale.DueDate,
                 Notes = sale.Notes,
-                Items = sale.Items.Select(i => new SaleItemDto
+                Items = sale.SalesItems.Select(i => new SaleItemDto
                 {
                     Id = i.Id,
                     ProductId = i.ProductId,

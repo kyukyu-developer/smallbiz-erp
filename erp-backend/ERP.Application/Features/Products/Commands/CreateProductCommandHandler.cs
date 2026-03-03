@@ -24,7 +24,7 @@ namespace ERP.Application.Features.Products.Commands
                 return Result<ProductDto>.Failure("Product code already exists");
             }
 
-            var product = new Product
+            var product = new Domain.Entities.Products
             {
                 Code = request.Code,
                 Name = request.Name,

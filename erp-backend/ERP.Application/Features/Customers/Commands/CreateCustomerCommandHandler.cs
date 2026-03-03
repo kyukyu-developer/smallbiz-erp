@@ -17,7 +17,7 @@ namespace ERP.Application.Features.Customers.Commands
 
         public async Task<Result<CustomerDto>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var customer = new Customer
+            var customer = new Domain.Entities.Customers
             {
                 Code = request.Code,
                 Name = request.Name,

@@ -33,7 +33,7 @@ namespace ERP.Application.Features.Units.Commands
                 return Result<UnitDto>.Failure($"Unit with name '{request.Name}' already exists ");
             }
 
-            var unit = new Domain.Entities.Unit
+            var unit = new Domain.Entities.Units
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = request.Name,

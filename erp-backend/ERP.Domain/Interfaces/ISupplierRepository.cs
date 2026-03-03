@@ -2,7 +2,7 @@ using ERP.Domain.Entities;
 
 namespace ERP.Domain.Interfaces
 {
-    public interface ISupplierRepository : IRepository<Supplier>
+    public interface ISupplierRepository : IRepository<Suppliers>
     {
     }
 }

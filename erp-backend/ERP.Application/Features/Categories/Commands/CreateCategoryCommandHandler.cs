@@ -17,7 +17,7 @@ namespace ERP.Application.Features.Categories.Commands
 
         public async Task<Result<CategoryDto>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = new Category
+            var category = new Domain.Entities.Categories
             {
                 Code = request.Code,
                 Name = request.Name,

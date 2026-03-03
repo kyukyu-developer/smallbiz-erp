@@ -17,7 +17,7 @@ namespace ERP.Application.Features.Suppliers.Commands
 
         public async Task<Result<SupplierDto>> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
         {
-            var supplier = new Supplier
+            var supplier = new Domain.Entities.Suppliers
             {
                 Code = request.Code,
                 Name = request.Name,

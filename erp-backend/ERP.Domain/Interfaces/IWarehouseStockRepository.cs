@@ -2,8 +2,8 @@ using ERP.Domain.Entities;
 
 namespace ERP.Domain.Interfaces
 {
-    public interface IWarehouseStockRepository : IRepository<WarehouseStock>
+    public interface IWarehouseStockRepository : IRepository<WarehouseStocks>
     {
-        Task<List<WarehouseStock>> GetAllWithDetailsAsync();
+        Task<List<WarehouseStocks>> GetAllWithDetailsAsync();
     }
 }
