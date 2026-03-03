@@ -54,7 +54,7 @@ namespace ERP.Application.Features.Warehouses.Commands
             // Update warehouse
             warehouse.Name = request.Name;
             warehouse.City = request.City;
-            warehouse.BranchType = request.BranchType;
+            warehouse.BranchType = request.BranchType.ToString();
             warehouse.IsMainWarehouse = request.BranchType == BranchType.Main;
             warehouse.ParentWarehouseId = request.ParentWarehouseId;
             warehouse.Active = request.Active;

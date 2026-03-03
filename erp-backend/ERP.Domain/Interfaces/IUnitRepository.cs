@@ -5,9 +5,9 @@ using ERP.Domain.Enums;
 
 namespace ERP.Domain.Interfaces
 {
-    public interface IUnitRepository : IRepository<Unit>
+    public interface IUnitRepository : IRepository<Units>
     {
-        Task<Unit?> GetByName(string name);
+        Task<Units?> GetByName(string name);
 
     }
 }

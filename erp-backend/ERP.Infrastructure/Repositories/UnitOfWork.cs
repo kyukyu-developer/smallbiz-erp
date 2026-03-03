@@ -14,48 +14,48 @@ namespace ERP.Infrastructure.Repositories
         {
             _context = context;
 
-            Users = new Repository<User>(context);
-            RefreshTokens = new Repository<RefreshToken>(context);
-            Products = new Repository<Product>(context);
-            Categories = new Repository<Category>(context);
-            Units = new Repository<Unit>(context);
-            UnitConversions = new Repository<UnitConversion>(context);
-            ProductUnitPrices = new Repository<ProductUnitPrice>(context);
-            Warehouses = new Repository<Warehouse>(context);
-            WarehouseStocks = new Repository<WarehouseStock>(context);
-            ProductBatches = new Repository<ProductBatch>(context);
-            ProductSerials = new Repository<ProductSerial>(context);
-            Sales = new Repository<Sale>(context);
-            SalesItems = new Repository<SalesItem>(context);
-            Purchases = new Repository<Purchase>(context);
-            PurchaseItems = new Repository<PurchaseItem>(context);
-            StockMovements = new Repository<StockMovement>(context);
-            StockTransfers = new Repository<StockTransfer>(context);
-            StockAdjustments = new Repository<StockAdjustment>(context);
-            Customers = new Repository<Customer>(context);
-            Suppliers = new Repository<Supplier>(context);
+            Users = new Repository<Users>(context);
+            RefreshTokens = new Repository<RefreshTokens>(context);
+            Products = new Repository<Products>(context);
+            Categories = new Repository<Categories>(context);
+            Units = new Repository<Units>(context);
+            UnitConversions = new Repository<UnitConversions>(context);
+            ProductUnitPrices = new Repository<ProductUnitPrices>(context);
+            Warehouses = new Repository<Warehouses>(context);
+            WarehouseStocks = new Repository<WarehouseStocks>(context);
+            ProductBatches = new Repository<ProductBatches>(context);
+            ProductSerials = new Repository<ProductSerials>(context);
+            Sales = new Repository<Sales>(context);
+            SalesItems = new Repository<SalesItems>(context);
+            Purchases = new Repository<Purchases>(context);
+            PurchaseItems = new Repository<PurchaseItems>(context);
+            StockMovements = new Repository<StockMovements>(context);
+            StockTransfers = new Repository<StockTransfers>(context);
+            StockAdjustments = new Repository<StockAdjustments>(context);
+            Customers = new Repository<Customers>(context);
+            Suppliers = new Repository<Suppliers>(context);
         }
 
-        public IRepository<User> Users { get; }
-        public IRepository<RefreshToken> RefreshTokens { get; }
-        public IRepository<Product> Products { get; }
-        public IRepository<Category> Categories { get; }
-        public IRepository<Unit> Units { get; }
-        public IRepository<UnitConversion> UnitConversions { get; }
-        public IRepository<ProductUnitPrice> ProductUnitPrices { get; }
-        public IRepository<Warehouse> Warehouses { get; }
-        public IRepository<WarehouseStock> WarehouseStocks { get; }
-        public IRepository<ProductBatch> ProductBatches { get; }
-        public IRepository<ProductSerial> ProductSerials { get; }
-        public IRepository<Sale> Sales { get; }
-        public IRepository<SalesItem> SalesItems { get; }
-        public IRepository<Purchase> Purchases { get; }
-        public IRepository<PurchaseItem> PurchaseItems { get; }
-        public IRepository<StockMovement> StockMovements { get; }
-        public IRepository<StockTransfer> StockTransfers { get; }
-        public IRepository<StockAdjustment> StockAdjustments { get; }
-        public IRepository<Customer> Customers { get; }
-        public IRepository<Supplier> Suppliers { get; }
+        public IRepository<Users> Users { get; }
+        public IRepository<RefreshTokens> RefreshTokens { get; }
+        public IRepository<Products> Products { get; }
+        public IRepository<Categories> Categories { get; }
+        public IRepository<Units> Units { get; }
+        public IRepository<UnitConversions> UnitConversions { get; }
+        public IRepository<ProductUnitPrices> ProductUnitPrices { get; }
+        public IRepository<Warehouses> Warehouses { get; }
+        public IRepository<WarehouseStocks> WarehouseStocks { get; }
+        public IRepository<ProductBatches> ProductBatches { get; }
+        public IRepository<ProductSerials> ProductSerials { get; }
+        public IRepository<Sales> Sales { get; }
+        public IRepository<SalesItems> SalesItems { get; }
+        public IRepository<Purchases> Purchases { get; }
+        public IRepository<PurchaseItems> PurchaseItems { get; }
+        public IRepository<StockMovements> StockMovements { get; }
+        public IRepository<StockTransfers> StockTransfers { get; }
+        public IRepository<StockAdjustments> StockAdjustments { get; }
+        public IRepository<Customers> Customers { get; }
+        public IRepository<Suppliers> Suppliers { get; }
 
         public async Task<int> SaveChangesAsync()
         {

@@ -22,7 +22,7 @@ namespace ERP.Application.Features.Purchases.Commands
             decimal totalDiscount = 0;
             decimal totalTax = 0;
 
-            var purchaseItems = new List<PurchaseItem>();
+            var purchaseItems = new List<Domain.Entities.PurchaseItems>();
 
             foreach (var itemDto in request.Items)
             {
@@ -46,7 +46,7 @@ namespace ERP.Application.Features.Purchases.Commands
                 totalDiscount += discountAmount;
                 totalTax += taxAmount;
 
-                purchaseItems.Add(new PurchaseItem
+                purchaseItems.Add(new Domain.Entities.PurchaseItems
                 {
                     ProductId = itemDto.ProductId,
                     UnitId = itemDto.UnitId,
@@ -61,7 +61,7 @@ namespace ERP.Application.Features.Purchases.Commands
                 });
             }
 
-            var purchase = new Purchase
+            var purchase = new Domain.Entities.Purchases
             {
                 PurchaseOrderNumber = request.PurchaseOrderNumber,
                 PurchaseDate = request.PurchaseDate,
@@ -72,11 +72,11 @@ namespace ERP.Application.Features.Purchases.Commands
                 TotalTax = totalTax,
                 TotalAmount = subTotal - totalDiscount + totalTax,
                 PaidAmount = 0,
-                PaymentStatus = request.PaymentStatus,
-                Status = request.Status,
+                PaymentStatus = (int)request.PaymentStatus,
+                Status = (int)request.Status,
                 ExpectedDate = request.ExpectedDate,
                 Notes = request.Notes,
-                Items = purchaseItems
+                PurchaseItems = purchaseItems
             };
 
             await _purchaseRepository.AddAsync(purchase);
@@ -94,12 +94,12 @@ namespace ERP.Application.Features.Purchases.Commands
                 TotalTax = purchase.TotalTax,
                 TotalAmount = purchase.TotalAmount,
                 PaidAmount = purchase.PaidAmount,
-                PaymentStatus = purchase.PaymentStatus,
-                Status = purchase.Status,
+                PaymentStatus = (ERP.Domain.Enums.PaymentStatus)purchase.PaymentStatus,
+                Status = (ERP.Domain.Enums.PurchaseStatus)purchase.Status,
                 ExpectedDate = purchase.ExpectedDate,
                 ReceivedDate = purchase.ReceivedDate,
                 Notes = purchase.Notes,
-                Items = purchase.Items.Select(i => new PurchaseItemDto
+                Items = purchase.PurchaseItems.Select(i => new PurchaseItemDto
                 {
                     Id = i.Id,
                     ProductId = i.ProductId,

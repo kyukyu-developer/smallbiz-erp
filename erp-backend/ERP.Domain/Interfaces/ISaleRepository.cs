@@ -2,9 +2,9 @@ using ERP.Domain.Entities;
 
 namespace ERP.Domain.Interfaces
 {
-    public interface ISaleRepository : IRepository<Sale>
+    public interface ISaleRepository : IRepository<Sales>
     {
-        Task<List<Sale>> GetAllWithDetailsAsync();
-        Task<Sale?> GetByIdWithDetailsAsync(string id);
+        Task<List<Sales>> GetAllWithDetailsAsync();
+        Task<Sales?> GetByIdWithDetailsAsync(string id);
     }
 }

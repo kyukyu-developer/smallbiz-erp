@@ -20,9 +20,9 @@ public class GetUnitByIdQueryHandlerTests
         _handler = new GetUnitByIdQueryHandler(_repoMock.Object);
     }
 
-    private static Unit MakeUnit(string id, string name)
+    private static Domain.Entities.Units MakeUnit(string id, string name)
     {
-        return new Unit
+        return new Domain.Entities.Units
         {
             Id = id,
             Name = name,
@@ -82,7 +82,7 @@ public class GetUnitByIdQueryHandlerTests
     public async Task Handle_ReturnsFailure_WhenUnitDoesNotExist()
     {
         _repoMock.Setup(r => r.GetByIdAsync("99"))
-            .ReturnsAsync((Unit?)null);
+            .ReturnsAsync((Domain.Entities.Units?)null);
 
         var result = await _handler.Handle(
             new GetUnitByIdQuery { Id = "99" },

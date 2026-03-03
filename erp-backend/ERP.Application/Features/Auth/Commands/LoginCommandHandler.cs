@@ -40,7 +40,7 @@ namespace ERP.Application.Features.Auth.Commands
             var refreshToken = _jwtTokenService.GenerateRefreshToken();
 
             // Save refresh token
-            var refreshTokenEntity = new RefreshToken
+            var refreshTokenEntity = new RefreshTokens
             {
                 Token = refreshToken,
                 UserId = user.Id,

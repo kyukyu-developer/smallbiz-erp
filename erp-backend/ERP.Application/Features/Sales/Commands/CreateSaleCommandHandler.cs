@@ -24,7 +24,7 @@ namespace ERP.Application.Features.Sales.Commands
             decimal totalDiscount = 0;
             decimal totalTax = 0;
 
-            var saleItems = new List<SalesItem>();
+            var saleItems = new List<Domain.Entities.SalesItems>();
 
             foreach (var itemDto in request.Items)
             {
@@ -48,7 +48,7 @@ namespace ERP.Application.Features.Sales.Commands
                 totalDiscount += discountAmount;
                 totalTax += taxAmount;
 
-                saleItems.Add(new SalesItem
+                saleItems.Add(new Domain.Entities.SalesItems
                 {
                     ProductId = itemDto.ProductId,
                     UnitId = itemDto.UnitId,
@@ -63,7 +63,7 @@ namespace ERP.Application.Features.Sales.Commands
                 });
             }
 
-            var sale = new Sale
+            var sale = new Domain.Entities.Sales
             {
                 InvoiceNumber = request.InvoiceNumber,
                 SaleDate = request.SaleDate,
@@ -74,11 +74,11 @@ namespace ERP.Application.Features.Sales.Commands
                 TotalTax = totalTax,
                 TotalAmount = subTotal - totalDiscount + totalTax,
                 PaidAmount = 0,
-                PaymentStatus = request.PaymentStatus,
-                Status = request.Status,
+                PaymentStatus = (int)request.PaymentStatus,
+                Status = (int)request.Status,
                 DueDate = request.DueDate,
                 Notes = request.Notes,
-                Items = saleItems
+                SalesItems = saleItems
             };
 
             await _saleRepository.AddAsync(sale);
@@ -96,11 +96,11 @@ namespace ERP.Application.Features.Sales.Commands
                 TotalTax = sale.TotalTax,
                 TotalAmount = sale.TotalAmount,
                 PaidAmount = sale.PaidAmount,
-                PaymentStatus = sale.PaymentStatus,
-                Status = sale.Status,
+                PaymentStatus = (ERP.Domain.Enums.PaymentStatus)sale.PaymentStatus,
+                Status = (ERP.Domain.Enums.SaleStatus)sale.Status,
                 DueDate = sale.DueDate,
                 Notes = sale.Notes,
-                Items = sale.Items.Select(i => new SaleItemDto
+                Items = sale.SalesItems.Select(i => new SaleItemDto
                 {
                     Id = i.Id,
                     ProductId = i.ProductId,

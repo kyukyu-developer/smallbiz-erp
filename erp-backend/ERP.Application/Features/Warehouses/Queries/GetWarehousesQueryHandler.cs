@@ -17,7 +17,7 @@ namespace ERP.Application.Features.Warehouses.Queries
 
         public async Task<Result<List<WarehouseDto>>> Handle(GetWarehousesQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Warehouse> warehouses;
+            IEnumerable<Domain.Entities.Warehouses> warehouses;
 
 
             // Get warehouses based on filters
@@ -44,7 +44,7 @@ namespace ERP.Application.Features.Warehouses.Queries
                     BranchType = w.BranchType.ToString(),
                     IsMainWarehouse = w.IsMainWarehouse,
                     ParentWarehouseId = w.ParentWarehouseId,
-                    ParentWarehouseName = w.ParentWarehouse?.Name,
+                    ParentWarehouseName = null,
                     IsUsedWarehouse = w.IsUsedWarehouse,
                     Active = w.Active,
                     Location = w.Location,

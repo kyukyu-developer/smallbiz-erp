@@ -22,8 +22,8 @@ namespace ERP.Application.Features.Purchases.Queries
                 .Where(p => !String.IsNullOrEmpty(request.SupplierId) || p.SupplierId == request.SupplierId)
                 .Where(p => !request.StartDate.HasValue || p.PurchaseDate >= request.StartDate)
                 .Where(p => !request.EndDate.HasValue || p.PurchaseDate <= request.EndDate)
-                .Where(p => !request.Status.HasValue || p.Status == request.Status)
-                .Where(p => !request.PaymentStatus.HasValue || p.PaymentStatus == request.PaymentStatus)
+                .Where(p => !request.Status.HasValue || p.Status == (int)request.Status)
+                .Where(p => !request.PaymentStatus.HasValue || p.PaymentStatus == (int)request.PaymentStatus)
                 .Select(p => new PurchaseDto
                 {
                     Id = p.Id,
@@ -37,12 +37,12 @@ namespace ERP.Application.Features.Purchases.Queries
                     TotalTax = p.TotalTax,
                     TotalAmount = p.TotalAmount,
                     PaidAmount = p.PaidAmount,
-                    PaymentStatus = p.PaymentStatus,
-                    Status = p.Status,
+                    PaymentStatus = (ERP.Domain.Enums.PaymentStatus)p.PaymentStatus,
+                    Status = (ERP.Domain.Enums.PurchaseStatus)p.Status,
                     ExpectedDate = p.ExpectedDate,
                     ReceivedDate = p.ReceivedDate,
                     Notes = p.Notes,
-                    Items = p.Items.Select(i => new PurchaseItemDto
+                    Items = p.PurchaseItems.Select(i => new PurchaseItemDto
                     {
                         Id = i.Id,
                         ProductId = i.ProductId,

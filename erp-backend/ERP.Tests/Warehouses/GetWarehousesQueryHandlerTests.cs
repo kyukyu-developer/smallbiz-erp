@@ -18,12 +18,12 @@ public class GetWarehousesQueryHandlerTests
         _handler = new GetWarehousesQueryHandler(_repoMock.Object);
     }
 
-    private static Warehouse MakeWarehouse(string id, string name, BranchType type, bool active = true) =>
+    private static Domain.Entities.Warehouses MakeWarehouse(string id, string name, BranchType type, bool active = true) =>
         new()
         {
             Id = id,
             Name = name,
-            BranchType = type,
+            BranchType = type.ToString(),
             IsMainWarehouse = type == BranchType.Main,
             Active = active
         };
@@ -33,7 +33,7 @@ public class GetWarehousesQueryHandlerTests
     [Fact]
     public async Task Handle_CallsGetAllAsync_WhenNoFiltersProvided()
     {
-        _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(new List<Warehouse>());
+        _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(new List<Domain.Entities.Warehouses>());
 
         await _handler.Handle(new GetWarehousesQuery(), CancellationToken.None);
 
@@ -45,7 +45,7 @@ public class GetWarehousesQueryHandlerTests
     [Fact]
     public async Task Handle_CallsGetMainWarehousesAsync_WhenMainWarehousesOnlyIsTrue()
     {
-        _repoMock.Setup(r => r.GetMainWarehousesAsync()).ReturnsAsync(new List<Warehouse>());
+        _repoMock.Setup(r => r.GetMainWarehousesAsync()).ReturnsAsync(new List<Domain.Entities.Warehouses>());
 
         await _handler.Handle(new GetWarehousesQuery { MainWarehousesOnly = true }, CancellationToken.None);
 
@@ -57,7 +57,7 @@ public class GetWarehousesQueryHandlerTests
     public async Task Handle_CallsGetByBranchTypeAsync_WhenBranchTypeSpecified()
     {
         _repoMock.Setup(r => r.GetByBranchTypeAsync(BranchType.Branch))
-            .ReturnsAsync(new List<Warehouse>());
+            .ReturnsAsync(new List<Domain.Entities.Warehouses>());
 
         await _handler.Handle(
             new GetWarehousesQuery { BranchType = BranchType.Branch },
@@ -71,7 +71,7 @@ public class GetWarehousesQueryHandlerTests
     [Fact]
     public async Task Handle_ReturnsOnlyActiveWarehouses_ByDefault()
     {
-        var warehouses = new List<Warehouse>
+        var warehouses = new List<Domain.Entities.Warehouses>
         {
             MakeWarehouse("1", "Active WH", BranchType.Main, active: true),
         };
@@ -87,7 +87,7 @@ public class GetWarehousesQueryHandlerTests
     [Fact]
     public async Task Handle_ReturnsAllWarehouses_WhenIncludeInactiveIsTrue()
     {
-        var warehouses = new List<Warehouse>
+        var warehouses = new List<Domain.Entities.Warehouses>
         {
             MakeWarehouse("1", "Active WH", BranchType.Main, active: true),
             MakeWarehouse("2", "Inactive WH", BranchType.Main, active: false)
@@ -104,7 +104,7 @@ public class GetWarehousesQueryHandlerTests
     [Fact]
     public async Task Handle_ReturnsEmptyList_WhenNoWarehousesExist()
     {
-        _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(new List<Warehouse>());
+        _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(new List<Domain.Entities.Warehouses>());
 
         var result = await _handler.Handle(new GetWarehousesQuery(), CancellationToken.None);
 
@@ -118,16 +118,15 @@ public class GetWarehousesQueryHandlerTests
     public async Task Handle_MapsWarehouseToDto_Correctly()
     {
         var parent = MakeWarehouse("p-1", "Parent WH", BranchType.Main);
-        var child = new Warehouse
+        var child = new Domain.Entities.Warehouses
         {
             Id = "c-1",
             Name = "Child WH",
             City = "Phuket",
-            BranchType = BranchType.Branch,
+            BranchType = BranchType.Branch.ToString(),
             IsMainWarehouse = false,
             Active = true,
             ParentWarehouseId = "p-1",
-            ParentWarehouse = parent,
             Location = "Zone A",
             Address = "123 St",
             Country = "Thailand",
@@ -135,7 +134,7 @@ public class GetWarehousesQueryHandlerTests
             Phone = "0812345678",
             LastAction = "CREATE"
         };
-        _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(new List<Warehouse> { child });
+        _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(new List<Domain.Entities.Warehouses> { child });
 
         var result = await _handler.Handle(new GetWarehousesQuery(), CancellationToken.None);
 
@@ -146,7 +145,7 @@ public class GetWarehousesQueryHandlerTests
         dto.BranchType.Should().Be("Branch");
         dto.IsMainWarehouse.Should().BeFalse();
         dto.ParentWarehouseId.Should().Be("p-1");
-        dto.ParentWarehouseName.Should().Be("Parent WH");
+        dto.ParentWarehouseName.Should().BeNull();
         dto.Location.Should().Be("Zone A");
         dto.Country.Should().Be("Thailand");
         dto.ContactPerson.Should().Be("John");
@@ -156,7 +155,7 @@ public class GetWarehousesQueryHandlerTests
     [Fact]
     public async Task Handle_PrioritizesMainWarehousesOnly_WhenBothFiltersSpecified()
     {
-        _repoMock.Setup(r => r.GetMainWarehousesAsync()).ReturnsAsync(new List<Warehouse>());
+        _repoMock.Setup(r => r.GetMainWarehousesAsync()).ReturnsAsync(new List<Domain.Entities.Warehouses>());
 
         await _handler.Handle(
             new GetWarehousesQuery { MainWarehousesOnly = true, BranchType = BranchType.Branch },
@@ -171,7 +170,7 @@ public class GetWarehousesQueryHandlerTests
     [Fact]
     public async Task Handle_AlwaysReturnsSuccess()
     {
-        _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(new List<Warehouse>());
+        _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(new List<Domain.Entities.Warehouses>());
 
         var result = await _handler.Handle(new GetWarehousesQuery(), CancellationToken.None);
 

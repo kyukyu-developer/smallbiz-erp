@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace ERP.Infrastructure.Repositories
 {
-    public class UnitRepository: Repository<Unit>, IUnitRepository
+    public class UnitRepository: Repository<Units>, IUnitRepository
     {
         public UnitRepository(ApplicationDbContext context) : base(context)
         {
 
         }
-      public async Task<Unit?> GetByName(string name)
+      public async Task<Units?> GetByName(string name)
         {
             return await _dbSet
                 .FirstOrDefaultAsync(u =>

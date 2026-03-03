@@ -22,8 +22,8 @@ namespace ERP.Application.Features.Sales.Queries
                 .Where(s => !String.IsNullOrEmpty(request.CustomerId) || s.CustomerId == request.CustomerId)
                 .Where(s => !request.StartDate.HasValue || s.SaleDate >= request.StartDate)
                 .Where(s => !request.EndDate.HasValue || s.SaleDate <= request.EndDate)
-                .Where(s => !request.Status.HasValue || s.Status == request.Status)
-                .Where(s => !request.PaymentStatus.HasValue || s.PaymentStatus == request.PaymentStatus)
+                .Where(s => !request.Status.HasValue || s.Status == (int)request.Status)
+                .Where(s => !request.PaymentStatus.HasValue || s.PaymentStatus == (int)request.PaymentStatus)
                 .Select(s => new SaleDto
                 {
                     Id = s.Id,
@@ -37,11 +37,11 @@ namespace ERP.Application.Features.Sales.Queries
                     TotalTax = s.TotalTax,
                     TotalAmount = s.TotalAmount,
                     PaidAmount = s.PaidAmount,
-                    PaymentStatus = s.PaymentStatus,
-                    Status = s.Status,
+                    PaymentStatus = (ERP.Domain.Enums.PaymentStatus)s.PaymentStatus,
+                    Status = (ERP.Domain.Enums.SaleStatus)s.Status,
                     DueDate = s.DueDate,
                     Notes = s.Notes,
-                    Items = s.Items.Select(i => new SaleItemDto
+                    Items = s.SalesItems.Select(i => new SaleItemDto
                     {
                         Id = i.Id,
                         ProductId = i.ProductId,

@@ -5,26 +5,26 @@ using ERP.Infrastructure.Data;
 
 namespace ERP.Infrastructure.Repositories
 {
-    public class SaleRepository : Repository<Sale>, ISaleRepository
+    public class SaleRepository : Repository<Sales>, ISaleRepository
     {
         public SaleRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public async Task<List<Sale>> GetAllWithDetailsAsync()
+        public async Task<List<Sales>> GetAllWithDetailsAsync()
         {
             return await _context.Sales
                 .Include(s => s.Customer)
-                .Include(s => s.Items)
+                .Include(s => s.SalesItems)
                     .ThenInclude(i => i.Product)
                 .ToListAsync();
         }
 
-        public async Task<Sale?> GetByIdWithDetailsAsync(string id)
+        public async Task<Sales?> GetByIdWithDetailsAsync(string id)
         {
             return await _context.Sales
                 .Include(s => s.Customer)
-                .Include(s => s.Items)
+                .Include(s => s.SalesItems)
                     .ThenInclude(i => i.Product)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }

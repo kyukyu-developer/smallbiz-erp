@@ -35,12 +35,12 @@ namespace ERP.Application.Features.Purchases.Queries
                 TotalTax = purchase.TotalTax,
                 TotalAmount = purchase.TotalAmount,
                 PaidAmount = purchase.PaidAmount,
-                PaymentStatus = purchase.PaymentStatus,
-                Status = purchase.Status,
+                PaymentStatus = (ERP.Domain.Enums.PaymentStatus)purchase.PaymentStatus,
+                Status = (ERP.Domain.Enums.PurchaseStatus)purchase.Status,
                 ExpectedDate = purchase.ExpectedDate,
                 ReceivedDate = purchase.ReceivedDate,
                 Notes = purchase.Notes,
-                Items = purchase.Items.Select(i => new PurchaseItemDto
+                Items = purchase.PurchaseItems.Select(i => new PurchaseItemDto
                 {
                     Id = i.Id,
                     ProductId = i.ProductId,

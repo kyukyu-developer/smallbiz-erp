@@ -23,12 +23,12 @@ public class GetWarehouseByIdQueryHandlerTests
     [Fact]
     public async Task Handle_ReturnsSuccess_WhenWarehouseExists()
     {
-        var warehouse = new Warehouse
+        var warehouse = new Domain.Entities.Warehouses
         {
             Id = "wh-1",
             Name = "Main Warehouse",
             City = "Bangkok",
-            BranchType = BranchType.Main,
+            BranchType = BranchType.Main.ToString(),
             IsMainWarehouse = true,
             Active = true
         };
@@ -45,12 +45,12 @@ public class GetWarehouseByIdQueryHandlerTests
     [Fact]
     public async Task Handle_MapsDtoFields_Correctly()
     {
-        var warehouse = new Warehouse
+        var warehouse = new Domain.Entities.Warehouses
         {
             Id = "wh-1",
             Name = "Branch WH",
             City = "Chiang Mai",
-            BranchType = BranchType.Branch,
+            BranchType = BranchType.Branch.ToString(),
             IsMainWarehouse = false,
             Active = true,
             ParentWarehouseId = "parent-1",
@@ -63,7 +63,7 @@ public class GetWarehouseByIdQueryHandlerTests
         };
         _repoMock.Setup(r => r.GetByIdAsync("wh-1")).ReturnsAsync(warehouse);
         _repoMock.Setup(r => r.GetByIdAsync("parent-1"))
-            .ReturnsAsync(new Warehouse { Id = "parent-1", Name = "HQ" });
+            .ReturnsAsync(new Domain.Entities.Warehouses { Id = "parent-1", Name = "HQ" });
 
         var result = await _handler.Handle(new GetWarehouseByIdQuery { Id = "wh-1" }, CancellationToken.None);
 
@@ -83,17 +83,17 @@ public class GetWarehouseByIdQueryHandlerTests
     [Fact]
     public async Task Handle_LooksUpParentWarehouseName_WhenParentIdExists()
     {
-        var warehouse = new Warehouse
+        var warehouse = new Domain.Entities.Warehouses
         {
             Id = "wh-1",
             Name = "Sub WH",
-            BranchType = BranchType.Sub,
+            BranchType = BranchType.Sub.ToString(),
             ParentWarehouseId = "parent-1",
             Active = true
         };
         _repoMock.Setup(r => r.GetByIdAsync("wh-1")).ReturnsAsync(warehouse);
         _repoMock.Setup(r => r.GetByIdAsync("parent-1"))
-            .ReturnsAsync(new Warehouse { Id = "parent-1", Name = "Branch WH" });
+            .ReturnsAsync(new Domain.Entities.Warehouses { Id = "parent-1", Name = "Branch WH" });
 
         var result = await _handler.Handle(new GetWarehouseByIdQuery { Id = "wh-1" }, CancellationToken.None);
 
@@ -104,11 +104,11 @@ public class GetWarehouseByIdQueryHandlerTests
     [Fact]
     public async Task Handle_DoesNotLookUpParent_WhenNoParentId()
     {
-        var warehouse = new Warehouse
+        var warehouse = new Domain.Entities.Warehouses
         {
             Id = "wh-1",
             Name = "Main WH",
-            BranchType = BranchType.Main,
+            BranchType = BranchType.Main.ToString(),
             Active = true
         };
         _repoMock.Setup(r => r.GetByIdAsync("wh-1")).ReturnsAsync(warehouse);
@@ -124,7 +124,7 @@ public class GetWarehouseByIdQueryHandlerTests
     [Fact]
     public async Task Handle_ReturnsFailure_WhenWarehouseDoesNotExist()
     {
-        _repoMock.Setup(r => r.GetByIdAsync("missing-id")).ReturnsAsync((Warehouse?)null);
+        _repoMock.Setup(r => r.GetByIdAsync("missing-id")).ReturnsAsync((Domain.Entities.Warehouses?)null);
 
         var result = await _handler.Handle(new GetWarehouseByIdQuery { Id = "missing-id" }, CancellationToken.None);
 

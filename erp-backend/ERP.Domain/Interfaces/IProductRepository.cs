@@ -2,8 +2,8 @@ using ERP.Domain.Entities;
 
 namespace ERP.Domain.Interfaces
 {
-    public interface IProductRepository : IRepository<Product>
+    public interface IProductRepository : IRepository<Products>
     {
-        Task<Product?> GetByCodeAsync(string code);
+        Task<Products?> GetByCodeAsync(string code);
     }
 }

@@ -39,12 +39,12 @@ namespace ERP.Application.Features.Warehouses.Commands
                 return Result<WarehouseDto>.Failure($"Warehouse with name '{request.Name}' already exists in {request.City ?? "this location"}");
             }
 
-            var warehouse = new Warehouse
+            var warehouse = new Domain.Entities.Warehouses
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = request.Name,
                 City = request.City,
-                BranchType = request.BranchType,
+                BranchType = request.BranchType.ToString(),
                 IsMainWarehouse = request.BranchType == BranchType.Main,
                 ParentWarehouseId = request.ParentWarehouseId,
                 IsUsedWarehouse = true,
