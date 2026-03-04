@@ -14,6 +14,8 @@ public partial class ApplicationDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Brands> Brands { get; set; }
+
     public virtual DbSet<Categories> Categories { get; set; }
 
     public virtual DbSet<Customers> Customers { get; set; }
@@ -56,6 +58,17 @@ public partial class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Brands>(entity =>
+        {
+            entity.Property(e => e.Description)
+                .IsRequired()
+                .HasColumnName("description");
+            entity.Property(e => e.Name).IsRequired();
+            entity.Property(e => e.Remark)
+                .HasMaxLength(50)
+                .HasColumnName("remark");
+        });
+
         modelBuilder.Entity<Categories>(entity =>
         {
             entity.HasIndex(e => e.ParentCategoryId, "IX_Categories_ParentCategoryId");
