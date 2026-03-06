@@ -62,6 +62,7 @@ namespace ERP.Application.Features.Auth.Commands
             // Save refresh token
             var refreshTokenEntity = new RefreshTokens
             {
+                Id = Guid.NewGuid().ToString(),
                 Token = refreshToken,
                 UserId = user.Id,
                 ExpiresAt = DateTime.UtcNow.AddDays(7),
