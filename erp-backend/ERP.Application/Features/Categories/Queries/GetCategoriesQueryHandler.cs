@@ -28,7 +28,7 @@ namespace ERP.Application.Features.Categories.Queries
                     Name = c.Name,
                     Description = c.Description,
                     ParentCategoryId = c.ParentCategoryId,
-                    IsActive = c.Active
+                    Active = c.Active
                 })
                 .ToList();
 

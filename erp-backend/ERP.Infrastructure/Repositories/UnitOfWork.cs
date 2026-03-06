@@ -57,6 +57,11 @@ namespace ERP.Infrastructure.Repositories
         public IRepository<SalesCustomer> Customers { get; }
         public IRepository<PurchSupplier> Suppliers { get; }
 
+        public IRepository<Brands> Brands { get; }
+        public IRepository<ProductGroup> ProductGroup { get; }
+
+
+
         public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();

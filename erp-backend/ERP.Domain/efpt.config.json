@@ -15,11 +15,23 @@
    "T4TemplatePath": null,
    "Tables": [
       {
+         "Name": "[dbo].[Brands]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Categories]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[Customers]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Product]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Product_Group]",
          "ObjectType": 0
       },
       {
@@ -93,6 +105,10 @@
       {
          "Name": "[dbo].[WarehouseStocks]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProductView]",
+         "ObjectType": 3
       }
    ],
    "UiHint": null,
@@ -100,7 +116,6 @@
    "UseAsyncStoredProcedureCalls": true,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
-   "UseDatabaseNamesForRoutines": true,
    "UseDateOnlyTimeOnly": true,
    "UseDbContextSplitting": false,
    "UseDecimalDataAnnotationForSprocResult": true,
@@ -119,6 +134,5 @@
    "UseSchemaFolders": false,
    "UseSchemaNamespaces": false,
    "UseSpatial": false,
-   "UseT4": false,
-   "UseT4Split": false
+   "UseT4": false
 }

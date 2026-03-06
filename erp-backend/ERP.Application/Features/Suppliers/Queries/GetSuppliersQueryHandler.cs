@@ -36,7 +36,7 @@ namespace ERP.Application.Features.Suppliers.Queries
                     Country = s.Country,
                     TaxNumber = s.TaxNumber,
                     PaymentTermDays = s.PaymentTermDays,
-                    IsActive = s.Active
+                    Active = s.Active
                 })
                 .ToList();
 

@@ -48,7 +48,7 @@ namespace ERP.Application.Features.Suppliers.Commands
                 Country = supplier.Country,
                 TaxNumber = supplier.TaxNumber,
                 PaymentTermDays = supplier.PaymentTermDays,
-                IsActive = supplier.Active
+                Active = supplier.Active
             };
 
             return Result<SupplierDto>.Success(supplierDto);

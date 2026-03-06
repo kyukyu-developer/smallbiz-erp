@@ -6,6 +6,6 @@ namespace ERP.Application.Features.Categories.Queries
 {
     public class GetCategoryByIdQuery : IRequest<Result<CategoryDto>>
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
     }
 }

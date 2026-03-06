@@ -10,6 +10,6 @@ namespace ERP.Application.Features.Categories.Commands
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
         public string? ParentCategoryId { get; set; }
-        public bool IsActive { get; set; } = true;
+        public bool Active { get; set; } = true;
     }
 }
