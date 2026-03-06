@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using ERP.Application.DTOs.Warehouses;
 using ERP.Application.DTOs.Common;
 using ERP.Domain.Entities;
@@ -39,7 +39,7 @@ namespace ERP.Application.Features.Warehouses.Commands
                 return Result<WarehouseDto>.Failure($"Warehouse with name '{request.Name}' already exists in {request.City ?? "this location"}");
             }
 
-            var warehouse = new Domain.Entities.Warehouses
+            var warehouse = new Domain.Entities.InvWarehouse
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = request.Name,

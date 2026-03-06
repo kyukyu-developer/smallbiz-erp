@@ -1,8 +1,8 @@
-using ERP.Domain.Entities;
+﻿using ERP.Domain.Entities;
 
 namespace ERP.Domain.Interfaces
 {
-    public interface ICustomerRepository : IRepository<Customers>
+    public interface ICustomerRepository : IRepository<SalesCustomer>
     {
     }
 }

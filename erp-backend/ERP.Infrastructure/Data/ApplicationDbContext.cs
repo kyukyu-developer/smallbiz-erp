@@ -14,49 +14,49 @@ public partial class ApplicationDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Categories> Categories { get; set; }
+    public virtual DbSet<ProdCategory> Categories { get; set; }
 
-    public virtual DbSet<Customers> Customers { get; set; }
+    public virtual DbSet<SalesCustomer> Customers { get; set; }
 
-    public virtual DbSet<ProductBatches> ProductBatches { get; set; }
+    public virtual DbSet<ProdBatch> ProductBatches { get; set; }
 
-    public virtual DbSet<ProductSerials> ProductSerials { get; set; }
+    public virtual DbSet<ProdSerial> ProductSerials { get; set; }
 
-    public virtual DbSet<ProductUnitPrices> ProductUnitPrices { get; set; }
+    public virtual DbSet<ProdUnitPrice> ProductUnitPrices { get; set; }
 
-    public virtual DbSet<Products> Products { get; set; }
+    public virtual DbSet<ProdItem> Products { get; set; }
 
-    public virtual DbSet<PurchaseItems> PurchaseItems { get; set; }
+    public virtual DbSet<PurchItem> PurchaseItems { get; set; }
 
-    public virtual DbSet<Purchases> Purchases { get; set; }
+    public virtual DbSet<PurchInvoice> Purchases { get; set; }
 
-    public virtual DbSet<RefreshTokens> RefreshTokens { get; set; }
+    public virtual DbSet<AuthRefreshToken> RefreshTokens { get; set; }
 
-    public virtual DbSet<Sales> Sales { get; set; }
+    public virtual DbSet<SalesInvoice> Sales { get; set; }
 
-    public virtual DbSet<SalesItems> SalesItems { get; set; }
+    public virtual DbSet<SalesInvoiceItem> SalesItems { get; set; }
 
-    public virtual DbSet<StockAdjustments> StockAdjustments { get; set; }
+    public virtual DbSet<InvStockAdjustment> StockAdjustments { get; set; }
 
-    public virtual DbSet<StockMovements> StockMovements { get; set; }
+    public virtual DbSet<InvStockMovement> StockMovements { get; set; }
 
-    public virtual DbSet<StockTransfers> StockTransfers { get; set; }
+    public virtual DbSet<InvStockTransfer> StockTransfers { get; set; }
 
-    public virtual DbSet<Suppliers> Suppliers { get; set; }
+    public virtual DbSet<PurchSupplier> Suppliers { get; set; }
 
-    public virtual DbSet<UnitConversions> UnitConversions { get; set; }
+    public virtual DbSet<ProdUnitConversion> UnitConversions { get; set; }
 
-    public virtual DbSet<Units> Units { get; set; }
+    public virtual DbSet<ProdUnit> Units { get; set; }
 
-    public virtual DbSet<Users> Users { get; set; }
+    public virtual DbSet<AuthUser> Users { get; set; }
 
-    public virtual DbSet<WarehouseStocks> WarehouseStocks { get; set; }
+    public virtual DbSet<InvWarehouseStock> WarehouseStocks { get; set; }
 
-    public virtual DbSet<Warehouses> Warehouses { get; set; }
+    public virtual DbSet<InvWarehouse> Warehouses { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Categories>(entity =>
+        modelBuilder.Entity<ProdCategory>(entity =>
         {
             entity.HasIndex(e => e.ParentCategoryId, "IX_Categories_ParentCategoryId");
 
@@ -85,7 +85,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_Categories_ParentCategories");
         });
 
-        modelBuilder.Entity<Customers>(entity =>
+        modelBuilder.Entity<SalesCustomer>(entity =>
         {
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
@@ -124,7 +124,7 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.UpdatedBy).HasMaxLength(50);
         });
 
-        modelBuilder.Entity<ProductBatches>(entity =>
+        modelBuilder.Entity<ProdBatch>(entity =>
         {
             entity.HasIndex(e => e.ProductId, "IX_ProductBatches_ProductId");
 
@@ -163,7 +163,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_ProductBatches_Warehouses");
         });
 
-        modelBuilder.Entity<ProductSerials>(entity =>
+        modelBuilder.Entity<ProdSerial>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_ProductSerials_1");
 
@@ -200,7 +200,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_ProductSerials_Warehouses");
         });
 
-        modelBuilder.Entity<ProductUnitPrices>(entity =>
+        modelBuilder.Entity<ProdUnitPrice>(entity =>
         {
             entity.HasIndex(e => e.ProductId, "IX_ProductUnitPrices_ProductId");
 
@@ -235,7 +235,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_ProductUnitPrices_Units");
         });
 
-        modelBuilder.Entity<Products>(entity =>
+        modelBuilder.Entity<ProdItem>(entity =>
         {
             entity.HasIndex(e => e.BaseUnitId, "IX_Products_BaseUnitId");
 
@@ -284,7 +284,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_Products_Categories");
         });
 
-        modelBuilder.Entity<PurchaseItems>(entity =>
+        modelBuilder.Entity<PurchItem>(entity =>
         {
             entity.HasIndex(e => e.BatchId, "IX_PurchaseItems_BatchId");
 
@@ -352,7 +352,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_PurchaseItems_Units");
         });
 
-        modelBuilder.Entity<Purchases>(entity =>
+        modelBuilder.Entity<PurchInvoice>(entity =>
         {
             entity.HasIndex(e => e.SupplierId, "IX_Purchases_SupplierId");
 
@@ -390,7 +390,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_Purchases_Warehouses");
         });
 
-        modelBuilder.Entity<RefreshTokens>(entity =>
+        modelBuilder.Entity<AuthRefreshToken>(entity =>
         {
             entity.HasIndex(e => e.ExpiresAt, "IX_RefreshTokens_ExpiresAt");
 
@@ -410,7 +410,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasMaxLength(50);
         });
 
-        modelBuilder.Entity<Sales>(entity =>
+        modelBuilder.Entity<SalesInvoice>(entity =>
         {
             entity.HasIndex(e => e.CustomerId, "IX_Sales_CustomerId");
 
@@ -451,7 +451,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_Sales_Warehouses");
         });
 
-        modelBuilder.Entity<SalesItems>(entity =>
+        modelBuilder.Entity<SalesInvoiceItem>(entity =>
         {
             entity.HasIndex(e => e.BatchId, "IX_SalesItems_BatchId");
 
@@ -521,7 +521,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_SalesItems_Units");
         });
 
-        modelBuilder.Entity<StockAdjustments>(entity =>
+        modelBuilder.Entity<InvStockAdjustment>(entity =>
         {
             entity.HasIndex(e => e.ProductId, "IX_StockAdjustments_ProductId");
 
@@ -561,7 +561,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_StockAdjustments_Warehouses");
         });
 
-        modelBuilder.Entity<StockMovements>(entity =>
+        modelBuilder.Entity<InvStockMovement>(entity =>
         {
             entity.HasIndex(e => e.BatchId, "IX_StockMovements_BatchId");
 
@@ -620,7 +620,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_StockMovements_Warehouses");
         });
 
-        modelBuilder.Entity<StockTransfers>(entity =>
+        modelBuilder.Entity<InvStockTransfer>(entity =>
         {
             entity.HasIndex(e => e.FromWarehouseId, "IX_StockTransfers_FromWarehouseId");
 
@@ -672,7 +672,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_StockTransfers_Warehouses1");
         });
 
-        modelBuilder.Entity<Suppliers>(entity =>
+        modelBuilder.Entity<PurchSupplier>(entity =>
         {
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
@@ -712,7 +712,7 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.UpdatedBy).HasMaxLength(50);
         });
 
-        modelBuilder.Entity<UnitConversions>(entity =>
+        modelBuilder.Entity<ProdUnitConversion>(entity =>
         {
             entity.HasIndex(e => e.FromUnitId, "IX_UnitConversions_FromUnitId");
 
@@ -758,7 +758,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_UnitConversions_Units1");
         });
 
-        modelBuilder.Entity<Units>(entity =>
+        modelBuilder.Entity<ProdUnit>(entity =>
         {
             entity.HasIndex(e => e.Active, "IX_Unit_Active");
 
@@ -787,7 +787,7 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.UpdatedBy).HasMaxLength(50);
         });
 
-        modelBuilder.Entity<Users>(entity =>
+        modelBuilder.Entity<AuthUser>(entity =>
         {
             entity.HasIndex(e => e.Email, "IX_Users_Email").IsUnique();
 
@@ -816,7 +816,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasMaxLength(100);
         });
 
-        modelBuilder.Entity<WarehouseStocks>(entity =>
+        modelBuilder.Entity<InvWarehouseStock>(entity =>
         {
             entity.HasIndex(e => e.ProductId, "IX_WarehouseStocks_ProductId");
 
@@ -852,7 +852,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_WarehouseStocks_Warehouses");
         });
 
-        modelBuilder.Entity<Warehouses>(entity =>
+        modelBuilder.Entity<InvWarehouse>(entity =>
         {
             entity.HasIndex(e => e.Active, "IX_Warehouse_Active");
 

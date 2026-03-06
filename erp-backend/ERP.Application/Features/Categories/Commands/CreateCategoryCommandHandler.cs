@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using ERP.Application.DTOs.Categories;
 using ERP.Application.DTOs.Common;
 using ERP.Domain.Entities;
@@ -17,7 +17,7 @@ namespace ERP.Application.Features.Categories.Commands
 
         public async Task<Result<CategoryDto>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = new Domain.Entities.Categories
+            var category = new Domain.Entities.ProdCategory
             {
                 Code = request.Code,
                 Name = request.Name,

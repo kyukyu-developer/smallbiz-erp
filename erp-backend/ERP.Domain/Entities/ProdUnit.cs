@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ERP.Domain.Entities;
 
-public partial class Units
+public partial class ProdUnit
 {
     public string Id { get; set; }
 
@@ -25,15 +25,15 @@ public partial class Units
 
     public string LastAction { get; set; }
 
-    public virtual ICollection<ProductUnitPrices> ProductUnitPrices { get; set; } = new List<ProductUnitPrices>();
+    public virtual ICollection<ProdUnitPrice> ProductUnitPrices { get; set; } = new List<ProdUnitPrice>();
 
-    public virtual ICollection<Products> Products { get; set; } = new List<Products>();
+    public virtual ICollection<ProdItem> Products { get; set; } = new List<ProdItem>();
 
-    public virtual ICollection<PurchaseItems> PurchaseItems { get; set; } = new List<PurchaseItems>();
+    public virtual ICollection<PurchItem> PurchaseItems { get; set; } = new List<PurchItem>();
 
-    public virtual ICollection<SalesItems> SalesItems { get; set; } = new List<SalesItems>();
+    public virtual ICollection<SalesInvoiceItem> SalesItems { get; set; } = new List<SalesInvoiceItem>();
 
-    public virtual ICollection<UnitConversions> UnitConversionsFromUnit { get; set; } = new List<UnitConversions>();
+    public virtual ICollection<ProdUnitConversion> UnitConversionsFromUnit { get; set; } = new List<ProdUnitConversion>();
 
-    public virtual ICollection<UnitConversions> UnitConversionsToUnit { get; set; } = new List<UnitConversions>();
+    public virtual ICollection<ProdUnitConversion> UnitConversionsToUnit { get; set; } = new List<ProdUnitConversion>();
 }

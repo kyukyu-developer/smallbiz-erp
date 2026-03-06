@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using ERP.Application.DTOs.Suppliers;
 using ERP.Application.DTOs.Common;
 using ERP.Domain.Entities;
@@ -17,7 +17,7 @@ namespace ERP.Application.Features.Suppliers.Commands
 
         public async Task<Result<SupplierDto>> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
         {
-            var supplier = new Domain.Entities.Suppliers
+            var supplier = new Domain.Entities.PurchSupplier
             {
                 Code = request.Code,
                 Name = request.Name,

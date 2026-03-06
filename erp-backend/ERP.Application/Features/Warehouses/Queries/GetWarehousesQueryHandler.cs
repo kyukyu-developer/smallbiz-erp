@@ -1,4 +1,4 @@
-using ERP.Application.DTOs.Common;
+﻿using ERP.Application.DTOs.Common;
 using ERP.Application.DTOs.Warehouses;
 using ERP.Domain.Entities;
 using ERP.Domain.Interfaces;
@@ -17,7 +17,7 @@ namespace ERP.Application.Features.Warehouses.Queries
 
         public async Task<Result<List<WarehouseDto>>> Handle(GetWarehousesQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Warehouses> warehouses;
+            IEnumerable<Domain.Entities.InvWarehouse> warehouses;
 
 
             // Get warehouses based on filters

@@ -1,4 +1,4 @@
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -18,7 +18,7 @@ namespace ERP.Infrastructure.Services
             _configuration = configuration;
         }
 
-        public string GenerateAccessToken(Users user)
+        public string GenerateAccessToken(AuthUser user)
         {
             var securityKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));

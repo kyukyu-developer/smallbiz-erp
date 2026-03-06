@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using ERP.Application.DTOs.Products;
 using ERP.Application.DTOs.Common;
 using ERP.Domain.Entities;
@@ -24,7 +24,7 @@ namespace ERP.Application.Features.Products.Commands
                 return Result<ProductDto>.Failure("Product code already exists");
             }
 
-            var product = new Domain.Entities.Products
+            var product = new Domain.Entities.ProdItem
             {
                 Code = request.Code,
                 Name = request.Name,

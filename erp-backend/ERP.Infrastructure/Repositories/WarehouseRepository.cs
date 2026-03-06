@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ERP.Domain.Entities;
 using ERP.Domain.Enums;
 using ERP.Domain.Interfaces;
@@ -6,13 +6,13 @@ using ERP.Infrastructure.Data;
 
 namespace ERP.Infrastructure.Repositories
 {
-    public class WarehouseRepository : Repository<Warehouses>, IWarehouseRepository
+    public class WarehouseRepository : Repository<InvWarehouse>, IWarehouseRepository
     {
         public WarehouseRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public async Task<Warehouses?> GetByNameAndCityAsync(string name, string? city)
+        public async Task<InvWarehouse?> GetByNameAndCityAsync(string name, string? city)
         {
             return await _dbSet
                 .FirstOrDefaultAsync(w =>
@@ -20,36 +20,36 @@ namespace ERP.Infrastructure.Repositories
                     (city == null || w.City == city));
         }
 
-        public async Task<IEnumerable<Warehouses>> GetByBranchTypeAsync(BranchType branchType)
+        public async Task<IEnumerable<InvWarehouse>> GetByBranchTypeAsync(BranchType branchType)
         {
             return await _dbSet
                 .Where(w => w.BranchType == branchType.ToString() && w.Active)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Warehouses>> GetMainWarehousesAsync()
+        public async Task<IEnumerable<InvWarehouse>> GetMainWarehousesAsync()
         {
             return await _dbSet
                 .Where(w => w.IsMainWarehouse && w.Active)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Warehouses>> GetChildWarehousesAsync(string parentWarehouseId)
+        public async Task<IEnumerable<InvWarehouse>> GetChildWarehousesAsync(string parentWarehouseId)
         {
             return await _dbSet
                 .Where(w => w.ParentWarehouseId == parentWarehouseId && w.Active)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Warehouses>> GetWarehouseHierarchyAsync(string warehouseId)
+        public async Task<IEnumerable<InvWarehouse>> GetWarehouseHierarchyAsync(string warehouseId)
         {
             var warehouse = await _dbSet
                 .FirstOrDefaultAsync(w => w.Id == warehouseId);
 
             if (warehouse == null)
-                return Enumerable.Empty<Warehouses>();
+                return Enumerable.Empty<InvWarehouse>();
 
-            var hierarchy = new List<Warehouses> { warehouse };
+            var hierarchy = new List<InvWarehouse> { warehouse };
 
             // Add children
             var children = await _dbSet

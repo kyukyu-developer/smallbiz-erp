@@ -37,7 +37,16 @@
       "Bash(ls:*)",
       "Bash(taskkill:*)",
       "Bash(dotnet ef database drop:*)",
-      "Bash(dotnet test:*)"
+      "Bash(dotnet test:*)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"c:\\\\Guu\\\\ERP_Project\\\\erp_rename.ps1\")",
+      "Bash(powershell.exe -Command \"Get-Content ''c:\\\\Guu\\\\ERP_Project\\\\erp-backend\\\\ERP.Infrastructure\\\\Data\\\\ApplicationDbContext.cs'' | Select-Object -First 60\")",
+      "Bash(powershell.exe -Command \"Get-Content ''c:\\\\Guu\\\\ERP_Project\\\\erp-backend\\\\ERP.Infrastructure\\\\Repositories\\\\UnitOfWork.cs'' | Select-Object -First 60\")",
+      "Bash(powershell.exe -Command \"Get-Content ''c:\\\\Guu\\\\ERP_Project\\\\erp-backend\\\\ERP.Application\\\\Features\\\\Auth\\\\Commands\\\\LoginCommandHandler.cs''\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"c:\\\\Guu\\\\ERP_Project\\\\erp_rename2.ps1\")",
+      "Bash(powershell.exe -Command \"Get-Content ''c:\\\\Guu\\\\ERP_Project\\\\erp-backend\\\\ERP.Application\\\\Features\\\\Auth\\\\Commands\\\\LoginCommandHandler.cs'' | Select-String -Pattern ''RefreshToken|Users|new Auth''\")",
+      "Bash(powershell.exe -Command \"Remove-Item ''c:\\\\Guu\\\\ERP_Project\\\\erp_rename.ps1'', ''c:\\\\Guu\\\\ERP_Project\\\\erp_rename2.ps1'' -Force; Write-Host ''Cleaned up''\")",
+      "Bash(sed -i 's/IRepository<Units>/IRepository<ProdUnit>/g' erp-backend/ERP.Domain/Interfaces/IUnitOfWork.cs)",
+      "Bash(sed -i 's/Repository<Units>/Repository<ProdUnit>/g; s/IRepository<Units>/IRepository<ProdUnit>/g' erp-backend/ERP.Infrastructure/Repositories/UnitOfWork.cs)"
     ]
   }
 }

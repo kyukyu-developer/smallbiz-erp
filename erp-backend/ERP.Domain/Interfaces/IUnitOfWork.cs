@@ -1,29 +1,29 @@
-using ERP.Domain.Entities;
+﻿using ERP.Domain.Entities;
 
 namespace ERP.Domain.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRepository<Users> Users { get; }
-        IRepository<RefreshTokens> RefreshTokens { get; }
-        IRepository<Products> Products { get; }
-        IRepository<Categories> Categories { get; }
-        IRepository<Units> Units { get; }
-        IRepository<UnitConversions> UnitConversions { get; }
-        IRepository<ProductUnitPrices> ProductUnitPrices { get; }
-        IRepository<Warehouses> Warehouses { get; }
-        IRepository<WarehouseStocks> WarehouseStocks { get; }
-        IRepository<ProductBatches> ProductBatches { get; }
-        IRepository<ProductSerials> ProductSerials { get; }
-        IRepository<Sales> Sales { get; }
-        IRepository<SalesItems> SalesItems { get; }
-        IRepository<Purchases> Purchases { get; }
-        IRepository<PurchaseItems> PurchaseItems { get; }
-        IRepository<StockMovements> StockMovements { get; }
-        IRepository<StockTransfers> StockTransfers { get; }
-        IRepository<StockAdjustments> StockAdjustments { get; }
-        IRepository<Customers> Customers { get; }
-        IRepository<Suppliers> Suppliers { get; }
+        IRepository<AuthUser> Users { get; }
+        IRepository<AuthRefreshToken> RefreshTokens { get; }
+        IRepository<ProdItem> Products { get; }
+        IRepository<ProdCategory> Categories { get; }
+        IRepository<ProdUnit> Units { get; }
+        IRepository<ProdUnitConversion> UnitConversions { get; }
+        IRepository<ProdUnitPrice> ProductUnitPrices { get; }
+        IRepository<InvWarehouse> Warehouses { get; }
+        IRepository<InvWarehouseStock> WarehouseStocks { get; }
+        IRepository<ProdBatch> ProductBatches { get; }
+        IRepository<ProdSerial> ProductSerials { get; }
+        IRepository<SalesInvoice> Sales { get; }
+        IRepository<SalesInvoiceItem> SalesItems { get; }
+        IRepository<PurchInvoice> Purchases { get; }
+        IRepository<PurchItem> PurchaseItems { get; }
+        IRepository<InvStockMovement> StockMovements { get; }
+        IRepository<InvStockTransfer> StockTransfers { get; }
+        IRepository<InvStockAdjustment> StockAdjustments { get; }
+        IRepository<SalesCustomer> Customers { get; }
+        IRepository<PurchSupplier> Suppliers { get; }
 
         Task<int> SaveChangesAsync();
         Task BeginTransactionAsync();

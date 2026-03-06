@@ -1,10 +1,10 @@
-using ERP.Domain.Entities;
+﻿using ERP.Domain.Entities;
 
 namespace ERP.Application.Interfaces
 {
     public interface IJwtTokenService
     {
-        string GenerateAccessToken(Users user);
+        string GenerateAccessToken(AuthUser user);
         string GenerateRefreshToken();
         bool ValidateToken(string token);
         int? GetUserIdFromToken(string token);

@@ -31,7 +31,7 @@ public class CreateUnitCommandHandlerTests
     [Fact]
     public async Task Handle_ReturnsFailure_WhenUnitNameAlreadyExists()
     {
-        var existingUnit = new Domain.Entities.Units { Id = "1", Name = "Kilogram" };
+        var existingUnit = new Domain.Entities.ProdUnit { Id = "1", Name = "Kilogram" };
 
         _repoMock.Setup(r => r.GetByName("Kilogram"))
             .ReturnsAsync(existingUnit);
@@ -49,7 +49,7 @@ public class CreateUnitCommandHandlerTests
         result.ErrorMessage.Should()
             .Be("Unit with name 'Kilogram' already exists ");
 
-        _repoMock.Verify(r => r.AddAsync(It.IsAny<Domain.Entities.Units>()), Times.Never);
+        _repoMock.Verify(r => r.AddAsync(It.IsAny<Domain.Entities.ProdUnit>()), Times.Never);
         _unitOfWorkMock.Verify(u => u.SaveChangesAsync(), Times.Never);
     }
 
@@ -61,9 +61,9 @@ public class CreateUnitCommandHandlerTests
     public async Task Handle_CreatesUnit_WhenNameIsUnique()
     {
         _repoMock.Setup(r => r.GetByName("Kilogram"))
-            .ReturnsAsync((Domain.Entities.Units?)null);
+            .ReturnsAsync((Domain.Entities.ProdUnit?)null);
 
-        _repoMock.Setup(r => r.AddAsync(It.IsAny<Domain.Entities.Units>()))
+        _repoMock.Setup(r => r.AddAsync(It.IsAny<Domain.Entities.ProdUnit>()))
             .Returns(Task.CompletedTask);
 
         _unitOfWorkMock.Setup(u => u.SaveChangesAsync())
@@ -85,7 +85,7 @@ public class CreateUnitCommandHandlerTests
         result.Data.Active.Should().BeTrue();
         result.Data.LastAction.Should().Be("CREATE");
 
-        _repoMock.Verify(r => r.AddAsync(It.IsAny<Domain.Entities.Units>()), Times.Once);
+        _repoMock.Verify(r => r.AddAsync(It.IsAny<Domain.Entities.ProdUnit>()), Times.Once);
         _unitOfWorkMock.Verify(u => u.SaveChangesAsync(), Times.Once);
     }
 
@@ -97,9 +97,9 @@ public class CreateUnitCommandHandlerTests
     public async Task Handle_SetsDefaultProperties_Correctly()
     {
         _repoMock.Setup(r => r.GetByName(It.IsAny<string>()))
-            .ReturnsAsync((Domain.Entities.Units?)null);
+            .ReturnsAsync((Domain.Entities.ProdUnit?)null);
 
-        _repoMock.Setup(r => r.AddAsync(It.IsAny<Domain.Entities.Units>()))
+        _repoMock.Setup(r => r.AddAsync(It.IsAny<Domain.Entities.ProdUnit>()))
             .Returns(Task.CompletedTask);
 
         _unitOfWorkMock.Setup(u => u.SaveChangesAsync())

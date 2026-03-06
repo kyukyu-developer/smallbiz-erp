@@ -18,7 +18,7 @@ namespace ERP.Application.Features.Units.Queries
 
         public async Task<Result<List<UnitDto>>> Handle(GetUnitsQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Units> units;        
+            IEnumerable<Domain.Entities.ProdUnit> units;        
             
                 units = await _unitRepository.GetAllAsync();
 

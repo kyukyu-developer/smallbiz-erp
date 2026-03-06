@@ -1,4 +1,4 @@
-using ERP.Application.Features.Warehouses.Commands;
+﻿using ERP.Application.Features.Warehouses.Commands;
 using ERP.Domain.Entities;
 using ERP.Domain.Enums;
 using ERP.Domain.Interfaces;
@@ -20,7 +20,7 @@ public class UpdateWarehouseCommandHandlerTests
         _handler = new UpdateWarehouseCommandHandler(_repoMock.Object, _uowMock.Object);
     }
 
-    private static Domain.Entities.Warehouses ExistingWarehouse(string id = "wh-1") =>
+    private static Domain.Entities.InvWarehouse ExistingWarehouse(string id = "wh-1") =>
         new()
         {
             Id = id,
@@ -50,7 +50,7 @@ public class UpdateWarehouseCommandHandlerTests
         var command = ValidUpdateCommand();
         _repoMock.Setup(r => r.GetByIdAsync("wh-1")).ReturnsAsync(existing);
         _repoMock.Setup(r => r.GetByNameAndCityAsync(command.Name, command.City))
-            .ReturnsAsync((Domain.Entities.Warehouses?)null);
+            .ReturnsAsync((Domain.Entities.InvWarehouse?)null);
 
         var result = await _handler.Handle(command, CancellationToken.None);
 
@@ -72,7 +72,7 @@ public class UpdateWarehouseCommandHandlerTests
 
         _repoMock.Setup(r => r.GetByIdAsync("wh-1")).ReturnsAsync(existing);
         _repoMock.Setup(r => r.GetByNameAndCityAsync(command.Name, command.City))
-            .ReturnsAsync((Domain.Entities.Warehouses?)null);
+            .ReturnsAsync((Domain.Entities.InvWarehouse?)null);
 
         var result = await _handler.Handle(command, CancellationToken.None);
 
@@ -91,9 +91,9 @@ public class UpdateWarehouseCommandHandlerTests
         _repoMock.Setup(r => r.GetByIdAsync("wh-1")).ReturnsAsync(existing);
         _repoMock.Setup(r => r.ExistsAsync(parentId)).ReturnsAsync(true);
         _repoMock.Setup(r => r.GetByNameAndCityAsync(command.Name, command.City))
-            .ReturnsAsync((Domain.Entities.Warehouses?)null);
+            .ReturnsAsync((Domain.Entities.InvWarehouse?)null);
         _repoMock.Setup(r => r.GetByIdAsync(parentId))
-            .ReturnsAsync(new Domain.Entities.Warehouses { Id = parentId, Name = "Parent WH" });
+            .ReturnsAsync(new Domain.Entities.InvWarehouse { Id = parentId, Name = "Parent WH" });
 
         var result = await _handler.Handle(command, CancellationToken.None);
 
@@ -122,11 +122,11 @@ public class UpdateWarehouseCommandHandlerTests
         var command = ValidUpdateCommand();
         _repoMock.Setup(r => r.GetByIdAsync("wh-1")).ReturnsAsync(existing);
         _repoMock.Setup(r => r.GetByNameAndCityAsync(command.Name, command.City))
-            .ReturnsAsync((Domain.Entities.Warehouses?)null);
+            .ReturnsAsync((Domain.Entities.InvWarehouse?)null);
 
         await _handler.Handle(command, CancellationToken.None);
 
-        _repoMock.Verify(r => r.Update(It.IsAny<Domain.Entities.Warehouses>()), Times.Once);
+        _repoMock.Verify(r => r.Update(It.IsAny<Domain.Entities.InvWarehouse>()), Times.Once);
         _uowMock.Verify(u => u.SaveChangesAsync(), Times.Once);
     }
 
@@ -135,7 +135,7 @@ public class UpdateWarehouseCommandHandlerTests
     [Fact]
     public async Task Handle_ReturnsFailure_WhenWarehouseDoesNotExist()
     {
-        _repoMock.Setup(r => r.GetByIdAsync("wh-missing")).ReturnsAsync((Domain.Entities.Warehouses?)null);
+        _repoMock.Setup(r => r.GetByIdAsync("wh-missing")).ReturnsAsync((Domain.Entities.InvWarehouse?)null);
 
         var result = await _handler.Handle(
             new UpdateWarehouseCommand { Id = "wh-missing", Name = "X", BranchType = BranchType.Main },
@@ -143,7 +143,7 @@ public class UpdateWarehouseCommandHandlerTests
 
         result.IsSuccess.Should().BeFalse();
         result.ErrorMessage.Should().Be("Warehouse with ID 'wh-missing' not found");
-        _repoMock.Verify(r => r.Update(It.IsAny<Domain.Entities.Warehouses>()), Times.Never);
+        _repoMock.Verify(r => r.Update(It.IsAny<Domain.Entities.InvWarehouse>()), Times.Never);
     }
 
     [Fact]
@@ -191,7 +191,7 @@ public class UpdateWarehouseCommandHandlerTests
 
         _repoMock.Setup(r => r.GetByIdAsync("wh-1")).ReturnsAsync(existing);
         _repoMock.Setup(r => r.GetByNameAndCityAsync("Duplicate WH", "Phuket"))
-            .ReturnsAsync(new Domain.Entities.Warehouses { Id = "wh-other", Name = "Duplicate WH", City = "Phuket" });
+            .ReturnsAsync(new Domain.Entities.InvWarehouse { Id = "wh-other", Name = "Duplicate WH", City = "Phuket" });
 
         var result = await _handler.Handle(command, CancellationToken.None);
 
@@ -208,7 +208,7 @@ public class UpdateWarehouseCommandHandlerTests
 
         _repoMock.Setup(r => r.GetByIdAsync("wh-1")).ReturnsAsync(existing);
         _repoMock.Setup(r => r.GetByNameAndCityAsync(command.Name, command.City))
-            .ReturnsAsync((Domain.Entities.Warehouses?)null);
+            .ReturnsAsync((Domain.Entities.InvWarehouse?)null);
 
         var result = await _handler.Handle(command, CancellationToken.None);
 

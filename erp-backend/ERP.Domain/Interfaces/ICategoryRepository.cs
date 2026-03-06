@@ -1,8 +1,8 @@
-using ERP.Domain.Entities;
+﻿using ERP.Domain.Entities;
 
 namespace ERP.Domain.Interfaces
 {
-    public interface ICategoryRepository : IRepository<Categories>
+    public interface ICategoryRepository : IRepository<ProdCategory>
     {
     }
 }

@@ -12,45 +12,27 @@ namespace ERP.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Brands",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
-                    LastAction = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Brands", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParentCategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    Code = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: false),
+                    Name = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ParentCategoryId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
-                    LastAction = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsUsed = table.Column<bool>(type: "bit", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categories_Categories_ParentCategoryId",
+                        name: "FK_Categories_ParentCategories",
                         column: x => x.ParentCategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id");
@@ -60,23 +42,23 @@ namespace ERP.Infrastructure.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactPerson = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TaxNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    Code = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ContactPerson = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Email = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    Phone = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    Address = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    City = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    Country = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    TaxNumber = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     CreditLimit = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
-                    LastAction = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,26 +66,42 @@ namespace ERP.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RefreshTokens",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    IsRevoked = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Suppliers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactPerson = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TaxNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    Code = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ContactPerson = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    Email = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    Phone = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    Address = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    City = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    Country = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    TaxNumber = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     PaymentTermDays = table.Column<int>(type: "int", nullable: true),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
-                    LastAction = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -114,15 +112,15 @@ namespace ERP.Infrastructure.Migrations
                 name: "Units",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Symbol = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false, defaultValue: ""),
+                    Name = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false, defaultValue: ""),
+                    Symbol = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false, defaultValue: ""),
                     Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -133,19 +131,19 @@ namespace ERP.Infrastructure.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     Username = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, defaultValue: "User"),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    LastAction = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -156,7 +154,7 @@ namespace ERP.Infrastructure.Migrations
                 name: "Warehouses",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     BranchType = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
@@ -169,93 +167,64 @@ namespace ERP.Infrastructure.Migrations
                     ContactPerson = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Warehouses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Warehouses_Warehouses_ParentWarehouseId",
-                        column: x => x.ParentWarehouseId,
-                        principalTable: "Warehouses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    BaseUnitId = table.Column<string>(type: "nvarchar(50)", nullable: true),
+                    CategoryId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    BaseUnitId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     MinimumStock = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     MaximumStock = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     ReorderLevel = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Barcode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsBatchTracked = table.Column<bool>(type: "bit", nullable: false),
                     IsSerialTracked = table.Column<bool>(type: "bit", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
-                    LastAction = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryId",
+                        name: "FK_Products_Categories",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Products_Units_BaseUnitId",
+                        name: "FK_Products_Units",
                         column: x => x.BaseUnitId,
                         principalTable: "Units",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "RefreshTokens",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Token = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
-                    IsRevoked = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RefreshTokens_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Purchases",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     PurchaseOrderNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PurchaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SupplierId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    WarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: true),
+                    SupplierId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    WarehouseId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     SubTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TotalDiscount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     TotalTax = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
@@ -266,23 +235,23 @@ namespace ERP.Infrastructure.Migrations
                     ExpectedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ReceivedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
-                    LastAction = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Purchases", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Purchases_Suppliers_SupplierId",
+                        name: "FK_Purchases_Suppliers",
                         column: x => x.SupplierId,
                         principalTable: "Suppliers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Purchases_Warehouses_WarehouseId",
+                        name: "FK_Purchases_Warehouses",
                         column: x => x.WarehouseId,
                         principalTable: "Warehouses",
                         principalColumn: "Id");
@@ -292,11 +261,11 @@ namespace ERP.Infrastructure.Migrations
                 name: "Sales",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    InvoiceNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    InvoiceNumber = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     SaleDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    WarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: true),
+                    CustomerId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    WarehouseId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     SubTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TotalDiscount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     TotalTax = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
@@ -306,23 +275,23 @@ namespace ERP.Infrastructure.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
-                    LastAction = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sales", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Sales_Customers_CustomerId",
+                        name: "FK_Sales_Customers",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Sales_Warehouses_WarehouseId",
+                        name: "FK_Sales_Warehouses",
                         column: x => x.WarehouseId,
                         principalTable: "Warehouses",
                         principalColumn: "Id");
@@ -332,46 +301,65 @@ namespace ERP.Infrastructure.Migrations
                 name: "ProductBatches",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    WarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    BatchNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ProductId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    WarehouseId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    BatchNo = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ManufactureDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductBatches", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductBatches_Products_ProductId",
+                        name: "FK_ProductBatches_Products",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ProductBatches_Warehouses_WarehouseId",
+                        name: "FK_ProductBatches_Warehouses",
                         column: x => x.WarehouseId,
                         principalTable: "Warehouses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "ProductSerials",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    SerialNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ProductId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    WarehouseId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    SerialNo = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ManufactureDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductSerials", x => x.Id);
+                    table.PrimaryKey("PK_ProductSerials_1", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductSerials_Products_ProductId",
+                        name: "FK_ProductSerials_Products",
                         column: x => x.ProductId,
                         principalTable: "Products",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ProductSerials_Warehouses",
+                        column: x => x.WarehouseId,
+                        principalTable: "Warehouses",
                         principalColumn: "Id");
                 });
 
@@ -379,21 +367,27 @@ namespace ERP.Infrastructure.Migrations
                 name: "ProductUnitPrices",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UnitId = table.Column<string>(type: "nvarchar(50)", nullable: true),
-                    SalePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ProductId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    UnitId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    SalePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductUnitPrices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductUnitPrices_Products_ProductId",
+                        name: "FK_ProductUnitPrices_Products",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ProductUnitPrices_Units_UnitId",
+                        name: "FK_ProductUnitPrices_Units",
                         column: x => x.UnitId,
                         principalTable: "Units",
                         principalColumn: "Id");
@@ -403,30 +397,30 @@ namespace ERP.Infrastructure.Migrations
                 name: "StockAdjustments",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AdjustmentNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    WarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: true),
-                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    AdjustmentNo = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    WarehouseId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ProductId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     AdjustmentQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Reason = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AdjustmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
-                    LastAction = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StockAdjustments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StockAdjustments_Products_ProductId",
+                        name: "FK_StockAdjustments_Products",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_StockAdjustments_Warehouses_WarehouseId",
+                        name: "FK_StockAdjustments_Warehouses",
                         column: x => x.WarehouseId,
                         principalTable: "Warehouses",
                         principalColumn: "Id");
@@ -436,71 +430,73 @@ namespace ERP.Infrastructure.Migrations
                 name: "StockTransfers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TransferNo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FromWarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: true),
-                    ToWarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: true),
-                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    TransferNo = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    FromWarehouseId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ToWarehouseId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ProductId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TransferDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
-                    LastAction = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StockTransfers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StockTransfers_Products_ProductId",
+                        name: "FK_StockTransfers_Products",
                         column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_StockTransfers_Warehouses_FromWarehouseId",
+                        name: "FK_StockTransfers_Warehouses",
                         column: x => x.FromWarehouseId,
                         principalTable: "Warehouses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_StockTransfers_Warehouses_ToWarehouseId",
+                        name: "FK_StockTransfers_Warehouses1",
                         column: x => x.ToWarehouseId,
                         principalTable: "Warehouses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "UnitConversions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    FromUnitId = table.Column<string>(type: "nvarchar(50)", nullable: true),
-                    ToUnitId = table.Column<string>(type: "nvarchar(50)", nullable: true),
-                    Factor = table.Column<decimal>(type: "decimal(18,6)", nullable: false)
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ProductId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    FromUnitId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ToUnitId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    Factor = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UnitConversions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UnitConversions_Products_ProductId",
+                        name: "FK_UnitConversions_Products",
                         column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_UnitConversions_Units_FromUnitId",
+                        name: "FK_UnitConversions_Units",
                         column: x => x.FromUnitId,
                         principalTable: "Units",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_UnitConversions_Units_ToUnitId",
+                        name: "FK_UnitConversions_Units1",
                         column: x => x.ToUnitId,
                         principalTable: "Units",
                         principalColumn: "Id");
@@ -510,36 +506,41 @@ namespace ERP.Infrastructure.Migrations
                 name: "WarehouseStocks",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    WarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: true),
-                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    WarehouseId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ProductId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     AvailableQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ReservedQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    ReservedQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WarehouseStocks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WarehouseStocks_Products_ProductId",
+                        name: "FK_WarehouseStocks_Products",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WarehouseStocks_Warehouses_WarehouseId",
+                        name: "FK_WarehouseStocks_Warehouses",
                         column: x => x.WarehouseId,
                         principalTable: "Warehouses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "PurchaseItems",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PurchaseId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UnitId = table.Column<string>(type: "nvarchar(50)", nullable: true),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    PurchaseId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ProductId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    UnitId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     UnitCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DiscountPercent = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
@@ -548,28 +549,95 @@ namespace ERP.Infrastructure.Migrations
                     TaxAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BatchId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    BatchId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    SerialId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PurchaseItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PurchaseItems_ProductBatches_BatchId",
+                        name: "FK_PurchaseItems_ProductBatches",
                         column: x => x.BatchId,
                         principalTable: "ProductBatches",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_PurchaseItems_Products_ProductId",
+                        name: "FK_PurchaseItems_ProductSerials",
+                        column: x => x.SerialId,
+                        principalTable: "ProductSerials",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PurchaseItems_Products",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_PurchaseItems_Purchases_PurchaseId",
+                        name: "FK_PurchaseItems_Purchases",
                         column: x => x.PurchaseId,
                         principalTable: "Purchases",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_PurchaseItems_Units_UnitId",
+                        name: "FK_PurchaseItems_Units",
+                        column: x => x.UnitId,
+                        principalTable: "Units",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SalesItems",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    SaleId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ProductId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    UnitId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DiscountPercent = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    DiscountAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    TaxPercent = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    TaxAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BatchId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    SerialId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SalesItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SalesItems_ProductBatches",
+                        column: x => x.BatchId,
+                        principalTable: "ProductBatches",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_SalesItems_ProductSerials",
+                        column: x => x.SerialId,
+                        principalTable: "ProductSerials",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_SalesItems_Products",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_SalesItems_Sales",
+                        column: x => x.SaleId,
+                        principalTable: "Sales",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_SalesItems_Units",
                         column: x => x.UnitId,
                         principalTable: "Units",
                         principalColumn: "Id");
@@ -579,84 +647,46 @@ namespace ERP.Infrastructure.Migrations
                 name: "StockMovements",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    WarehouseId = table.Column<string>(type: "nvarchar(50)", nullable: true),
-                    MovementType = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ProductId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    WarehouseId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    MovementType = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     ReferenceType = table.Column<int>(type: "int", nullable: false),
-                    ReferenceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReferenceId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     BaseQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BatchId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    BatchId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    SerialId = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     MovementDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getutcdate())"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastAction = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StockMovements", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StockMovements_ProductBatches_BatchId",
+                        name: "FK_StockMovements_ProductBatches",
                         column: x => x.BatchId,
                         principalTable: "ProductBatches",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_StockMovements_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_StockMovements_Warehouses_WarehouseId",
-                        column: x => x.WarehouseId,
-                        principalTable: "Warehouses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SalesItems",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SaleId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UnitId = table.Column<string>(type: "nvarchar(50)", nullable: true),
-                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DiscountPercent = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    DiscountAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    TaxPercent = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    TaxAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BatchId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    SerialId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SalesItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SalesItems_ProductBatches_BatchId",
-                        column: x => x.BatchId,
-                        principalTable: "ProductBatches",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_SalesItems_ProductSerials_SerialId",
+                        name: "FK_StockMovements_ProductSerials",
                         column: x => x.SerialId,
                         principalTable: "ProductSerials",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_SalesItems_Products_ProductId",
+                        name: "FK_StockMovements_Products",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_SalesItems_Sales_SaleId",
-                        column: x => x.SaleId,
-                        principalTable: "Sales",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_SalesItems_Units_UnitId",
-                        column: x => x.UnitId,
-                        principalTable: "Units",
+                        name: "FK_StockMovements_Warehouses",
+                        column: x => x.WarehouseId,
+                        principalTable: "Warehouses",
                         principalColumn: "Id");
                 });
 
@@ -702,6 +732,11 @@ namespace ERP.Infrastructure.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductSerials_WarehouseId",
+                table: "ProductSerials",
+                column: "WarehouseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductUnitPrices_ProductId",
                 table: "ProductUnitPrices",
                 column: "ProductId");
@@ -725,6 +760,11 @@ namespace ERP.Infrastructure.Migrations
                 name: "IX_PurchaseItems_PurchaseId",
                 table: "PurchaseItems",
                 column: "PurchaseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PurchaseItems_SerialId",
+                table: "PurchaseItems",
+                column: "SerialId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseItems_UnitId",
@@ -812,6 +852,11 @@ namespace ERP.Infrastructure.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_StockMovements_SerialId",
+                table: "StockMovements",
+                column: "SerialId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_StockMovements_WarehouseId",
                 table: "StockMovements",
                 column: "WarehouseId");
@@ -846,8 +891,7 @@ namespace ERP.Infrastructure.Migrations
                 name: "IX_UnitConversions_ProductId_FromUnitId_ToUnitId",
                 table: "UnitConversions",
                 columns: new[] { "ProductId", "FromUnitId", "ToUnitId" },
-                unique: true,
-                filter: "[ProductId] IS NOT NULL AND [FromUnitId] IS NOT NULL AND [ToUnitId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UnitConversions_ToUnitId",
@@ -869,11 +913,6 @@ namespace ERP.Infrastructure.Migrations
                 table: "Units",
                 column: "Symbol",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_Active",
-                table: "Users",
-                column: "Active");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
@@ -927,9 +966,6 @@ namespace ERP.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Brands");
-
-            migrationBuilder.DropTable(
                 name: "ProductUnitPrices");
 
             migrationBuilder.DropTable(
@@ -954,22 +990,22 @@ namespace ERP.Infrastructure.Migrations
                 name: "UnitConversions");
 
             migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
                 name: "WarehouseStocks");
 
             migrationBuilder.DropTable(
                 name: "Purchases");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "ProductSerials");
-
-            migrationBuilder.DropTable(
                 name: "Sales");
 
             migrationBuilder.DropTable(
                 name: "ProductBatches");
+
+            migrationBuilder.DropTable(
+                name: "ProductSerials");
 
             migrationBuilder.DropTable(
                 name: "Suppliers");

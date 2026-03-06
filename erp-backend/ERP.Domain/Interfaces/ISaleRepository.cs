@@ -1,10 +1,10 @@
-using ERP.Domain.Entities;
+﻿using ERP.Domain.Entities;
 
 namespace ERP.Domain.Interfaces
 {
-    public interface ISaleRepository : IRepository<Sales>
+    public interface ISaleRepository : IRepository<SalesInvoice>
     {
-        Task<List<Sales>> GetAllWithDetailsAsync();
-        Task<Sales?> GetByIdWithDetailsAsync(string id);
+        Task<List<SalesInvoice>> GetAllWithDetailsAsync();
+        Task<SalesInvoice?> GetByIdWithDetailsAsync(string id);
     }
 }
