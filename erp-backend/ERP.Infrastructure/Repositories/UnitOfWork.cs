@@ -34,6 +34,10 @@ namespace ERP.Infrastructure.Repositories
             StockAdjustments = new Repository<StockAdjustments>(context);
             Customers = new Repository<Customers>(context);
             Suppliers = new Repository<Suppliers>(context);
+            Brands = new Repository<Brands>(context);
+            ProductGroup = new Repository<ProductGroup>(context);
+
+
         }
 
         public IRepository<Users> Users { get; }
@@ -56,6 +60,11 @@ namespace ERP.Infrastructure.Repositories
         public IRepository<StockAdjustments> StockAdjustments { get; }
         public IRepository<Customers> Customers { get; }
         public IRepository<Suppliers> Suppliers { get; }
+
+        public IRepository<Brands> Brands { get; }
+        public IRepository<ProductGroup> ProductGroup { get; }
+
+
 
         public async Task<int> SaveChangesAsync()
         {

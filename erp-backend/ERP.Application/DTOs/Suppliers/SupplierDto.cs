@@ -13,6 +13,6 @@ namespace ERP.Application.DTOs.Suppliers
         public string? Country { get; set; }
         public string? TaxNumber { get; set; }
         public int? PaymentTermDays { get; set; }
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
     }
 }

@@ -20,11 +20,17 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<Customers> Customers { get; set; }
 
+    public virtual DbSet<Product> Product { get; set; }
+
     public virtual DbSet<ProductBatches> ProductBatches { get; set; }
+
+    public virtual DbSet<ProductGroup> ProductGroup { get; set; }
 
     public virtual DbSet<ProductSerials> ProductSerials { get; set; }
 
     public virtual DbSet<ProductUnitPrices> ProductUnitPrices { get; set; }
+
+    public virtual DbSet<ProductView> ProductView { get; set; }
 
     public virtual DbSet<Products> Products { get; set; }
 
@@ -60,13 +66,24 @@ public partial class ApplicationDbContext : DbContext
     {
         modelBuilder.Entity<Brands>(entity =>
         {
-            entity.Property(e => e.Description)
-                .IsRequired()
-                .HasColumnName("description");
-            entity.Property(e => e.Name).IsRequired();
-            entity.Property(e => e.Remark)
+            entity.HasIndex(e => e.Active, "IX_Brand_Active");
+
+            entity.HasIndex(e => e.Name, "IX_Brand_Name");
+
+            entity.Property(e => e.Id)
                 .HasMaxLength(50)
-                .HasColumnName("remark");
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Categories>(entity =>
@@ -137,6 +154,86 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.UpdatedBy).HasMaxLength(50);
         });
 
+        modelBuilder.Entity<Product>(entity =>
+        {
+            entity.HasIndex(e => e.Active, "IX_Product_Active");
+
+            entity.HasIndex(e => e.BaseUnitId, "IX_Product_BaseUnitId");
+
+            entity.HasIndex(e => e.BrandId, "IX_Product_BrandId");
+
+            entity.HasIndex(e => e.CategoryId, "IX_Product_CategoryId");
+
+            entity.HasIndex(e => new { e.CategoryId, e.Active }, "IX_Product_Category_Active");
+
+            entity.HasIndex(e => e.Code, "IX_Product_Code").IsUnique();
+
+            entity.HasIndex(e => e.CreatedAt, "IX_Product_CreatedAt");
+
+            entity.HasIndex(e => e.GroupId, "IX_Product_GroupId");
+
+            entity.HasIndex(e => new { e.GroupId, e.Active }, "IX_Product_Group_Active");
+
+            entity.HasIndex(e => e.Name, "IX_Product_Name");
+
+            entity.HasIndex(e => e.TrackInventory, "IX_Product_TrackInventory");
+
+            entity.HasIndex(e => e.UpdatedAt, "IX_Product_UpdatedAt");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.AllowNegativeStock).HasColumnName("Allow_Negative_Stock");
+            entity.Property(e => e.BaseUnitId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Base_Unit_Id");
+            entity.Property(e => e.BrandId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Brand_Id");
+            entity.Property(e => e.CategoryId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Category_Id");
+            entity.Property(e => e.Code)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.GroupId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Group_Id");
+            entity.Property(e => e.HasBatchNumber).HasColumnName("Has_Batch_Number");
+            entity.Property(e => e.HasSerialNumber).HasColumnName("Has_Serial_Number");
+            entity.Property(e => e.HasVariant).HasColumnName("Has_Variant");
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.ReorderLevel).HasColumnName("Reorder_Level");
+            entity.Property(e => e.TrackInventory).HasColumnName("Track_Inventory");
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+
+            entity.HasOne(d => d.BaseUnit).WithMany(p => p.Product)
+                .HasForeignKey(d => d.BaseUnitId)
+                .HasConstraintName("FK_Product_Unit");
+
+            entity.HasOne(d => d.Brand).WithMany(p => p.Product)
+                .HasForeignKey(d => d.BrandId)
+                .HasConstraintName("FK_Product_Brand");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Product)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("FK_Product_Category");
+
+            entity.HasOne(d => d.Group).WithMany(p => p.Product)
+                .HasForeignKey(d => d.GroupId)
+                .HasConstraintName("FK_Product_ProductGroup");
+        });
+
         modelBuilder.Entity<ProductBatches>(entity =>
         {
             entity.HasIndex(e => e.ProductId, "IX_ProductBatches_ProductId");
@@ -174,6 +271,30 @@ public partial class ApplicationDbContext : DbContext
                 .HasForeignKey(d => d.WarehouseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ProductBatches_Warehouses");
+        });
+
+        modelBuilder.Entity<ProductGroup>(entity =>
+        {
+            entity.ToTable("Product_Group");
+
+            entity.HasIndex(e => e.Active, "IX_Product_Group_Active");
+
+            entity.HasIndex(e => e.Name, "IX_Product_Group_Name");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
         });
 
         modelBuilder.Entity<ProductSerials>(entity =>
@@ -246,6 +367,39 @@ public partial class ApplicationDbContext : DbContext
                 .HasForeignKey(d => d.UnitId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ProductUnitPrices_Units");
+        });
+
+        modelBuilder.Entity<ProductView>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("ProductView");
+
+            entity.Property(e => e.AvailableStock).HasColumnType("decimal(38, 2)");
+            entity.Property(e => e.Barcode).HasMaxLength(100);
+            entity.Property(e => e.BaseUnitName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CategoryName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Code)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.Description).HasMaxLength(1000);
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.MaximumStock).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.MinimumStock).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(200);
+            entity.Property(e => e.ProductId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ReorderLevel).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Products>(entity =>

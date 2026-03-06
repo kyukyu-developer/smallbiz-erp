@@ -6,6 +6,6 @@ namespace ERP.Application.Features.Products.Queries
 {
     public class GetProductByIdQuery : IRequest<Result<ProductDto>>
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
     }
 }

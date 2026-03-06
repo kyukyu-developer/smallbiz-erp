@@ -225,27 +225,27 @@ flowchart LR
 
 ### Purchase Module Rules
 
-| Rule Category | Description |
-|--------------|-------------|
-| **Purchase Order** | • DRAFT → APPROVED → PARTIAL_RECEIVED → FULL_RECEIVED<br/>• Only APPROVED PO can receive stock<br/>• Auto-generate PO number |
-| **Purchase Invoice** | • Must link to PO or GRN (optional)<br/>• 3-Way Match: PO vs GRN vs Invoice<br/>• Create AP entry when POSTED |
-| **Purchase Payment** | • Cannot exceed invoice outstanding<br/>• Supports partial payments<br/>• Update AP ledger when CONFIRMED |
+| Rule Category        | Description                                                                                                                  |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Purchase Order**   | • DRAFT → APPROVED → PARTIAL_RECEIVED → FULL_RECEIVED<br/>• Only APPROVED PO can receive stock<br/>• Auto-generate PO number |
+| **Purchase Invoice** | • Must link to PO or GRN (optional)<br/>• 3-Way Match: PO vs GRN vs Invoice<br/>• Create AP entry when POSTED                |
+| **Purchase Payment** | • Cannot exceed invoice outstanding<br/>• Supports partial payments<br/>• Update AP ledger when CONFIRMED                    |
 
 ### Inventory Module Rules
 
-| Rule Category | Description |
-|--------------|-------------|
-| **Stock Receive** | • Only Main Warehouse can receive<br/>• Must convert to base UOM<br/>• Create ledger entry when POSTED |
-| **Stock Delivery** | • Check stock availability<br/>• Honor allow_negative_stock flag<br/>• Use FIFO/AVG for costing |
-| **Stock Ledger** | • Immutable - never update/delete<br/>• Always use base UOM<br/>• Balance = SUM(IN) - SUM(OUT) |
+| Rule Category      | Description                                                                                            |
+| ------------------ | ------------------------------------------------------------------------------------------------------ |
+| **Stock Receive**  | • Only Main Warehouse can receive<br/>• Must convert to base UOM<br/>• Create ledger entry when POSTED |
+| **Stock Delivery** | • Check stock availability<br/>• Honor allow_negative_stock flag<br/>• Use FIFO/AVG for costing        |
+| **Stock Ledger**   | • Immutable - never update/delete<br/>• Always use base UOM<br/>• Balance = SUM(IN) - SUM(OUT)         |
 
 ### Integration Rules
 
-| Rule Category | Description |
-|--------------|-------------|
-| **PO to GRN** | • GRN updates PO.received_quantity<br/>• PO status changes based on received qty |
-| **GRN to Inventory** | • GRN writes Stock Ledger (IN)<br/>• Records batch/serial tracking |
-| **Delivery to Sales** | • Stock Delivery links to Sales Invoice<br/>• COGS calculated from stock cost |
+| Rule Category         | Description                                                                      |
+| --------------------- | -------------------------------------------------------------------------------- |
+| **PO to GRN**         | • GRN updates PO.received_quantity<br/>• PO status changes based on received qty |
+| **GRN to Inventory**  | • GRN writes Stock Ledger (IN)<br/>• Records batch/serial tracking               |
+| **Delivery to Sales** | • Stock Delivery links to Sales Invoice<br/>• COGS calculated from stock cost    |
 
 ---
 
@@ -355,12 +355,12 @@ CANCELLED
 
 ## 7. Document Numbering Conventions
 
-| Document Type | Format | Example |
-|--------------|--------|---------|
-| Purchase Order | PO-YYYYMMDD-XXXX | PO-20260212-0001 |
+| Document Type       | Format            | Example           |
+| ------------------- | ----------------- | ----------------- |
+| Purchase Order      | PO-YYYYMMDD-XXXX  | PO-20260212-0001  |
 | Stock Receive (GRN) | GRN-YYYYMMDD-XXXX | GRN-20260212-0001 |
-| Stock Delivery | DEL-YYYYMMDD-XXXX | DEL-20260212-0001 |
-| Purchase Payment | PAY-YYYYMMDD-XXXX | PAY-20260212-0001 |
+| Stock Delivery      | DEL-YYYYMMDD-XXXX | DEL-20260212-0001 |
+| Purchase Payment    | PAY-YYYYMMDD-XXXX | PAY-20260212-0001 |
 
 ---
 
@@ -483,23 +483,23 @@ Product A @ Main Warehouse:
 
 ### Stock Reports
 
-| Report | Description |
-|--------|-------------|
-| **Stock Balance** | Current stock by warehouse, product, variant |
-| **Stock Movement** | IN/OUT transactions with details |
-| **Stock Valuation** | Total inventory value (FIFO/AVG) |
-| **Batch/Serial Tracking** | Movement history, expiry dates |
-| **Reorder Report** | Products below reorder level |
+| Report                    | Description                                  |
+| ------------------------- | -------------------------------------------- |
+| **Stock Balance**         | Current stock by warehouse, product, variant |
+| **Stock Movement**        | IN/OUT transactions with details             |
+| **Stock Valuation**       | Total inventory value (FIFO/AVG)             |
+| **Batch/Serial Tracking** | Movement history, expiry dates               |
+| **Reorder Report**        | Products below reorder level                 |
 
 ### Purchase Reports
 
-| Report | Description |
-|--------|-------------|
-| **PO Status** | Open, Partial, Fully Received POs |
-| **GRN Report** | Goods received history |
-| **AP Aging** | Outstanding invoices by age |
-| **Supplier Analysis** | Purchase volume, payment history |
-| **3-Way Match** | PO vs GRN vs Invoice comparison |
+| Report                | Description                       |
+| --------------------- | --------------------------------- |
+| **PO Status**         | Open, Partial, Fully Received POs |
+| **GRN Report**        | Goods received history            |
+| **AP Aging**          | Outstanding invoices by age       |
+| **Supplier Analysis** | Purchase volume, payment history  |
+| **3-Way Match**       | PO vs GRN vs Invoice comparison   |
 
 ---
 
@@ -547,14 +547,14 @@ Product A @ Main Warehouse:
 
 ### Common Errors and Solutions
 
-| Error | Cause | Solution |
-|-------|-------|----------|
-| Cannot receive to Branch warehouse | Selected non-main warehouse | Select Main Warehouse only |
-| Variant required | Product has variants | Select specific variant |
-| Insufficient stock | Stock balance too low | Check stock or allow negative |
-| Serial already used | Serial number duplicate | Enter unique serial number |
-| Payment exceeds outstanding | Payment > invoice balance | Enter correct amount |
-| 3-Way match failed | PO, GRN, Invoice mismatch | Verify quantities and prices |
+| Error                              | Cause                       | Solution                      |
+| ---------------------------------- | --------------------------- | ----------------------------- |
+| Cannot receive to Branch warehouse | Selected non-main warehouse | Select Main Warehouse only    |
+| Variant required                   | Product has variants        | Select specific variant       |
+| Insufficient stock                 | Stock balance too low       | Check stock or allow negative |
+| Serial already used                | Serial number duplicate     | Enter unique serial number    |
+| Payment exceeds outstanding        | Payment > invoice balance   | Enter correct amount          |
+| 3-Way match failed                 | PO, GRN, Invoice mismatch   | Verify quantities and prices  |
 
 ---
 
@@ -591,12 +591,12 @@ Product A @ Main Warehouse:
 
 ### User Roles & Permissions
 
-| Role | Purchase Module | Inventory Module |
-|------|----------------|------------------|
-| **Purchase Manager** | Create/Approve PO<br/>Create Invoice<br/>Create Payment | View Stock Reports |
-| **Warehouse Manager** | View PO | Create/Post GRN<br/>Create/Post Delivery<br/>Stock Reports |
-| **Accountant** | View PO/Invoice<br/>Approve Payment | View Valuation |
-| **Sales Person** | View PO | Create Delivery (SALE)<br/>Check Stock |
+| Role                  | Purchase Module                                         | Inventory Module                                           |
+| --------------------- | ------------------------------------------------------- | ---------------------------------------------------------- |
+| **Purchase Manager**  | Create/Approve PO<br/>Create Invoice<br/>Create Payment | View Stock Reports                                         |
+| **Warehouse Manager** | View PO                                                 | Create/Post GRN<br/>Create/Post Delivery<br/>Stock Reports |
+| **Accountant**        | View PO/Invoice<br/>Approve Payment                     | View Valuation                                             |
+| **Sales Person**      | View PO                                                 | Create Delivery (SALE)<br/>Check Stock                     |
 
 ### System Access Points
 
@@ -627,6 +627,7 @@ Product A @ Main Warehouse:
 **Created**: 2026-02-12
 **Author**: SmallBiz ERP Documentation Team
 **Based on**:
+
 - INVENTORY_DATABASE_NOTES.txt
 - PURCHASE_MODULE_ERD_FLOWCHART.md
 - INVENTORY_MODULE_ERD_FLOWCHART.md

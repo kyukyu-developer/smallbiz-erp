@@ -1,0 +1,45 @@
+﻿
+
+using MediatR;
+using ERP.Application.DTOs.Common;
+using ERP.Domain.Interfaces;
+using ERP.Application.DTOs.Brands;
+
+namespace ERP.Application.Features.Brands.Commands
+{
+    public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, Result<BrandDto>>
+    {
+        private readonly IBrandRepository _brandRepository;
+        private readonly IUnitOfWork _unitOfWork;
+
+
+        public CreateBrandCommandHandler(IBrandRepository brandRepository, IUnitOfWork unitOfWork)
+        {
+            _brandRepository = brandRepository;
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<Result<BrandDto>> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
+        {
+            var brand = new Domain.Entities.Brands
+            {
+                Name = request.Name,
+                Description = request.Description,
+                Active = request.Active
+            };
+
+            await _brandRepository.AddAsync(brand);
+            await _unitOfWork.SaveChangesAsync();
+
+            var BrandDto = new BrandDto
+            {
+                Id = brand.Id,
+                Name = brand.Name,
+                Description = brand.Description,
+                Active = brand.Active
+            };
+
+            return Result<BrandDto>.Success(BrandDto);
+        }
+    }
+}

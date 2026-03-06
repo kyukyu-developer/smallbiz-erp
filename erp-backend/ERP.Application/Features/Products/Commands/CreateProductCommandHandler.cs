@@ -9,10 +9,14 @@ namespace ERP.Application.Features.Products.Commands
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Result<ProductDto>>
     {
         private readonly IProductRepository _productRepository;
+        private readonly IUnitRepository _unitRepository;
+        private readonly IUnitOfWork _unitOfWorkRepository;
 
-        public CreateProductCommandHandler(IProductRepository productRepository)
+        public CreateProductCommandHandler(IProductRepository productRepository, IUnitRepository unitRepository,IUnitOfWork unitOfWorkRepository)
         {
             _productRepository = productRepository;
+            _unitRepository = unitRepository;
+            _unitOfWorkRepository = unitOfWorkRepository;
         }
 
         public async Task<Result<ProductDto>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -41,7 +45,7 @@ namespace ERP.Application.Features.Products.Commands
             };
 
             await _productRepository.AddAsync(product);
-            await _productRepository.SaveChangesAsync();
+            await _unitOfWorkRepository.SaveChangesAsync();
 
             var productDto = new ProductDto
             {

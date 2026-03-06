@@ -36,7 +36,7 @@ namespace ERP.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(string id)
         {
             var query = new GetCategoryByIdQuery { Id = id };
             var result = await _mediator.Send(query);
@@ -59,7 +59,7 @@ namespace ERP.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateCategoryCommand command)
+        public async Task<IActionResult> Update(string id, [FromBody] UpdateCategoryCommand command)
         {
             if (id != command.Id)
                 return BadRequest("ID mismatch");
@@ -73,7 +73,7 @@ namespace ERP.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
             var command = new DeleteCategoryCommand { Id = id };
             var result = await _mediator.Send(command);

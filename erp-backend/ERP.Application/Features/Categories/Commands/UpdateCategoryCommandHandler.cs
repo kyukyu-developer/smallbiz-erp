@@ -38,7 +38,7 @@ namespace ERP.Application.Features.Categories.Commands
                 Name = category.Name,
                 Description = category.Description,
                 ParentCategoryId = category.ParentCategoryId,
-                IsActive = category.Active
+                Active = category.Active
             };
 
             return Result<CategoryDto>.Success(categoryDto);

@@ -35,5 +35,7 @@ public partial class Categories
 
     public virtual Categories ParentCategory { get; set; }
 
+    public virtual ICollection<Product> Product { get; set; } = new List<Product>();
+
     public virtual ICollection<Products> Products { get; set; } = new List<Products>();
 }

@@ -27,6 +27,14 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Product]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Product_Group]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[ProductBatches]",
          "ObjectType": 0
       },
@@ -97,6 +105,10 @@
       {
          "Name": "[dbo].[WarehouseStocks]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProductView]",
+         "ObjectType": 3
       }
    ],
    "UiHint": null,

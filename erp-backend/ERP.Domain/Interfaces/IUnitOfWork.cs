@@ -25,6 +25,9 @@ namespace ERP.Domain.Interfaces
         IRepository<Customers> Customers { get; }
         IRepository<Suppliers> Suppliers { get; }
 
+        IRepository<Brands> Brands { get; }
+
+
         Task<int> SaveChangesAsync();
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();
