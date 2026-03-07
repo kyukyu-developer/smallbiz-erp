@@ -78,7 +78,7 @@ namespace ERP.Application.Features.Sales.Commands
                 Status = (int)request.Status,
                 DueDate = request.DueDate,
                 Notes = request.Notes,
-                SalesItems = saleItems
+                SalesInvoiceItem = saleItems
             };
 
             await _saleRepository.AddAsync(sale);
@@ -100,7 +100,7 @@ namespace ERP.Application.Features.Sales.Commands
                 Status = (ERP.Domain.Enums.SaleStatus)sale.Status,
                 DueDate = sale.DueDate,
                 Notes = sale.Notes,
-                Items = sale.SalesItems.Select(i => new SaleItemDto
+                Items = sale.SalesInvoiceItem.Select(i => new SaleItemDto
                 {
                     Id = i.Id,
                     ProductId = i.ProductId,

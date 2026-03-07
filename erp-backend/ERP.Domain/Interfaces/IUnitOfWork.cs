@@ -25,7 +25,7 @@ namespace ERP.Domain.Interfaces
         IRepository<SalesCustomer> Customers { get; }
         IRepository<PurchSupplier> Suppliers { get; }
 
-        IRepository<Brands> Brands { get; }
+        IRepository<ProdBrand> Brands { get; }
 
 
         Task<int> SaveChangesAsync();

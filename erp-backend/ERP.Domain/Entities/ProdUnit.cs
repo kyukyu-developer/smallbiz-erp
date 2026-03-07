@@ -25,15 +25,15 @@ public partial class ProdUnit
 
     public string LastAction { get; set; }
 
-    public virtual ICollection<ProdUnitPrice> ProductUnitPrices { get; set; } = new List<ProdUnitPrice>();
+    public virtual ICollection<ProdItem> ProdItem { get; set; } = new List<ProdItem>();
 
-    public virtual ICollection<ProdItem> Products { get; set; } = new List<ProdItem>();
+    public virtual ICollection<ProdUnitConversion> ProdUnitConversionFromUnit { get; set; } = new List<ProdUnitConversion>();
 
-    public virtual ICollection<PurchItem> PurchaseItems { get; set; } = new List<PurchItem>();
+    public virtual ICollection<ProdUnitConversion> ProdUnitConversionToUnit { get; set; } = new List<ProdUnitConversion>();
 
-    public virtual ICollection<SalesInvoiceItem> SalesItems { get; set; } = new List<SalesInvoiceItem>();
+    public virtual ICollection<ProdUnitPrice> ProdUnitPrice { get; set; } = new List<ProdUnitPrice>();
 
-    public virtual ICollection<ProdUnitConversion> UnitConversionsFromUnit { get; set; } = new List<ProdUnitConversion>();
+    public virtual ICollection<PurchItem> PurchItem { get; set; } = new List<PurchItem>();
 
-    public virtual ICollection<ProdUnitConversion> UnitConversionsToUnit { get; set; } = new List<ProdUnitConversion>();
+    public virtual ICollection<SalesInvoiceItem> SalesInvoiceItem { get; set; } = new List<SalesInvoiceItem>();
 }

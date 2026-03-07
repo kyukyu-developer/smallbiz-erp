@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ERP.Domain.Entities;
 
-public partial class ProductGroup
+public partial class ProdBrand
 {
     public string Id { get; set; }
 
@@ -25,5 +25,5 @@ public partial class ProductGroup
 
     public string LastAction { get; set; }
 
-    public virtual ICollection<Product> Product { get; set; } = new List<Product>();
+    public virtual ICollection<ProdItem> ProdItem { get; set; } = new List<ProdItem>();
 }

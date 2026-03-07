@@ -13,7 +13,7 @@ namespace ERP.Infrastructure.Repositories
 
         public async Task<List<InvWarehouseStock>> GetAllWithDetailsAsync()
         {
-            return await _context.WarehouseStocks
+            return await _context.InvWarehouseStock
                 .Include(ws => ws.Product)
                 .Include(ws => ws.Warehouse)
                 .ToListAsync();

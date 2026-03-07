@@ -19,7 +19,7 @@ namespace ERP.Application.Features.ProductGroup.Queries
 
         public async Task<Result<List<ProductGroupDto>>> Handle(GetProductGroupQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.ProductGroup> productGroups;
+            IEnumerable<Domain.Entities.ProdGroup> productGroups;
 
             productGroups = await _productGroupRepository.GetAllAsync();
 

@@ -6,14 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ERP.Infrastructure.Repositories
 {
-    public class ProductGroupRepository : Repository<ProductGroup>, IProductGroupRepository
+    public class ProdGroupRepository : Repository<ProdGroup>, IProductGroupRepository
     {
-        public ProductGroupRepository(ApplicationDbContext context) : base(context)
+        public ProdGroupRepository(ApplicationDbContext context) : base(context)
         {
 
         }
 
-        public async Task<ProductGroup?> GetByName(string name)
+        public async Task<ProdGroup?> GetByName(string name)
         {
             return await _dbSet
                 .FirstOrDefaultAsync(u =>

@@ -19,7 +19,7 @@ namespace ERP.Application.Features.Brands.Queries
 
         public async Task<Result<List<BrandDto>>> Handle(GetBrandsQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Brands> brands;
+            IEnumerable<Domain.Entities.ProdBrand> brands;
 
             brands = await _brandRepository.GetAllAsync();
 

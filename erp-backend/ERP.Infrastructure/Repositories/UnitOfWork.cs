@@ -34,6 +34,8 @@ namespace ERP.Infrastructure.Repositories
             StockAdjustments = new Repository<InvStockAdjustment>(context);
             Customers = new Repository<SalesCustomer>(context);
             Suppliers = new Repository<PurchSupplier>(context);
+            Brands = new Repository<ProdBrand>(context);
+            ProductGroup = new Repository<ProdGroup>(context);
         }
 
         public IRepository<AuthUser> Users { get; }
@@ -57,8 +59,8 @@ namespace ERP.Infrastructure.Repositories
         public IRepository<SalesCustomer> Customers { get; }
         public IRepository<PurchSupplier> Suppliers { get; }
 
-        public IRepository<Brands> Brands { get; }
-        public IRepository<ProductGroup> ProductGroup { get; }
+        public IRepository<ProdBrand> Brands { get; }
+        public IRepository<ProdGroup> ProductGroup { get; }
 
 
 

@@ -28,9 +28,9 @@ namespace ERP.Tests.ProductGroup
         {
             // Arrange
 
-            var productGroups = new List<Domain.Entities.ProductGroup>
+            var productGroups = new List<Domain.Entities.ProdGroup>
         {
-            new Domain.Entities.ProductGroup
+            new Domain.Entities.ProdGroup
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = "Electronics",
@@ -38,7 +38,7 @@ namespace ERP.Tests.ProductGroup
                 Active = true,
                 CreatedBy = "Admin"
             },
-            new Domain.Entities.ProductGroup
+            new Domain.Entities.ProdGroup
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = "Beverages",
@@ -72,7 +72,7 @@ namespace ERP.Tests.ProductGroup
             // Arrange
         _repositoryMock
             .Setup(repo => repo.GetAllAsync())
-            .ReturnsAsync(new List<Domain.Entities.ProductGroup>());
+            .ReturnsAsync(new List<Domain.Entities.ProdGroup>());
 
 
             var query = new GetProductGroupQuery();

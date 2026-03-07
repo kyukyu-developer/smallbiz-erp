@@ -13,7 +13,7 @@ namespace ERP.Infrastructure.Repositories
 
         public async Task<ProdItem?> GetByCodeAsync(string code)
         {
-            return await _context.Products
+            return await _context.ProdItem
                 .FirstOrDefaultAsync(p => p.Code == code);
         }
     }

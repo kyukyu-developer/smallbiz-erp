@@ -23,16 +23,16 @@ public class GetBrandsQueryHandlerTests
     public async Task Handle_ShouldReturnBrandList_WhenBrandsExist()
     {
         // Arrange
-        var brands = new List<ERP.Domain.Entities.Brands>
+        var brands = new List<ERP.Domain.Entities.ProdBrand>
         {
-            new ERP.Domain.Entities.Brands
+            new ERP.Domain.Entities.ProdBrand
             {
                 Id = "1",
                 Name = "Nike",
                 Description = "Sports brand",
                 Active = true
             },
-            new ERP.Domain.Entities.Brands
+            new ERP.Domain.Entities.ProdBrand
             {
                 Id = "2",
                 Name = "Adidas",
@@ -66,7 +66,7 @@ public class GetBrandsQueryHandlerTests
         // Arrange
         _brandRepositoryMock
             .Setup(x => x.GetAllAsync())
-            .ReturnsAsync(new List<Domain.Entities.Brands>());
+            .ReturnsAsync(new List<Domain.Entities.ProdBrand>());
 
         var query = new GetBrandsQuery();
 

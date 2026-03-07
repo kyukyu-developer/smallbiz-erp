@@ -14,253 +14,331 @@ public partial class ApplicationDbContext : DbContext
     {
     }
 
-<<<<<<< HEAD
-    public virtual DbSet<ProdCategory> Categories { get; set; }
-=======
-    public virtual DbSet<Brands> Brands { get; set; }
+    public virtual DbSet<AuthRefreshToken> AuthRefreshToken { get; set; }
 
-    public virtual DbSet<Categories> Categories { get; set; }
->>>>>>> 3797277c412cfaa00f2cd5a4840a3977aa7e1530
+    public virtual DbSet<AuthUser> AuthUser { get; set; }
 
-    public virtual DbSet<SalesCustomer> Customers { get; set; }
+    public virtual DbSet<InvStockAdjustment> InvStockAdjustment { get; set; }
 
-<<<<<<< HEAD
-    public virtual DbSet<ProdBatch> ProductBatches { get; set; }
+    public virtual DbSet<InvStockMovement> InvStockMovement { get; set; }
 
-    public virtual DbSet<ProdSerial> ProductSerials { get; set; }
-=======
-    public virtual DbSet<Product> Product { get; set; }
+    public virtual DbSet<InvStockTransfer> InvStockTransfer { get; set; }
 
-    public virtual DbSet<ProductBatches> ProductBatches { get; set; }
+    public virtual DbSet<InvWarehouse> InvWarehouse { get; set; }
 
-    public virtual DbSet<ProductGroup> ProductGroup { get; set; }
+    public virtual DbSet<InvWarehouseStock> InvWarehouseStock { get; set; }
 
-    public virtual DbSet<ProductSerials> ProductSerials { get; set; }
->>>>>>> 3797277c412cfaa00f2cd5a4840a3977aa7e1530
+    public virtual DbSet<ProdBatch> ProdBatch { get; set; }
 
-    public virtual DbSet<ProdUnitPrice> ProductUnitPrices { get; set; }
+    public virtual DbSet<ProdBrand> ProdBrand { get; set; }
 
-<<<<<<< HEAD
-    public virtual DbSet<ProdItem> Products { get; set; }
-=======
-    public virtual DbSet<ProductView> ProductView { get; set; }
+    public virtual DbSet<ProdCategory> ProdCategory { get; set; }
 
-    public virtual DbSet<Products> Products { get; set; }
->>>>>>> 3797277c412cfaa00f2cd5a4840a3977aa7e1530
+    public virtual DbSet<ProdGroup> ProdGroup { get; set; }
 
-    public virtual DbSet<PurchItem> PurchaseItems { get; set; }
+    public virtual DbSet<ProdItem> ProdItem { get; set; }
 
-    public virtual DbSet<PurchInvoice> Purchases { get; set; }
+    public virtual DbSet<ProdSerial> ProdSerial { get; set; }
 
-    public virtual DbSet<AuthRefreshToken> RefreshTokens { get; set; }
+    public virtual DbSet<ProdUnit> ProdUnit { get; set; }
 
-    public virtual DbSet<SalesInvoice> Sales { get; set; }
+    public virtual DbSet<ProdUnitConversion> ProdUnitConversion { get; set; }
 
-    public virtual DbSet<SalesInvoiceItem> SalesItems { get; set; }
+    public virtual DbSet<ProdUnitPrice> ProdUnitPrice { get; set; }
 
-    public virtual DbSet<InvStockAdjustment> StockAdjustments { get; set; }
+    public virtual DbSet<PurchInvoice> PurchInvoice { get; set; }
 
-    public virtual DbSet<InvStockMovement> StockMovements { get; set; }
+    public virtual DbSet<PurchItem> PurchItem { get; set; }
 
-    public virtual DbSet<InvStockTransfer> StockTransfers { get; set; }
+    public virtual DbSet<PurchSupplier> PurchSupplier { get; set; }
 
-    public virtual DbSet<PurchSupplier> Suppliers { get; set; }
+    public virtual DbSet<SalesCustomer> SalesCustomer { get; set; }
 
-    public virtual DbSet<ProdUnitConversion> UnitConversions { get; set; }
+    public virtual DbSet<SalesInvoice> SalesInvoice { get; set; }
 
-    public virtual DbSet<ProdUnit> Units { get; set; }
-
-    public virtual DbSet<AuthUser> Users { get; set; }
-
-    public virtual DbSet<InvWarehouseStock> WarehouseStocks { get; set; }
-
-    public virtual DbSet<InvWarehouse> Warehouses { get; set; }
+    public virtual DbSet<SalesInvoiceItem> SalesInvoiceItem { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-<<<<<<< HEAD
-        modelBuilder.Entity<ProdCategory>(entity =>
-=======
-        modelBuilder.Entity<Brands>(entity =>
+        modelBuilder.Entity<AuthRefreshToken>(entity =>
         {
-            entity.HasIndex(e => e.Active, "IX_Brand_Active");
+            entity.HasIndex(e => e.ExpiresAt, "IX_AuthRefreshToken_ExpiresAt");
 
-            entity.HasIndex(e => e.Name, "IX_Brand_Name");
+            entity.HasIndex(e => e.Token, "IX_AuthRefreshToken_Token");
+
+            entity.HasIndex(e => e.UserId, "IX_AuthRefreshToken_UserId");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Active).HasDefaultValue(true);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
-            entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.Description)
-                .HasMaxLength(255)
-                .HasColumnName("description");
-            entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.Name)
+            entity.Property(e => e.Token)
                 .IsRequired()
-                .HasMaxLength(100);
-            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+                .HasMaxLength(500);
+            entity.Property(e => e.UserId)
+                .IsRequired()
+                .HasMaxLength(50);
         });
 
-        modelBuilder.Entity<Categories>(entity =>
->>>>>>> 3797277c412cfaa00f2cd5a4840a3977aa7e1530
+        modelBuilder.Entity<AuthUser>(entity =>
         {
-            entity.HasIndex(e => e.ParentCategoryId, "IX_Categories_ParentCategoryId");
+            entity.HasIndex(e => e.Email, "IX_AuthUser_Email").IsUnique();
+
+            entity.HasIndex(e => e.Username, "IX_AuthUser_Username").IsUnique();
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Active).HasDefaultValue(true);
-            entity.Property(e => e.Code)
-                .IsRequired()
-                .HasMaxLength(20)
-                .IsUnicode(false);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
             entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.Name)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.ParentCategoryId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
-
-            entity.HasOne(d => d.ParentCategory).WithMany(p => p.InverseParentCategory)
-                .HasForeignKey(d => d.ParentCategoryId)
-                .HasConstraintName("FK_Categories_ParentCategories");
-        });
-
-        modelBuilder.Entity<SalesCustomer>(entity =>
-        {
-            entity.Property(e => e.Id)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Active).HasDefaultValue(true);
-            entity.Property(e => e.Address)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.City)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Code)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.ContactPerson).HasMaxLength(50);
-            entity.Property(e => e.Country)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
-            entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.CreditLimit).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.Email)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.Name)
                 .IsRequired()
-                .HasMaxLength(50);
-            entity.Property(e => e.Phone)
+                .HasMaxLength(200);
+            entity.Property(e => e.FirstName).HasMaxLength(100);
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.LastName).HasMaxLength(100);
+            entity.Property(e => e.PasswordHash).IsRequired();
+            entity.Property(e => e.Role)
+                .IsRequired()
                 .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.TaxNumber)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+                .HasDefaultValue("User");
             entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+            entity.Property(e => e.Username)
+                .IsRequired()
+                .HasMaxLength(100);
         });
 
-<<<<<<< HEAD
-        modelBuilder.Entity<ProdBatch>(entity =>
-=======
-        modelBuilder.Entity<Product>(entity =>
+        modelBuilder.Entity<InvStockAdjustment>(entity =>
         {
-            entity.HasIndex(e => e.Active, "IX_Product_Active");
+            entity.HasIndex(e => e.ProductId, "IX_InvStockAdjustment_ProductId");
 
-            entity.HasIndex(e => e.BaseUnitId, "IX_Product_BaseUnitId");
-
-            entity.HasIndex(e => e.BrandId, "IX_Product_BrandId");
-
-            entity.HasIndex(e => e.CategoryId, "IX_Product_CategoryId");
-
-            entity.HasIndex(e => new { e.CategoryId, e.Active }, "IX_Product_Category_Active");
-
-            entity.HasIndex(e => e.Code, "IX_Product_Code").IsUnique();
-
-            entity.HasIndex(e => e.CreatedAt, "IX_Product_CreatedAt");
-
-            entity.HasIndex(e => e.GroupId, "IX_Product_GroupId");
-
-            entity.HasIndex(e => new { e.GroupId, e.Active }, "IX_Product_Group_Active");
-
-            entity.HasIndex(e => e.Name, "IX_Product_Name");
-
-            entity.HasIndex(e => e.TrackInventory, "IX_Product_TrackInventory");
-
-            entity.HasIndex(e => e.UpdatedAt, "IX_Product_UpdatedAt");
+            entity.HasIndex(e => e.WarehouseId, "IX_InvStockAdjustment_WarehouseId");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Active).HasDefaultValue(true);
-            entity.Property(e => e.AllowNegativeStock).HasColumnName("Allow_Negative_Stock");
-            entity.Property(e => e.BaseUnitId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("Base_Unit_Id");
-            entity.Property(e => e.BrandId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("Brand_Id");
-            entity.Property(e => e.CategoryId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("Category_Id");
-            entity.Property(e => e.Code)
+            entity.Property(e => e.AdjustmentNo)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.AdjustmentQuantity).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
             entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.GroupId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("Group_Id");
-            entity.Property(e => e.HasBatchNumber).HasColumnName("Has_Batch_Number");
-            entity.Property(e => e.HasSerialNumber).HasColumnName("Has_Serial_Number");
-            entity.Property(e => e.HasVariant).HasColumnName("Has_Variant");
             entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.Name)
+            entity.Property(e => e.ProductId)
                 .IsRequired()
-                .HasMaxLength(100);
-            entity.Property(e => e.ReorderLevel).HasColumnName("Reorder_Level");
-            entity.Property(e => e.TrackInventory).HasColumnName("Track_Inventory");
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Reason).IsRequired();
             entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+            entity.Property(e => e.WarehouseId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
 
-            entity.HasOne(d => d.BaseUnit).WithMany(p => p.Product)
-                .HasForeignKey(d => d.BaseUnitId)
-                .HasConstraintName("FK_Product_Unit");
+            entity.HasOne(d => d.Product).WithMany(p => p.InvStockAdjustment)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InvStockAdjustment_ProdItem");
 
-            entity.HasOne(d => d.Brand).WithMany(p => p.Product)
-                .HasForeignKey(d => d.BrandId)
-                .HasConstraintName("FK_Product_Brand");
-
-            entity.HasOne(d => d.Category).WithMany(p => p.Product)
-                .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("FK_Product_Category");
-
-            entity.HasOne(d => d.Group).WithMany(p => p.Product)
-                .HasForeignKey(d => d.GroupId)
-                .HasConstraintName("FK_Product_ProductGroup");
+            entity.HasOne(d => d.Warehouse).WithMany(p => p.InvStockAdjustment)
+                .HasForeignKey(d => d.WarehouseId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InvStockAdjustment_InvWarehouse");
         });
 
-        modelBuilder.Entity<ProductBatches>(entity =>
->>>>>>> 3797277c412cfaa00f2cd5a4840a3977aa7e1530
+        modelBuilder.Entity<InvStockMovement>(entity =>
         {
-            entity.HasIndex(e => e.ProductId, "IX_ProductBatches_ProductId");
+            entity.HasIndex(e => e.BatchId, "IX_InvStockMovement_BatchId");
 
-            entity.HasIndex(e => e.WarehouseId, "IX_ProductBatches_WarehouseId");
+            entity.HasIndex(e => e.ProductId, "IX_InvStockMovement_ProductId");
+
+            entity.HasIndex(e => e.SerialId, "IX_InvStockMovement_SerialId");
+
+            entity.HasIndex(e => e.WarehouseId, "IX_InvStockMovement_WarehouseId");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.BaseQuantity).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.BatchId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.MovementType)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ProductId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ReferenceId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.SerialId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+            entity.Property(e => e.WarehouseId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Batch).WithMany(p => p.InvStockMovement)
+                .HasForeignKey(d => d.BatchId)
+                .HasConstraintName("FK_InvStockMovement_ProdBatch");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.InvStockMovement)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InvStockMovement_ProdItem");
+
+            entity.HasOne(d => d.Serial).WithMany(p => p.InvStockMovement)
+                .HasForeignKey(d => d.SerialId)
+                .HasConstraintName("FK_InvStockMovement_ProdSerial");
+
+            entity.HasOne(d => d.Warehouse).WithMany(p => p.InvStockMovement)
+                .HasForeignKey(d => d.WarehouseId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InvStockMovement_InvWarehouse");
+        });
+
+        modelBuilder.Entity<InvStockTransfer>(entity =>
+        {
+            entity.HasIndex(e => e.FromWarehouseId, "IX_InvStockTransfer_FromWarehouseId");
+
+            entity.HasIndex(e => e.ProductId, "IX_InvStockTransfer_ProductId");
+
+            entity.HasIndex(e => e.ToWarehouseId, "IX_InvStockTransfer_ToWarehouseId");
+
+            entity.HasIndex(e => e.TransferNo, "IX_InvStockTransfer_TransferNo").IsUnique();
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.FromWarehouseId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.ProductId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Quantity).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.ToWarehouseId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TransferNo)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+
+            entity.HasOne(d => d.FromWarehouse).WithMany(p => p.InvStockTransferFromWarehouse)
+                .HasForeignKey(d => d.FromWarehouseId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InvStockTransfer_InvWarehouse");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.InvStockTransfer)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InvStockTransfer_ProdItem");
+
+            entity.HasOne(d => d.ToWarehouse).WithMany(p => p.InvStockTransferToWarehouse)
+                .HasForeignKey(d => d.ToWarehouseId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InvStockTransfer_InvWarehouse1");
+        });
+
+        modelBuilder.Entity<InvWarehouse>(entity =>
+        {
+            entity.HasIndex(e => e.Active, "IX_InvWarehouse_Active");
+
+            entity.HasIndex(e => e.BranchType, "IX_InvWarehouse_BranchType");
+
+            entity.HasIndex(e => e.IsMainWarehouse, "IX_InvWarehouse_IsMainWarehouse");
+
+            entity.HasIndex(e => new { e.Name, e.City }, "IX_InvWarehouse_Name_City");
+
+            entity.HasIndex(e => e.ParentWarehouseId, "IX_InvWarehouse_ParentWarehouseId");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.Address).HasMaxLength(255);
+            entity.Property(e => e.BranchType)
+                .IsRequired()
+                .HasMaxLength(20);
+            entity.Property(e => e.City).HasMaxLength(50);
+            entity.Property(e => e.ContactPerson).HasMaxLength(100);
+            entity.Property(e => e.Country).HasMaxLength(50);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.IsUsedWarehouse).HasDefaultValue(true);
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.Location).HasMaxLength(100);
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.ParentWarehouseId).HasMaxLength(50);
+            entity.Property(e => e.Phone).HasMaxLength(20);
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<InvWarehouseStock>(entity =>
+        {
+            entity.HasIndex(e => e.ProductId, "IX_InvWarehouseStock_ProductId");
+
+            entity.HasIndex(e => e.WarehouseId, "IX_InvWarehouseStock_WarehouseId");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.AvailableQuantity).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.ProductId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ReservedQuantity).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+            entity.Property(e => e.WarehouseId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Product).WithMany(p => p.InvWarehouseStock)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InvWarehouseStock_ProdItem");
+
+            entity.HasOne(d => d.Warehouse).WithMany(p => p.InvWarehouseStock)
+                .HasForeignKey(d => d.WarehouseId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InvWarehouseStock_InvWarehouse");
+        });
+
+        modelBuilder.Entity<ProdBatch>(entity =>
+        {
+            entity.HasIndex(e => e.ProductId, "IX_ProdBatch_ProductId");
+
+            entity.HasIndex(e => e.WarehouseId, "IX_ProdBatch_WarehouseId");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
@@ -284,27 +362,20 @@ public partial class ApplicationDbContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductBatches)
+            entity.HasOne(d => d.Product).WithMany(p => p.ProdBatch)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ProductBatches_Products");
+                .HasConstraintName("FK_ProdBatch_ProdItem");
 
-            entity.HasOne(d => d.Warehouse).WithMany(p => p.ProductBatches)
+            entity.HasOne(d => d.Warehouse).WithMany(p => p.ProdBatch)
                 .HasForeignKey(d => d.WarehouseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ProductBatches_Warehouses");
+                .HasConstraintName("FK_ProdBatch_InvWarehouse");
         });
 
-<<<<<<< HEAD
-        modelBuilder.Entity<ProdSerial>(entity =>
-=======
-        modelBuilder.Entity<ProductGroup>(entity =>
+        modelBuilder.Entity<ProdBrand>(entity =>
         {
-            entity.ToTable("Product_Group");
-
-            entity.HasIndex(e => e.Active, "IX_Product_Group_Active");
-
-            entity.HasIndex(e => e.Name, "IX_Product_Group_Name");
+            entity.HasIndex(e => e.Active, "IX_Brand_Active");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
@@ -322,10 +393,125 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.UpdatedBy).HasMaxLength(50);
         });
 
-        modelBuilder.Entity<ProductSerials>(entity =>
->>>>>>> 3797277c412cfaa00f2cd5a4840a3977aa7e1530
+        modelBuilder.Entity<ProdCategory>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_ProductSerials_1");
+            entity.HasIndex(e => e.ParentCategoryId, "IX_ProdCategory_ParentCategoryId");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.Code)
+                .IsRequired()
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ParentCategoryId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+
+            entity.HasOne(d => d.ParentCategory).WithMany(p => p.InverseParentCategory)
+                .HasForeignKey(d => d.ParentCategoryId)
+                .HasConstraintName("FK_ProdCategory_ParentProdCategory");
+        });
+
+        modelBuilder.Entity<ProdGroup>(entity =>
+        {
+            entity.HasIndex(e => e.Active, "IX_ProdGroup_Active");
+
+            entity.HasIndex(e => e.Name, "IX_ProdGroup_Name");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<ProdItem>(entity =>
+        {
+            entity.HasIndex(e => e.BaseUnitId, "IX_ProdItem_BaseUnitId");
+
+            entity.HasIndex(e => e.CategoryId, "IX_ProdItem_CategoryId");
+
+            entity.HasIndex(e => e.Code, "IX_ProdItem_Code").IsUnique();
+
+            entity.HasIndex(e => e.Name, "IX_ProdItem_Name");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.Barcode).HasMaxLength(100);
+            entity.Property(e => e.BaseUnitId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.BrandId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CategoryId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Code)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.Description).HasMaxLength(1000);
+            entity.Property(e => e.GroupId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.MaximumStock).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.MinimumStock).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(200);
+            entity.Property(e => e.ReorderLevel).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+
+            entity.HasOne(d => d.BaseUnit).WithMany(p => p.ProdItem)
+                .HasForeignKey(d => d.BaseUnitId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProdItem_ProdUnit");
+
+            entity.HasOne(d => d.Brand).WithMany(p => p.ProdItem)
+                .HasForeignKey(d => d.BrandId)
+                .HasConstraintName("FK_ProdItem_ProdBrand");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.ProdItem)
+                .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProdItem_ProdCategory");
+
+            entity.HasOne(d => d.Group).WithMany(p => p.ProdItem)
+                .HasForeignKey(d => d.GroupId)
+                .HasConstraintName("FK_ProdItem_ProdGroup");
+        });
+
+        modelBuilder.Entity<ProdSerial>(entity =>
+        {
+            entity.HasIndex(e => e.ProductId, "IX_ProdSerial_ProductId");
+
+            entity.HasIndex(e => e.WarehouseId, "IX_ProdSerial_WarehouseId");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
@@ -349,22 +535,97 @@ public partial class ApplicationDbContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductSerials)
+            entity.HasOne(d => d.Product).WithMany(p => p.ProdSerial)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ProductSerials_Products");
+                .HasConstraintName("FK_ProdSerial_ProdItem");
 
-            entity.HasOne(d => d.Warehouse).WithMany(p => p.ProductSerials)
+            entity.HasOne(d => d.Warehouse).WithMany(p => p.ProdSerial)
                 .HasForeignKey(d => d.WarehouseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ProductSerials_Warehouses");
+                .HasConstraintName("FK_ProdSerial_InvWarehouse");
+        });
+
+        modelBuilder.Entity<ProdUnit>(entity =>
+        {
+            entity.HasIndex(e => e.Active, "IX_ProdUnit_Active");
+
+            entity.HasIndex(e => e.Name, "IX_ProdUnit_Name");
+
+            entity.HasIndex(e => e.Symbol, "IX_ProdUnit_Symbol").IsUnique();
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValue("");
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValue("");
+            entity.Property(e => e.Symbol)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValue("");
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<ProdUnitConversion>(entity =>
+        {
+            entity.HasIndex(e => e.FromUnitId, "IX_ProdUnitConversion_FromUnitId");
+
+            entity.HasIndex(e => new { e.ProductId, e.FromUnitId, e.ToUnitId }, "IX_ProdUnitConversion_ProductId_FromUnitId_ToUnitId").IsUnique();
+
+            entity.HasIndex(e => e.ToUnitId, "IX_ProdUnitConversion_ToUnitId");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.Factor).HasColumnType("decimal(18, 6)");
+            entity.Property(e => e.FromUnitId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.ProductId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ToUnitId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+
+            entity.HasOne(d => d.FromUnit).WithMany(p => p.ProdUnitConversionFromUnit)
+                .HasForeignKey(d => d.FromUnitId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProdUnitConversion_ProdUnit");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.ProdUnitConversion)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProdUnitConversion_ProdItem");
+
+            entity.HasOne(d => d.ToUnit).WithMany(p => p.ProdUnitConversionToUnit)
+                .HasForeignKey(d => d.ToUnitId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProdUnitConversion_ProdUnit1");
         });
 
         modelBuilder.Entity<ProdUnitPrice>(entity =>
         {
-            entity.HasIndex(e => e.ProductId, "IX_ProductUnitPrices_ProductId");
+            entity.HasIndex(e => e.ProductId, "IX_ProdUnitPrice_ProductId");
 
-            entity.HasIndex(e => e.UnitId, "IX_ProductUnitPrices_UnitId");
+            entity.HasIndex(e => e.UnitId, "IX_ProdUnitPrice_UnitId");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
@@ -384,112 +645,66 @@ public partial class ApplicationDbContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.UpdatedBy).HasMaxLength(50);
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductUnitPrices)
+            entity.HasOne(d => d.Product).WithMany(p => p.ProdUnitPrice)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ProductUnitPrices_Products");
+                .HasConstraintName("FK_ProdUnitPrice_ProdItem");
 
-            entity.HasOne(d => d.Unit).WithMany(p => p.ProductUnitPrices)
+            entity.HasOne(d => d.Unit).WithMany(p => p.ProdUnitPrice)
                 .HasForeignKey(d => d.UnitId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ProductUnitPrices_Units");
+                .HasConstraintName("FK_ProdUnitPrice_ProdUnit");
         });
 
-<<<<<<< HEAD
-        modelBuilder.Entity<ProdItem>(entity =>
-=======
-        modelBuilder.Entity<ProductView>(entity =>
+        modelBuilder.Entity<PurchInvoice>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToView("ProductView");
+            entity.HasIndex(e => e.SupplierId, "IX_PurchInvoice_SupplierId");
 
-            entity.Property(e => e.AvailableStock).HasColumnType("decimal(38, 2)");
-            entity.Property(e => e.Barcode).HasMaxLength(100);
-            entity.Property(e => e.BaseUnitName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.CategoryName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Code)
-                .IsRequired()
-                .HasMaxLength(50);
-            entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.Description).HasMaxLength(1000);
-            entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.MaximumStock).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.MinimumStock).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.Name)
-                .IsRequired()
-                .HasMaxLength(200);
-            entity.Property(e => e.ProductId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.ReorderLevel).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
-        });
-
-        modelBuilder.Entity<Products>(entity =>
->>>>>>> 3797277c412cfaa00f2cd5a4840a3977aa7e1530
-        {
-            entity.HasIndex(e => e.BaseUnitId, "IX_Products_BaseUnitId");
-
-            entity.HasIndex(e => e.CategoryId, "IX_Products_CategoryId");
-
-            entity.HasIndex(e => e.Code, "IX_Products_Code").IsUnique();
-
-            entity.HasIndex(e => e.Name, "IX_Products_Name");
+            entity.HasIndex(e => e.WarehouseId, "IX_PurchInvoice_WarehouseId");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Active).HasDefaultValue(true);
-            entity.Property(e => e.Barcode).HasMaxLength(100);
-            entity.Property(e => e.BaseUnitId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.CategoryId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Code)
-                .IsRequired()
-                .HasMaxLength(50);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
             entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.Description).HasMaxLength(1000);
             entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.MaximumStock).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.MinimumStock).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.Name)
+            entity.Property(e => e.PaidAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.PurchaseOrderNumber).IsRequired();
+            entity.Property(e => e.SubTotal).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.SupplierId)
                 .IsRequired()
-                .HasMaxLength(200);
-            entity.Property(e => e.ReorderLevel).HasColumnType("decimal(18, 2)");
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TotalDiscount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TotalTax).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+            entity.Property(e => e.WarehouseId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
 
-            entity.HasOne(d => d.BaseUnit).WithMany(p => p.Products)
-                .HasForeignKey(d => d.BaseUnitId)
+            entity.HasOne(d => d.Supplier).WithMany(p => p.PurchInvoice)
+                .HasForeignKey(d => d.SupplierId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Products_Units");
+                .HasConstraintName("FK_PurchInvoice_PurchSupplier");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.Products)
-                .HasForeignKey(d => d.CategoryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Products_Categories");
+            entity.HasOne(d => d.Warehouse).WithMany(p => p.PurchInvoice)
+                .HasForeignKey(d => d.WarehouseId)
+                .HasConstraintName("FK_PurchInvoice_InvWarehouse");
         });
 
         modelBuilder.Entity<PurchItem>(entity =>
         {
-            entity.HasIndex(e => e.BatchId, "IX_PurchaseItems_BatchId");
+            entity.HasIndex(e => e.BatchId, "IX_PurchItem_BatchId");
 
-            entity.HasIndex(e => e.ProductId, "IX_PurchaseItems_ProductId");
+            entity.HasIndex(e => e.ProductId, "IX_PurchItem_ProductId");
 
-            entity.HasIndex(e => e.PurchaseId, "IX_PurchaseItems_PurchaseId");
+            entity.HasIndex(e => e.PurchaseId, "IX_PurchItem_PurchaseId");
 
-            entity.HasIndex(e => e.UnitId, "IX_PurchaseItems_UnitId");
+            entity.HasIndex(e => e.SerialId, "IX_PurchItem_SerialId");
+
+            entity.HasIndex(e => e.UnitId, "IX_PurchItem_UnitId");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
@@ -525,348 +740,28 @@ public partial class ApplicationDbContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.UpdatedBy).HasMaxLength(50);
 
-            entity.HasOne(d => d.Batch).WithMany(p => p.PurchaseItems)
+            entity.HasOne(d => d.Batch).WithMany(p => p.PurchItem)
                 .HasForeignKey(d => d.BatchId)
-                .HasConstraintName("FK_PurchaseItems_ProductBatches");
+                .HasConstraintName("FK_PurchItem_ProdBatch");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.PurchaseItems)
+            entity.HasOne(d => d.Product).WithMany(p => p.PurchItem)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PurchaseItems_Products");
+                .HasConstraintName("FK_PurchItem_ProdItem");
 
-            entity.HasOne(d => d.Purchase).WithMany(p => p.PurchaseItems)
+            entity.HasOne(d => d.Purchase).WithMany(p => p.PurchItem)
                 .HasForeignKey(d => d.PurchaseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PurchaseItems_Purchases");
+                .HasConstraintName("FK_PurchItem_PurchInvoice");
 
-            entity.HasOne(d => d.Serial).WithMany(p => p.PurchaseItems)
+            entity.HasOne(d => d.Serial).WithMany(p => p.PurchItem)
                 .HasForeignKey(d => d.SerialId)
-                .HasConstraintName("FK_PurchaseItems_ProductSerials");
+                .HasConstraintName("FK_PurchItem_ProdSerial");
 
-            entity.HasOne(d => d.Unit).WithMany(p => p.PurchaseItems)
+            entity.HasOne(d => d.Unit).WithMany(p => p.PurchItem)
                 .HasForeignKey(d => d.UnitId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PurchaseItems_Units");
-        });
-
-        modelBuilder.Entity<PurchInvoice>(entity =>
-        {
-            entity.HasIndex(e => e.SupplierId, "IX_Purchases_SupplierId");
-
-            entity.HasIndex(e => e.WarehouseId, "IX_Purchases_WarehouseId");
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Active).HasDefaultValue(true);
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
-            entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.PaidAmount).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.PurchaseOrderNumber).IsRequired();
-            entity.Property(e => e.SubTotal).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.SupplierId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.TotalDiscount).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.TotalTax).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
-            entity.Property(e => e.WarehouseId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.Supplier).WithMany(p => p.Purchases)
-                .HasForeignKey(d => d.SupplierId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Purchases_Suppliers");
-
-            entity.HasOne(d => d.Warehouse).WithMany(p => p.Purchases)
-                .HasForeignKey(d => d.WarehouseId)
-                .HasConstraintName("FK_Purchases_Warehouses");
-        });
-
-        modelBuilder.Entity<AuthRefreshToken>(entity =>
-        {
-            entity.HasIndex(e => e.ExpiresAt, "IX_RefreshTokens_ExpiresAt");
-
-            entity.HasIndex(e => e.Token, "IX_RefreshTokens_Token");
-
-            entity.HasIndex(e => e.UserId, "IX_RefreshTokens_UserId");
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
-            entity.Property(e => e.Token)
-                .IsRequired()
-                .HasMaxLength(500);
-            entity.Property(e => e.UserId)
-                .IsRequired()
-                .HasMaxLength(50);
-        });
-
-        modelBuilder.Entity<SalesInvoice>(entity =>
-        {
-            entity.HasIndex(e => e.CustomerId, "IX_Sales_CustomerId");
-
-            entity.HasIndex(e => e.WarehouseId, "IX_Sales_WarehouseId");
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Active).HasDefaultValue(true);
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
-            entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.CustomerId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.InvoiceNumber)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.PaidAmount).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.SubTotal).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.TotalDiscount).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.TotalTax).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
-            entity.Property(e => e.WarehouseId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.Customer).WithMany(p => p.Sales)
-                .HasForeignKey(d => d.CustomerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Sales_Customers");
-
-            entity.HasOne(d => d.Warehouse).WithMany(p => p.Sales)
-                .HasForeignKey(d => d.WarehouseId)
-                .HasConstraintName("FK_Sales_Warehouses");
-        });
-
-        modelBuilder.Entity<SalesInvoiceItem>(entity =>
-        {
-            entity.HasIndex(e => e.BatchId, "IX_SalesItems_BatchId");
-
-            entity.HasIndex(e => e.ProductId, "IX_SalesItems_ProductId");
-
-            entity.HasIndex(e => e.SaleId, "IX_SalesItems_SaleId");
-
-            entity.HasIndex(e => e.SerialId, "IX_SalesItems_SerialId");
-
-            entity.HasIndex(e => e.UnitId, "IX_SalesItems_UnitId");
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Active).HasDefaultValue(true);
-            entity.Property(e => e.BatchId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
-            entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.DiscountAmount).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.DiscountPercent).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.ProductId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Quantity).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.SaleId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.SerialId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.TaxAmount).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.TaxPercent).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.UnitId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
-
-            entity.HasOne(d => d.Batch).WithMany(p => p.SalesItems)
-                .HasForeignKey(d => d.BatchId)
-                .HasConstraintName("FK_SalesItems_ProductBatches");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.SalesItems)
-                .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_SalesItems_Products");
-
-            entity.HasOne(d => d.Sale).WithMany(p => p.SalesItems)
-                .HasForeignKey(d => d.SaleId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_SalesItems_Sales");
-
-            entity.HasOne(d => d.Serial).WithMany(p => p.SalesItems)
-                .HasForeignKey(d => d.SerialId)
-                .HasConstraintName("FK_SalesItems_ProductSerials");
-
-            entity.HasOne(d => d.Unit).WithMany(p => p.SalesItems)
-                .HasForeignKey(d => d.UnitId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_SalesItems_Units");
-        });
-
-        modelBuilder.Entity<InvStockAdjustment>(entity =>
-        {
-            entity.HasIndex(e => e.ProductId, "IX_StockAdjustments_ProductId");
-
-            entity.HasIndex(e => e.WarehouseId, "IX_StockAdjustments_WarehouseId");
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Active).HasDefaultValue(true);
-            entity.Property(e => e.AdjustmentNo)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.AdjustmentQuantity).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
-            entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.ProductId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Reason).IsRequired();
-            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
-            entity.Property(e => e.WarehouseId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.Product).WithMany(p => p.StockAdjustments)
-                .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StockAdjustments_Products");
-
-            entity.HasOne(d => d.Warehouse).WithMany(p => p.StockAdjustments)
-                .HasForeignKey(d => d.WarehouseId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StockAdjustments_Warehouses");
-        });
-
-        modelBuilder.Entity<InvStockMovement>(entity =>
-        {
-            entity.HasIndex(e => e.BatchId, "IX_StockMovements_BatchId");
-
-            entity.HasIndex(e => e.ProductId, "IX_StockMovements_ProductId");
-
-            entity.HasIndex(e => e.WarehouseId, "IX_StockMovements_WarehouseId");
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Active).HasDefaultValue(true);
-            entity.Property(e => e.BaseQuantity).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.BatchId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
-            entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.MovementType)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.ProductId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.ReferenceId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.SerialId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
-            entity.Property(e => e.WarehouseId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.Batch).WithMany(p => p.StockMovements)
-                .HasForeignKey(d => d.BatchId)
-                .HasConstraintName("FK_StockMovements_ProductBatches");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.StockMovements)
-                .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StockMovements_Products");
-
-            entity.HasOne(d => d.Serial).WithMany(p => p.StockMovements)
-                .HasForeignKey(d => d.SerialId)
-                .HasConstraintName("FK_StockMovements_ProductSerials");
-
-            entity.HasOne(d => d.Warehouse).WithMany(p => p.StockMovements)
-                .HasForeignKey(d => d.WarehouseId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StockMovements_Warehouses");
-        });
-
-        modelBuilder.Entity<InvStockTransfer>(entity =>
-        {
-            entity.HasIndex(e => e.FromWarehouseId, "IX_StockTransfers_FromWarehouseId");
-
-            entity.HasIndex(e => e.ProductId, "IX_StockTransfers_ProductId");
-
-            entity.HasIndex(e => e.ToWarehouseId, "IX_StockTransfers_ToWarehouseId");
-
-            entity.HasIndex(e => e.TransferNo, "IX_StockTransfers_TransferNo").IsUnique();
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Active).HasDefaultValue(true);
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
-            entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.FromWarehouseId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.ProductId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Quantity).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.ToWarehouseId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.TransferNo)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
-
-            entity.HasOne(d => d.FromWarehouse).WithMany(p => p.StockTransfersFromWarehouse)
-                .HasForeignKey(d => d.FromWarehouseId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StockTransfers_Warehouses");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.StockTransfers)
-                .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StockTransfers_Products");
-
-            entity.HasOne(d => d.ToWarehouse).WithMany(p => p.StockTransfersToWarehouse)
-                .HasForeignKey(d => d.ToWarehouseId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StockTransfers_Warehouses1");
+                .HasConstraintName("FK_PurchItem_ProdUnit");
         });
 
         modelBuilder.Entity<PurchSupplier>(entity =>
@@ -909,180 +804,154 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.UpdatedBy).HasMaxLength(50);
         });
 
-        modelBuilder.Entity<ProdUnitConversion>(entity =>
+        modelBuilder.Entity<SalesCustomer>(entity =>
         {
-            entity.HasIndex(e => e.FromUnitId, "IX_UnitConversions_FromUnitId");
-
-            entity.HasIndex(e => new { e.ProductId, e.FromUnitId, e.ToUnitId }, "IX_UnitConversions_ProductId_FromUnitId_ToUnitId").IsUnique();
-
-            entity.HasIndex(e => e.ToUnitId, "IX_UnitConversions_ToUnitId");
-
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.Address)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.City)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Code)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ContactPerson).HasMaxLength(50);
+            entity.Property(e => e.Country)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
             entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.Factor).HasColumnType("decimal(18, 6)");
-            entity.Property(e => e.FromUnitId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.ProductId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.ToUnitId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
-
-            entity.HasOne(d => d.FromUnit).WithMany(p => p.UnitConversionsFromUnit)
-                .HasForeignKey(d => d.FromUnitId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_UnitConversions_Units");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.UnitConversions)
-                .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_UnitConversions_Products");
-
-            entity.HasOne(d => d.ToUnit).WithMany(p => p.UnitConversionsToUnit)
-                .HasForeignKey(d => d.ToUnitId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_UnitConversions_Units1");
-        });
-
-        modelBuilder.Entity<ProdUnit>(entity =>
-        {
-            entity.HasIndex(e => e.Active, "IX_Unit_Active");
-
-            entity.HasIndex(e => e.Name, "IX_Unit_Name");
-
-            entity.HasIndex(e => e.Symbol, "IX_Unit_Symbol").IsUnique();
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasDefaultValue("");
-            entity.Property(e => e.Active).HasDefaultValue(true);
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
-            entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.Name)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasDefaultValue("");
-            entity.Property(e => e.Symbol)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasDefaultValue("");
-            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
-        });
-
-        modelBuilder.Entity<AuthUser>(entity =>
-        {
-            entity.HasIndex(e => e.Email, "IX_Users_Email").IsUnique();
-
-            entity.HasIndex(e => e.Username, "IX_Users_Username").IsUnique();
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Active).HasDefaultValue(true);
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
-            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.CreditLimit).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.Email)
-                .IsRequired()
-                .HasMaxLength(200);
-            entity.Property(e => e.FirstName).HasMaxLength(100);
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.LastName).HasMaxLength(100);
-            entity.Property(e => e.PasswordHash).IsRequired();
-            entity.Property(e => e.Role)
-                .IsRequired()
-                .HasMaxLength(50)
-                .HasDefaultValue("User");
-            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
-            entity.Property(e => e.Username)
-                .IsRequired()
-                .HasMaxLength(100);
-        });
-
-        modelBuilder.Entity<InvWarehouseStock>(entity =>
-        {
-            entity.HasIndex(e => e.ProductId, "IX_WarehouseStocks_ProductId");
-
-            entity.HasIndex(e => e.WarehouseId, "IX_WarehouseStocks_WarehouseId");
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Active).HasDefaultValue(true);
-            entity.Property(e => e.AvailableQuantity).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
-            entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.ProductId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.ReservedQuantity).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
-            entity.Property(e => e.WarehouseId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.Product).WithMany(p => p.WarehouseStocks)
-                .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_WarehouseStocks_Products");
-
-            entity.HasOne(d => d.Warehouse).WithMany(p => p.WarehouseStocks)
-                .HasForeignKey(d => d.WarehouseId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_WarehouseStocks_Warehouses");
-        });
-
-        modelBuilder.Entity<InvWarehouse>(entity =>
-        {
-            entity.HasIndex(e => e.Active, "IX_Warehouse_Active");
-
-            entity.HasIndex(e => e.BranchType, "IX_Warehouse_BranchType");
-
-            entity.HasIndex(e => e.IsMainWarehouse, "IX_Warehouse_IsMainWarehouse");
-
-            entity.HasIndex(e => new { e.Name, e.City }, "IX_Warehouse_Name_City");
-
-            entity.HasIndex(e => e.ParentWarehouseId, "IX_Warehouse_ParentWarehouseId");
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Active).HasDefaultValue(true);
-            entity.Property(e => e.Address).HasMaxLength(255);
-            entity.Property(e => e.BranchType)
-                .IsRequired()
-                .HasMaxLength(20);
-            entity.Property(e => e.City).HasMaxLength(50);
-            entity.Property(e => e.ContactPerson).HasMaxLength(100);
-            entity.Property(e => e.Country).HasMaxLength(50);
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
-            entity.Property(e => e.CreatedBy).HasMaxLength(50);
-            entity.Property(e => e.IsUsedWarehouse).HasDefaultValue(true);
-            entity.Property(e => e.LastAction).HasMaxLength(50);
-            entity.Property(e => e.Location).HasMaxLength(100);
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(50);
-            entity.Property(e => e.ParentWarehouseId).HasMaxLength(50);
-            entity.Property(e => e.Phone).HasMaxLength(20);
+            entity.Property(e => e.Phone)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TaxNumber)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<SalesInvoice>(entity =>
+        {
+            entity.HasIndex(e => e.CustomerId, "IX_SalesInvoice_CustomerId");
+
+            entity.HasIndex(e => e.WarehouseId, "IX_SalesInvoice_WarehouseId");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.CustomerId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.InvoiceNumber)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.PaidAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.SubTotal).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TotalDiscount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TotalTax).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+            entity.Property(e => e.WarehouseId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Customer).WithMany(p => p.SalesInvoice)
+                .HasForeignKey(d => d.CustomerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SalesInvoice_SalesCustomer");
+
+            entity.HasOne(d => d.Warehouse).WithMany(p => p.SalesInvoice)
+                .HasForeignKey(d => d.WarehouseId)
+                .HasConstraintName("FK_SalesInvoice_InvWarehouse");
+        });
+
+        modelBuilder.Entity<SalesInvoiceItem>(entity =>
+        {
+            entity.HasIndex(e => e.BatchId, "IX_SalesInvoiceItem_BatchId");
+
+            entity.HasIndex(e => e.ProductId, "IX_SalesInvoiceItem_ProductId");
+
+            entity.HasIndex(e => e.SaleId, "IX_SalesInvoiceItem_SaleId");
+
+            entity.HasIndex(e => e.SerialId, "IX_SalesInvoiceItem_SerialId");
+
+            entity.HasIndex(e => e.UnitId, "IX_SalesInvoiceItem_UnitId");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.BatchId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.DiscountAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.DiscountPercent).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.ProductId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Quantity).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.SaleId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.SerialId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TaxAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TaxPercent).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.UnitId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+
+            entity.HasOne(d => d.Batch).WithMany(p => p.SalesInvoiceItem)
+                .HasForeignKey(d => d.BatchId)
+                .HasConstraintName("FK_SalesInvoiceItem_ProdBatch");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.SalesInvoiceItem)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SalesInvoiceItem_ProdItem");
+
+            entity.HasOne(d => d.Sale).WithMany(p => p.SalesInvoiceItem)
+                .HasForeignKey(d => d.SaleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SalesInvoiceItem_SalesInvoice");
+
+            entity.HasOne(d => d.Serial).WithMany(p => p.SalesInvoiceItem)
+                .HasForeignKey(d => d.SerialId)
+                .HasConstraintName("FK_SalesInvoiceItem_ProdSerial");
+
+            entity.HasOne(d => d.Unit).WithMany(p => p.SalesInvoiceItem)
+                .HasForeignKey(d => d.UnitId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SalesInvoiceItem_ProdUnit");
         });
 
         OnModelCreatingPartial(modelBuilder);

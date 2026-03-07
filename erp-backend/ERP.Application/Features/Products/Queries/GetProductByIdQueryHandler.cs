@@ -27,15 +27,18 @@ namespace ERP.Application.Features.Products.Queries
                 Id = product.Id,
                 Code = product.Code,
                 Name = product.Name,
-                Description = product.Description,
+                GroupId = product.GroupId,
                 CategoryId = product.CategoryId,
+                BrandId = product.BrandId,
+                Description = product.Description,
                 BaseUnitId = product.BaseUnitId,
                 MinimumStock = product.MinimumStock,
                 MaximumStock = product.MaximumStock,
                 ReorderLevel = product.ReorderLevel,
                 Barcode = product.Barcode,
-                IsBatchTracked = product.IsBatchTracked,
-                IsSerialTracked = product.IsSerialTracked,
+                TrackType = product.TrackType,
+                HasVariant = product.HasVariant,
+                AllowNegativeStock = product.AllowNegativeStock,
                 Active = product.Active
             };
 

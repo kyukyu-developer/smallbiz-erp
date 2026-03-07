@@ -76,7 +76,7 @@ namespace ERP.Application.Features.Purchases.Commands
                 Status = (int)request.Status,
                 ExpectedDate = request.ExpectedDate,
                 Notes = request.Notes,
-                PurchaseItems = purchaseItems
+                PurchItem = purchaseItems
             };
 
             await _purchaseRepository.AddAsync(purchase);
@@ -99,7 +99,7 @@ namespace ERP.Application.Features.Purchases.Commands
                 ExpectedDate = purchase.ExpectedDate,
                 ReceivedDate = purchase.ReceivedDate,
                 Notes = purchase.Notes,
-                Items = purchase.PurchaseItems.Select(i => new PurchaseItemDto
+                Items = purchase.PurchItem.Select(i => new PurchaseItemDto
                 {
                     Id = i.Id,
                     ProductId = i.ProductId,

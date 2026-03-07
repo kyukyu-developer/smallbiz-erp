@@ -46,7 +46,21 @@
       "Bash(powershell.exe -Command \"Get-Content ''c:\\\\Guu\\\\ERP_Project\\\\erp-backend\\\\ERP.Application\\\\Features\\\\Auth\\\\Commands\\\\LoginCommandHandler.cs'' | Select-String -Pattern ''RefreshToken|Users|new Auth''\")",
       "Bash(powershell.exe -Command \"Remove-Item ''c:\\\\Guu\\\\ERP_Project\\\\erp_rename.ps1'', ''c:\\\\Guu\\\\ERP_Project\\\\erp_rename2.ps1'' -Force; Write-Host ''Cleaned up''\")",
       "Bash(sed -i 's/IRepository<Units>/IRepository<ProdUnit>/g' erp-backend/ERP.Domain/Interfaces/IUnitOfWork.cs)",
-      "Bash(sed -i 's/Repository<Units>/Repository<ProdUnit>/g; s/IRepository<Units>/IRepository<ProdUnit>/g' erp-backend/ERP.Infrastructure/Repositories/UnitOfWork.cs)"
+      "Bash(sed -i 's/Repository<Units>/Repository<ProdUnit>/g; s/IRepository<Units>/IRepository<ProdUnit>/g' erp-backend/ERP.Infrastructure/Repositories/UnitOfWork.cs)",
+      "Bash(sed -i 's/SalesItems = saleItems/SalesInvoiceItem = saleItems/g; s/sale\\\\.SalesItems\\\\.Select/sale.SalesInvoiceItem.Select/g' erp-backend/ERP.Application/Features/Sales/Commands/CreateSaleCommandHandler.cs)",
+      "Bash(sed -i 's/sale\\\\.SalesItems\\\\.Select/sale.SalesInvoiceItem.Select/g' erp-backend/ERP.Application/Features/Sales/Queries/GetSaleByIdQueryHandler.cs)",
+      "Bash(sed -i 's/_context\\\\.Sales\\\\b/_context.SalesInvoice/g; s/s\\\\.SalesItems\\\\b/s.SalesInvoiceItem/g' erp-backend/ERP.Infrastructure/Repositories/SaleRepository.cs)",
+      "Bash(sed -i 's/_context\\\\.Products\\\\b/_context.ProdItem/g' erp-backend/ERP.Infrastructure/Repositories/ProductRepository.cs)",
+      "Bash(sed -i 's/_context\\\\.Purchases\\\\b/_context.PurchInvoice/g; s/p\\\\.PurchaseItems\\\\b/p.PurchItem/g' erp-backend/ERP.Infrastructure/Repositories/PurchaseRepository.cs)",
+      "Bash(sed -i 's/_context\\\\.WarehouseStocks\\\\b/_context.InvWarehouseStock/g' erp-backend/ERP.Infrastructure/Repositories/WarehouseStockRepository.cs)",
+      "Bash(sed -i 's/ProductGroupRepository>/ProdGroupRepository>/g' erp-backend/ERP.Infrastructure/DependencyInjection.cs)",
+      "Bash(for f in erp-backend/ERP.Tests/Brands/GetBrandByIdQueryHandlerTests.cs erp-backend/ERP.Tests/Brands/GetBrandsQueryHandlerTests.cs)",
+      "Bash(do sed -i 's/Domain\\\\.Entities\\\\.Brands\\\\b/Domain.Entities.ProdBrand/g; s/ERP\\\\.Domain\\\\.Entities\\\\.Brands\\\\b/ERP.Domain.Entities.ProdBrand/g' \"$f\")",
+      "Bash(done)",
+      "Bash(for f in erp-backend/ERP.Tests/ProductGroup/Commands/CreateProductGroupCommandHandlerTests.cs erp-backend/ERP.Tests/ProductGroup/Commands/UpdateProductGroupCommandHandlerTests.cs erp-backend/ERP.Tests/ProductGroup/Queries/GetProductGroupByIdQueryHandlerTests.cs erp-backend/ERP.Tests/ProductGroup/Queries/GetProductGroupQueryHandlerTests.cs)",
+      "Bash(do sed -i 's/Domain\\\\.Entities\\\\.ProductGroup\\\\b/Domain.Entities.ProdGroup/g' \"$f\")",
+      "Bash(for f in erp-backend/ERP.Tests/Products/Commands/CreateProductCommandHandlerTests.cs erp-backend/ERP.Tests/Products/Commands/DeleteProductCommandHandlerTests.cs erp-backend/ERP.Tests/Products/Queries/GetProductByIdQueryHandlerTests.cs erp-backend/ERP.Tests/Products/Queries/GetProductsQueryHandlerTests.cs)",
+      "Bash(do sed -i 's/Domain\\\\.Entities\\\\.Products\\\\b/Domain.Entities.ProdItem/g' \"$f\")"
     ]
   }
 }

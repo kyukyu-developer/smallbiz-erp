@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ERP.Domain.Interfaces
 {
 
-    public interface IBrandRepository : IRepository<Brands>
+    public interface IBrandRepository : IRepository<ProdBrand>
     {
     }
  }

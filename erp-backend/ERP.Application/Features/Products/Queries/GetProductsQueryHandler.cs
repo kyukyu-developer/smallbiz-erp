@@ -30,26 +30,24 @@ namespace ERP.Application.Features.Products.Queries
                 products = products.Where(p => p.Name.Contains(request.SearchTerm, StringComparison.OrdinalIgnoreCase));
             }
 
-            // Get all categories for mapping
-            var categories = await _unitOfWork.Categories.GetAllAsync();
-            var categoryDict = categories.ToDictionary(c => c.Id, c => c.Name);
-
             var productDtos = products.Select(p => new ProductDto
             {
                 Id = p.Id,
                 Code = p.Code,
                 Name = p.Name,
-                Description = p.Description,
+                GroupId = p.GroupId,
                 CategoryId = p.CategoryId,
+                BrandId = p.BrandId,
+                Description = p.Description,
                 BaseUnitId = p.BaseUnitId,
                 MinimumStock = p.MinimumStock,
                 MaximumStock = p.MaximumStock,
                 ReorderLevel = p.ReorderLevel,
                 Barcode = p.Barcode,
-                IsBatchTracked = p.IsBatchTracked,
-                IsSerialTracked = p.IsSerialTracked,
-                Active = p.Active,
-                CategoryName = categoryDict.GetValueOrDefault(p.CategoryId, "Unknown")
+                TrackType = p.TrackType,
+                HasVariant = p.HasVariant,
+                AllowNegativeStock = p.AllowNegativeStock,
+                Active = p.Active
             }).ToList();
 
             return Result<List<ProductDto>>.Success(productDtos);

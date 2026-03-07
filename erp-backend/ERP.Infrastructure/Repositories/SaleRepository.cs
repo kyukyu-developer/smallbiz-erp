@@ -13,18 +13,18 @@ namespace ERP.Infrastructure.Repositories
 
         public async Task<List<SalesInvoice>> GetAllWithDetailsAsync()
         {
-            return await _context.Sales
+            return await _context.SalesInvoice
                 .Include(s => s.Customer)
-                .Include(s => s.SalesItems)
+                .Include(s => s.SalesInvoiceItem)
                     .ThenInclude(i => i.Product)
                 .ToListAsync();
         }
 
         public async Task<SalesInvoice?> GetByIdWithDetailsAsync(string id)
         {
-            return await _context.Sales
+            return await _context.SalesInvoice
                 .Include(s => s.Customer)
-                .Include(s => s.SalesItems)
+                .Include(s => s.SalesInvoiceItem)
                     .ThenInclude(i => i.Product)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }

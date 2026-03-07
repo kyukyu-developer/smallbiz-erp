@@ -13,18 +13,18 @@ namespace ERP.Infrastructure.Repositories
 
         public async Task<List<PurchInvoice>> GetAllWithDetailsAsync()
         {
-            return await _context.Purchases
+            return await _context.PurchInvoice
                 .Include(p => p.Supplier)
-                .Include(p => p.PurchaseItems)
+                .Include(p => p.PurchItem)
                     .ThenInclude(i => i.Product)
                 .ToListAsync();
         }
 
         public async Task<PurchInvoice?> GetByIdWithDetailsAsync(string id)
         {
-            return await _context.Purchases
+            return await _context.PurchInvoice
                 .Include(p => p.Supplier)
-                .Include(p => p.PurchaseItems)
+                .Include(p => p.PurchItem)
                     .ThenInclude(i => i.Product)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
