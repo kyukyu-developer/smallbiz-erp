@@ -34,7 +34,7 @@ namespace ERP.Infrastructure
             services.AddScoped<IWarehouseStockRepository, WarehouseStockRepository>();
             services.AddScoped<IUnitRepository, UnitRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
-            services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
+            services.AddScoped<IProductGroupRepository, ProdGroupRepository>();
 
 
 

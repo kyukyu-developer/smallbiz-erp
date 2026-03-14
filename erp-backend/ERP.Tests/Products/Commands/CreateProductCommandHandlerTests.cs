@@ -9,19 +9,19 @@ namespace ERP.Tests.Products.Commands
     public class CreateProductCommandHandlerTests
     {
         private readonly Mock<IProductRepository> _productRepoMock;
-        private readonly Mock<IProductGroupRepository> _groupRepoMock;
         private readonly Mock<IUnitRepository> _unitRepoMock;
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly CreateProductCommandHandler _handler;
 
         public CreateProductCommandHandlerTests()
         {
             _productRepoMock = new Mock<IProductRepository>();
-            _groupRepoMock = new Mock<IProductGroupRepository>();
             _unitRepoMock = new Mock<IUnitRepository>();
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
             _handler = new CreateProductCommandHandler(
                 _productRepoMock.Object,
-                _groupRepoMock.Object,
-                _unitRepoMock.Object);
+                _unitRepoMock.Object,
+                _unitOfWorkMock.Object);
         }
 
         private CreateProductCommand CreateValidCommand() => new()
@@ -29,15 +29,9 @@ namespace ERP.Tests.Products.Commands
             Code = "P001",
             Name = "Test Product",
             Description = "Test Description",
-            GroupId = "group-1",
             BaseUnitId = "unit-1",
             CategoryId = "cat-1",
-            BrandId = "brand-1",
-            TrackInventory = true,
-            HasVariant = false,
-            HasSerialNumber = false,
-            HasBatchNumber = false,
-            AllowNegativeStock = false,
+            TrackType = 0,
             MinimumStock = 10,
             MaximumStock = 100,
             ReorderLevel = 20,
@@ -50,11 +44,7 @@ namespace ERP.Tests.Products.Commands
         {
             var command = CreateValidCommand();
             _productRepoMock.Setup(r => r.GetByCodeAsync(command.Code))
-                .ReturnsAsync((Domain.Entities.Products?)null);
-            _groupRepoMock.Setup(r => r.ExistsAsync(command.GroupId))
-                .ReturnsAsync(true);
-            _unitRepoMock.Setup(r => r.ExistsAsync(command.BaseUnitId))
-                .ReturnsAsync(true);
+                .ReturnsAsync((Domain.Entities.ProdItem?)null);
 
             var result = await _handler.Handle(command, CancellationToken.None);
 
@@ -69,7 +59,7 @@ namespace ERP.Tests.Products.Commands
         {
             var command = CreateValidCommand();
             _productRepoMock.Setup(r => r.GetByCodeAsync(command.Code))
-                .ReturnsAsync(new Domain.Entities.Products { Id = "existing-id", Code = command.Code });
+                .ReturnsAsync(new Domain.Entities.ProdItem { Id = "existing-id", Code = command.Code });
 
             var result = await _handler.Handle(command, CancellationToken.None);
 
@@ -78,51 +68,15 @@ namespace ERP.Tests.Products.Commands
         }
 
         [Fact]
-        public async Task Handle_ReturnsFailure_WhenGroupNotExists()
-        {
-            var command = CreateValidCommand();
-            _productRepoMock.Setup(r => r.GetByCodeAsync(command.Code))
-                .ReturnsAsync((Domain.Entities.Products?)null);
-            _groupRepoMock.Setup(r => r.ExistsAsync(command.GroupId))
-                .ReturnsAsync(false);
-
-            var result = await _handler.Handle(command, CancellationToken.None);
-
-            result.IsSuccess.Should().BeFalse();
-            result.ErrorMessage.Should().Be("Product Group does not exist");
-        }
-
-        [Fact]
-        public async Task Handle_ReturnsFailure_WhenUnitNotExists()
-        {
-            var command = CreateValidCommand();
-            _productRepoMock.Setup(r => r.GetByCodeAsync(command.Code))
-                .ReturnsAsync((Domain.Entities.Products?)null);
-            _groupRepoMock.Setup(r => r.ExistsAsync(command.GroupId))
-                .ReturnsAsync(true);
-            _unitRepoMock.Setup(r => r.ExistsAsync(command.BaseUnitId))
-                .ReturnsAsync(false);
-
-            var result = await _handler.Handle(command, CancellationToken.None);
-
-            result.IsSuccess.Should().BeFalse();
-            result.ErrorMessage.Should().Be("Base Unit does not exist");
-        }
-
-        [Fact]
         public async Task Handle_CallsAddAsync_WhenValid()
         {
             var command = CreateValidCommand();
             _productRepoMock.Setup(r => r.GetByCodeAsync(command.Code))
-                .ReturnsAsync((Domain.Entities.Products?)null);
-            _groupRepoMock.Setup(r => r.ExistsAsync(command.GroupId))
-                .ReturnsAsync(true);
-            _unitRepoMock.Setup(r => r.ExistsAsync(command.BaseUnitId))
-                .ReturnsAsync(true);
+                .ReturnsAsync((Domain.Entities.ProdItem?)null);
 
             await _handler.Handle(command, CancellationToken.None);
 
-            _productRepoMock.Verify(r => r.AddAsync(It.IsAny<Domain.Entities.Products>()), Times.Once);
+            _productRepoMock.Verify(r => r.AddAsync(It.IsAny<Domain.Entities.ProdItem>()), Times.Once);
         }
 
         [Fact]
@@ -130,39 +84,11 @@ namespace ERP.Tests.Products.Commands
         {
             var command = CreateValidCommand();
             _productRepoMock.Setup(r => r.GetByCodeAsync(command.Code))
-                .ReturnsAsync((Domain.Entities.Products?)null);
-            _groupRepoMock.Setup(r => r.ExistsAsync(command.GroupId))
-                .ReturnsAsync(true);
-            _unitRepoMock.Setup(r => r.ExistsAsync(command.BaseUnitId))
-                .ReturnsAsync(true);
+                .ReturnsAsync((Domain.Entities.ProdItem?)null);
 
             await _handler.Handle(command, CancellationToken.None);
 
-            _productRepoMock.Verify(r => r.SaveChangesAsync(), Times.Once);
-        }
-
-        [Fact]
-        public async Task Handle_SetsDefaultValues_WhenNotProvided()
-        {
-            var command = new CreateProductCommand
-            {
-                Code = "P002",
-                Name = "Product 2",
-                GroupId = "group-1",
-                BaseUnitId = "unit-1"
-            };
-            _productRepoMock.Setup(r => r.GetByCodeAsync(command.Code))
-                .ReturnsAsync((Domain.Entities.Products?)null);
-            _groupRepoMock.Setup(r => r.ExistsAsync(command.GroupId))
-                .ReturnsAsync(true);
-            _unitRepoMock.Setup(r => r.ExistsAsync(command.BaseUnitId))
-                .ReturnsAsync(true);
-
-            var result = await _handler.Handle(command, CancellationToken.None);
-
-            result.IsSuccess.Should().BeTrue();
-            result.Data!.TrackInventory.Should().BeTrue();
-            result.Data.Active.Should().BeTrue();
+            _unitOfWorkMock.Verify(r => r.SaveChangesAsync(), Times.Once);
         }
 
         [Fact]
@@ -170,11 +96,7 @@ namespace ERP.Tests.Products.Commands
         {
             var command = CreateValidCommand();
             _productRepoMock.Setup(r => r.GetByCodeAsync(command.Code))
-                .ReturnsAsync((Domain.Entities.Products?)null);
-            _groupRepoMock.Setup(r => r.ExistsAsync(command.GroupId))
-                .ReturnsAsync(true);
-            _unitRepoMock.Setup(r => r.ExistsAsync(command.BaseUnitId))
-                .ReturnsAsync(true);
+                .ReturnsAsync((Domain.Entities.ProdItem?)null);
 
             var result = await _handler.Handle(command, CancellationToken.None);
 
@@ -186,15 +108,11 @@ namespace ERP.Tests.Products.Commands
         public async Task Handle_SetsLastActionToCreate()
         {
             var command = CreateValidCommand();
-            Domain.Entities.Products? addedProduct = null;
+            Domain.Entities.ProdItem? addedProduct = null;
             _productRepoMock.Setup(r => r.GetByCodeAsync(command.Code))
-                .ReturnsAsync((Domain.Entities.Products?)null);
-            _groupRepoMock.Setup(r => r.ExistsAsync(command.GroupId))
-                .ReturnsAsync(true);
-            _unitRepoMock.Setup(r => r.ExistsAsync(command.BaseUnitId))
-                .ReturnsAsync(true);
-            _productRepoMock.Setup(r => r.AddAsync(It.IsAny<Domain.Entities.Products>()))
-                .Callback<Domain.Entities.Products>(p => addedProduct = p);
+                .ReturnsAsync((Domain.Entities.ProdItem?)null);
+            _productRepoMock.Setup(r => r.AddAsync(It.IsAny<Domain.Entities.ProdItem>()))
+                .Callback<Domain.Entities.ProdItem>(p => addedProduct = p);
 
             await _handler.Handle(command, CancellationToken.None);
 

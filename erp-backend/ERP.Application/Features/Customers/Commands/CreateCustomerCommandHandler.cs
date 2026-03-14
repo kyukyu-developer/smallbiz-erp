@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using ERP.Application.DTOs.Customers;
 using ERP.Application.DTOs.Common;
 using ERP.Domain.Entities;
@@ -17,7 +17,7 @@ namespace ERP.Application.Features.Customers.Commands
 
         public async Task<Result<CustomerDto>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var customer = new Domain.Entities.Customers
+            var customer = new Domain.Entities.SalesCustomer
             {
                 Code = request.Code,
                 Name = request.Name,

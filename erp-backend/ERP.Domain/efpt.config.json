@@ -15,100 +15,92 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "[dbo].[Brands]",
+         "Name": "[dbo].[AuthRefreshToken]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Categories]",
+         "Name": "[dbo].[AuthUser]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Customers]",
+         "Name": "[dbo].[InvStockAdjustment]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Product]",
+         "Name": "[dbo].[InvStockMovement]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Product_Group]",
+         "Name": "[dbo].[InvStockTransfer]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[ProductBatches]",
+         "Name": "[dbo].[InvWarehouse]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Products]",
+         "Name": "[dbo].[InvWarehouseStock]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[ProductSerials]",
+         "Name": "[dbo].[ProdBatch]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[ProductUnitPrices]",
+         "Name": "[dbo].[ProdBrand]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[PurchaseItems]",
+         "Name": "[dbo].[ProdCategory]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Purchases]",
+         "Name": "[dbo].[ProdGroup]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[RefreshTokens]",
+         "Name": "[dbo].[ProdItem]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Sales]",
+         "Name": "[dbo].[ProdSerial]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[SalesItems]",
+         "Name": "[dbo].[ProdUnit]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[StockAdjustments]",
+         "Name": "[dbo].[ProdUnitConversion]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[StockMovements]",
+         "Name": "[dbo].[ProdUnitPrice]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[StockTransfers]",
+         "Name": "[dbo].[PurchInvoice]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Suppliers]",
+         "Name": "[dbo].[PurchItem]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[UnitConversions]",
+         "Name": "[dbo].[PurchSupplier]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Units]",
+         "Name": "[dbo].[SalesCustomer]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Users]",
+         "Name": "[dbo].[SalesInvoice]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Warehouses]",
+         "Name": "[dbo].[SalesInvoiceItem]",
          "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[WarehouseStocks]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ProductView]",
-         "ObjectType": 3
       }
    ],
    "UiHint": null,
@@ -116,6 +108,7 @@
    "UseAsyncStoredProcedureCalls": true,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
+   "UseDatabaseNamesForRoutines": true,
    "UseDateOnlyTimeOnly": true,
    "UseDbContextSplitting": false,
    "UseDecimalDataAnnotationForSprocResult": true,
@@ -134,5 +127,6 @@
    "UseSchemaFolders": false,
    "UseSchemaNamespaces": false,
    "UseSpatial": false,
-   "UseT4": false
+   "UseT4": false,
+   "UseT4Split": false
 }

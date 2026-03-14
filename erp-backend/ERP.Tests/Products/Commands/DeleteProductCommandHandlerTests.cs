@@ -20,7 +20,7 @@ namespace ERP.Tests.Products.Commands
         [Fact]
         public async Task Handle_ReturnsSuccess_WhenProductExists()
         {
-            var product = new Domain.Entities.Products
+            var product = new Domain.Entities.ProdItem
             {
                 Id = "prod-1",
                 Code = "P001",
@@ -40,7 +40,7 @@ namespace ERP.Tests.Products.Commands
         public async Task Handle_ReturnsFailure_WhenProductNotFound()
         {
             _productRepoMock.Setup(r => r.GetByIdAsync("missing"))
-                .ReturnsAsync((Domain.Entities.Products?)null);
+                .ReturnsAsync((Domain.Entities.ProdItem?)null);
 
             var result = await _handler.Handle(new DeleteProductCommand { Id = "missing" }, CancellationToken.None);
 
@@ -51,7 +51,7 @@ namespace ERP.Tests.Products.Commands
         [Fact]
         public async Task Handle_SetsActiveToFalse()
         {
-            var product = new Domain.Entities.Products
+            var product = new Domain.Entities.ProdItem
             {
                 Id = "prod-1",
                 Active = true
@@ -67,7 +67,7 @@ namespace ERP.Tests.Products.Commands
         [Fact]
         public async Task Handle_SetsLastActionToDelete()
         {
-            var product = new Domain.Entities.Products
+            var product = new Domain.Entities.ProdItem
             {
                 Id = "prod-1",
                 Active = true
@@ -83,13 +83,13 @@ namespace ERP.Tests.Products.Commands
         [Fact]
         public async Task Handle_CallsUpdate()
         {
-            var product = new Domain.Entities.Products { Id = "prod-1", Active = true };
+            var product = new Domain.Entities.ProdItem { Id = "prod-1", Active = true };
             _productRepoMock.Setup(r => r.GetByIdAsync("prod-1"))
                 .ReturnsAsync(product);
 
             await _handler.Handle(new DeleteProductCommand { Id = "prod-1" }, CancellationToken.None);
 
-            _productRepoMock.Verify(r => r.Update(It.IsAny<Domain.Entities.Products>()), Times.Once);
+            _productRepoMock.Verify(r => r.Update(It.IsAny<Domain.Entities.ProdItem>()), Times.Once);
         }
     }
 }

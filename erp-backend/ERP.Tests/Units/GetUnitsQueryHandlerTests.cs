@@ -26,12 +26,12 @@ namespace ERP.Tests.Units
             _handler = new GetUnitsQueryHandler(_repoMock.Object);
         }
 
-        private static Domain.Entities.Units MakeUnit(
+        private static Domain.Entities.ProdUnit MakeUnit(
             string id,
             string name,
             bool active = true)
         {
-            return new Domain.Entities.Units
+            return new Domain.Entities.ProdUnit
             {
                 Id = id,
                 Name = name,
@@ -53,7 +53,7 @@ namespace ERP.Tests.Units
         public async Task Handle_CallsGetAllAsync()
         {
             _repoMock.Setup(r => r.GetAllAsync())
-                .ReturnsAsync(new List<Domain.Entities.Units>());
+                .ReturnsAsync(new List<Domain.Entities.ProdUnit>());
 
             await _handler.Handle(new GetUnitsQuery(), CancellationToken.None);
 
@@ -67,7 +67,7 @@ namespace ERP.Tests.Units
         [Fact]
         public async Task Handle_ReturnsOnlyActiveUnits_ByDefault()
         {
-            var units = new List<Domain.Entities.Units>
+            var units = new List<Domain.Entities.ProdUnit>
         {
             MakeUnit("1", "Kilogram", true),
         };
@@ -94,7 +94,7 @@ namespace ERP.Tests.Units
         public async Task Handle_ReturnsEmptyList_WhenNoUnitsExist()
         {
             _repoMock.Setup(r => r.GetAllAsync())
-                .ReturnsAsync(new List<Domain.Entities.Units>());
+                .ReturnsAsync(new List<Domain.Entities.ProdUnit>());
 
             var result = await _handler.Handle(
                 new GetUnitsQuery(),
@@ -114,7 +114,7 @@ namespace ERP.Tests.Units
             var unit = MakeUnit("1", "Kilogram", true);
 
             _repoMock.Setup(r => r.GetAllAsync())
-                .ReturnsAsync(new List<Domain.Entities.Units> { unit });
+                .ReturnsAsync(new List<Domain.Entities.ProdUnit> { unit });
 
             var result = await _handler.Handle(
                 new GetUnitsQuery(),
@@ -139,7 +139,7 @@ namespace ERP.Tests.Units
         public async Task Handle_AlwaysReturnsSuccess()
         {
             _repoMock.Setup(r => r.GetAllAsync())
-                .ReturnsAsync(new List<Domain.Entities.Units>());
+                .ReturnsAsync(new List<Domain.Entities.ProdUnit>());
 
             var result = await _handler.Handle(
                 new GetUnitsQuery(),

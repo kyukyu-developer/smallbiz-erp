@@ -1,6 +1,7 @@
 using ERP.Application.Features.Products.Queries;
 using ERP.Application.DTOs.Products;
 using ERP.Domain.Interfaces;
+using ERP.Domain.Entities;
 using FluentAssertions;
 using Moq;
 
@@ -8,24 +9,32 @@ namespace ERP.Tests.Products.Queries
 {
     public class GetProductsQueryHandlerTests
     {
-        private readonly Mock<IProductRepository> _productRepoMock;
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
+        private readonly Mock<IRepository<ProdItem>> _productsRepoMock;
+        private readonly Mock<IRepository<ProdCategory>> _categoriesRepoMock;
         private readonly GetProductsQueryHandler _handler;
 
         public GetProductsQueryHandlerTests()
         {
-            _productRepoMock = new Mock<IProductRepository>();
-            _handler = new GetProductsQueryHandler(_productRepoMock.Object);
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _productsRepoMock = new Mock<IRepository<ProdItem>>();
+            _categoriesRepoMock = new Mock<IRepository<ProdCategory>>();
+            _unitOfWorkMock.Setup(u => u.Products).Returns(_productsRepoMock.Object);
+            _unitOfWorkMock.Setup(u => u.Categories).Returns(_categoriesRepoMock.Object);
+            _categoriesRepoMock.Setup(r => r.GetAllAsync())
+                .ReturnsAsync(new List<ProdCategory>());
+            _handler = new GetProductsQueryHandler(_unitOfWorkMock.Object);
         }
 
         [Fact]
         public async Task Handle_ReturnsProductList_WhenProductsExist()
         {
-            var products = new List<Domain.Entities.Products>
+            var products = new List<ProdItem>
             {
-                new() { Id = "1", Code = "P001", Name = "Product 1", GroupId = "g1", BaseUnitId = "u1", Active = true },
-                new() { Id = "2", Code = "P002", Name = "Product 2", GroupId = "g1", BaseUnitId = "u1", Active = true }
+                new() { Id = "1", Code = "P001", Name = "Product 1", BaseUnitId = "u1", Active = true },
+                new() { Id = "2", Code = "P002", Name = "Product 2", BaseUnitId = "u1", Active = true }
             };
-            _productRepoMock.Setup(r => r.GetAllAsync())
+            _productsRepoMock.Setup(r => r.GetAllAsync())
                 .ReturnsAsync(products);
 
             var result = await _handler.Handle(new GetProductsQuery(), CancellationToken.None);
@@ -37,8 +46,8 @@ namespace ERP.Tests.Products.Queries
         [Fact]
         public async Task Handle_ReturnsEmptyList_WhenNoProducts()
         {
-            _productRepoMock.Setup(r => r.GetAllAsync())
-                .ReturnsAsync(new List<Domain.Entities.Products>());
+            _productsRepoMock.Setup(r => r.GetAllAsync())
+                .ReturnsAsync(new List<ProdItem>());
 
             var result = await _handler.Handle(new GetProductsQuery(), CancellationToken.None);
 
@@ -49,7 +58,7 @@ namespace ERP.Tests.Products.Queries
         [Fact]
         public async Task Handle_MapsPropertiesCorrectly()
         {
-            var products = new List<Domain.Entities.Products>
+            var products = new List<ProdItem>
             {
                 new()
                 {
@@ -57,17 +66,12 @@ namespace ERP.Tests.Products.Queries
                     Code = "P001",
                     Name = "Test Product",
                     Description = "Description",
-                    GroupId = "group-1",
                     BaseUnitId = "unit-1",
-                    TrackInventory = true,
-                    HasVariant = false,
-                    HasSerialNumber = false,
-                    HasBatchNumber = false,
-                    AllowNegativeStock = false,
+                    TrackType = 1,
                     Active = true
                 }
             };
-            _productRepoMock.Setup(r => r.GetAllAsync())
+            _productsRepoMock.Setup(r => r.GetAllAsync())
                 .ReturnsAsync(products);
 
             var result = await _handler.Handle(new GetProductsQuery(), CancellationToken.None);
@@ -80,8 +84,8 @@ namespace ERP.Tests.Products.Queries
         [Fact]
         public async Task Handle_AlwaysReturnsSuccess()
         {
-            _productRepoMock.Setup(r => r.GetAllAsync())
-                .ReturnsAsync(new List<Domain.Entities.Products>());
+            _productsRepoMock.Setup(r => r.GetAllAsync())
+                .ReturnsAsync(new List<ProdItem>());
 
             var result = await _handler.Handle(new GetProductsQuery(), CancellationToken.None);
 

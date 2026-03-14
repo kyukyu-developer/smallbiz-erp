@@ -41,7 +41,7 @@ namespace ERP.Application.Features.Sales.Queries
                     Status = (ERP.Domain.Enums.SaleStatus)s.Status,
                     DueDate = s.DueDate,
                     Notes = s.Notes,
-                    Items = s.SalesItems.Select(i => new SaleItemDto
+                    Items = s.SalesInvoiceItem.Select(i => new SaleItemDto
                     {
                         Id = i.Id,
                         ProductId = i.ProductId,

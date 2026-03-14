@@ -36,7 +36,7 @@ namespace ERP.Tests.ProductGroup.Commands
 
             // Mock repository to return an existing group
             _mockRepo.Setup(r => r.GetByName(command.Name))
-                     .ReturnsAsync(new Domain.Entities.ProductGroup { Id = "1", Name = "Existing Group" });
+                     .ReturnsAsync(new Domain.Entities.ProdGroup { Id = "1", Name = "Existing Group" });
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -47,7 +47,7 @@ namespace ERP.Tests.ProductGroup.Commands
             Assert.Contains("already exists", result.ErrorMessage);
 
             // Ensure AddAsync & SaveChangesAsync are NOT called
-            _mockRepo.Verify(r => r.AddAsync(It.IsAny<Domain.Entities.ProductGroup>()), Times.Never);
+            _mockRepo.Verify(r => r.AddAsync(It.IsAny<Domain.Entities.ProdGroup>()), Times.Never);
             _mockUnitOfWork.Verify(u => u.SaveChangesAsync(), Times.Never);
         }
 
@@ -63,10 +63,10 @@ namespace ERP.Tests.ProductGroup.Commands
 
             // Mock repository to return null (no duplicates)
             _mockRepo.Setup(r => r.GetByName(command.Name))
-                     .ReturnsAsync((Domain.Entities.ProductGroup?)null);
+                     .ReturnsAsync((Domain.Entities.ProdGroup?)null);
 
             // Mock AddAsync to just complete
-            _mockRepo.Setup(r => r.AddAsync(It.IsAny<Domain.Entities.ProductGroup>()))
+            _mockRepo.Setup(r => r.AddAsync(It.IsAny<Domain.Entities.ProdGroup>()))
                      .Returns(Task.CompletedTask);
 
             //// Mock SaveChangesAsync to just complete
@@ -84,7 +84,7 @@ namespace ERP.Tests.ProductGroup.Commands
             Assert.True(result.Data.Active);
 
             // Verify AddAsync and SaveChangesAsync called exactly once
-            _mockRepo.Verify(r => r.AddAsync(It.IsAny<Domain.Entities.ProductGroup>()), Times.Once);
+            _mockRepo.Verify(r => r.AddAsync(It.IsAny<Domain.Entities.ProdGroup>()), Times.Once);
             _mockUnitOfWork.Verify(u => u.SaveChangesAsync(), Times.Once);
         }
     }

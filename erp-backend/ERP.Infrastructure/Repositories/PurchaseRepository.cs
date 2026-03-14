@@ -1,30 +1,30 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ERP.Domain.Entities;
 using ERP.Domain.Interfaces;
 using ERP.Infrastructure.Data;
 
 namespace ERP.Infrastructure.Repositories
 {
-    public class PurchaseRepository : Repository<Purchases>, IPurchaseRepository
+    public class PurchaseRepository : Repository<PurchInvoice>, IPurchaseRepository
     {
         public PurchaseRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public async Task<List<Purchases>> GetAllWithDetailsAsync()
+        public async Task<List<PurchInvoice>> GetAllWithDetailsAsync()
         {
-            return await _context.Purchases
+            return await _context.PurchInvoice
                 .Include(p => p.Supplier)
-                .Include(p => p.PurchaseItems)
+                .Include(p => p.PurchItem)
                     .ThenInclude(i => i.Product)
                 .ToListAsync();
         }
 
-        public async Task<Purchases?> GetByIdWithDetailsAsync(string id)
+        public async Task<PurchInvoice?> GetByIdWithDetailsAsync(string id)
         {
-            return await _context.Purchases
+            return await _context.PurchInvoice
                 .Include(p => p.Supplier)
-                .Include(p => p.PurchaseItems)
+                .Include(p => p.PurchItem)
                     .ThenInclude(i => i.Product)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }

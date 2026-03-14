@@ -21,7 +21,7 @@ namespace ERP.Application.Features.Brands.Commands
 
         public async Task<Result<BrandDto>> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
         {
-            var brand = new Domain.Entities.Brands
+            var brand = new Domain.Entities.ProdBrand
             {
                 Name = request.Name,
                 Description = request.Description,

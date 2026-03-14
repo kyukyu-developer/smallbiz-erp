@@ -11,7 +11,7 @@ namespace ERP.Infrastructure.Repositories
 {
 
 
-    public class BrandRepository : Repository<Brands>, IBrandRepository
+    public class BrandRepository : Repository<ProdBrand>, IBrandRepository
     {
         public BrandRepository(ApplicationDbContext context) : base(context)
         {

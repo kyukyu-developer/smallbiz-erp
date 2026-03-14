@@ -4,20 +4,18 @@
 *.cache
 *.sourcelink.json
 
-# IDE and local settings
-.claude/settings.local.json
-.vs/
-.vscode/
-
-# OS files
-.DS_Store
-Thumbs.db
-nul
-
 # Dependencies
 node_modules/
 packages/
 
 # Logs
 *.log
-/erp-backend/ERP.API/bin/Debug/net8.0/ERP.API.dll
+
+# IDE and local settings
+.vs/
+.vscode/
+.claude/settings.local.json
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -26,7 +26,7 @@ namespace ERP.Tests.ProductGroup.Queries
         {
             // Arrange
             var productGroupId = "1";
-            var productGroup = new Domain.Entities.ProductGroup
+            var productGroup = new Domain.Entities.ProdGroup
             {
                 Id = productGroupId,
                 Name = "Test Group",
@@ -62,7 +62,7 @@ namespace ERP.Tests.ProductGroup.Queries
             // Arrange
             var productGroupId = "999";
             _mockRepo.Setup(r => r.GetByIdAsync(productGroupId))
-                     .ReturnsAsync((Domain.Entities.ProductGroup?)null);
+                     .ReturnsAsync((Domain.Entities.ProdGroup?)null);
 
             var query = new GetProductGroupByIdQuery { Id = productGroupId };
 

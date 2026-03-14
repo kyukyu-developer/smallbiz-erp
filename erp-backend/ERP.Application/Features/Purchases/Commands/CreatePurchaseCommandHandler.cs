@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using ERP.Application.DTOs.Purchases;
 using ERP.Application.DTOs.Common;
 using ERP.Domain.Entities;
@@ -22,7 +22,7 @@ namespace ERP.Application.Features.Purchases.Commands
             decimal totalDiscount = 0;
             decimal totalTax = 0;
 
-            var purchaseItems = new List<Domain.Entities.PurchaseItems>();
+            var purchaseItems = new List<Domain.Entities.PurchItem>();
 
             foreach (var itemDto in request.Items)
             {
@@ -46,7 +46,7 @@ namespace ERP.Application.Features.Purchases.Commands
                 totalDiscount += discountAmount;
                 totalTax += taxAmount;
 
-                purchaseItems.Add(new Domain.Entities.PurchaseItems
+                purchaseItems.Add(new Domain.Entities.PurchItem
                 {
                     ProductId = itemDto.ProductId,
                     UnitId = itemDto.UnitId,
@@ -61,7 +61,7 @@ namespace ERP.Application.Features.Purchases.Commands
                 });
             }
 
-            var purchase = new Domain.Entities.Purchases
+            var purchase = new Domain.Entities.PurchInvoice
             {
                 PurchaseOrderNumber = request.PurchaseOrderNumber,
                 PurchaseDate = request.PurchaseDate,
@@ -76,7 +76,7 @@ namespace ERP.Application.Features.Purchases.Commands
                 Status = (int)request.Status,
                 ExpectedDate = request.ExpectedDate,
                 Notes = request.Notes,
-                PurchaseItems = purchaseItems
+                PurchItem = purchaseItems
             };
 
             await _purchaseRepository.AddAsync(purchase);
@@ -99,7 +99,7 @@ namespace ERP.Application.Features.Purchases.Commands
                 ExpectedDate = purchase.ExpectedDate,
                 ReceivedDate = purchase.ReceivedDate,
                 Notes = purchase.Notes,
-                Items = purchase.PurchaseItems.Select(i => new PurchaseItemDto
+                Items = purchase.PurchItem.Select(i => new PurchaseItemDto
                 {
                     Id = i.Id,
                     ProductId = i.ProductId,

@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using ERP.Application.DTOs.Auth;
 using ERP.Application.DTOs.Common;
 using ERP.Application.Interfaces;
@@ -39,7 +39,7 @@ namespace ERP.Application.Features.Auth.Commands
             var passwordHash = _passwordHasher.Hash(request.Password);
 
             // Create new user
-            var user = new Users
+            var user = new AuthUser
             {
                 Id = Guid.NewGuid().ToString(),
                 Username = request.Username,
@@ -60,7 +60,7 @@ namespace ERP.Application.Features.Auth.Commands
             var refreshToken = _jwtTokenService.GenerateRefreshToken();
 
             // Save refresh token
-            var refreshTokenEntity = new RefreshTokens
+            var refreshTokenEntity = new AuthRefreshToken
             {
                 Id = Guid.NewGuid().ToString(),
                 Token = refreshToken,

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ERP.Domain.Interfaces
 {
-    public interface IProductGroupRepository:IRepository<ProductGroup>
+    public interface IProductGroupRepository:IRepository<ProdGroup>
     {
-        Task<ProductGroup?> GetByName(string name);
+        Task<ProdGroup?> GetByName(string name);
 
     }
 }

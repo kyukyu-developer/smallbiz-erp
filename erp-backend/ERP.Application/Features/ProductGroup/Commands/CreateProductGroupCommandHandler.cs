@@ -33,7 +33,7 @@ namespace ERP.Application.Features.ProductGroup.Commands
                 return Result<ProductGroupDto>.Failure($"Product Group with name '{request.Name}' already exists ");
             }
 
-            var productGroup = new Domain.Entities.ProductGroup
+            var productGroup = new Domain.Entities.ProdGroup
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = request.Name,

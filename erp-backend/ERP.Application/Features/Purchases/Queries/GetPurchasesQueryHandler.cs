@@ -42,7 +42,7 @@ namespace ERP.Application.Features.Purchases.Queries
                     ExpectedDate = p.ExpectedDate,
                     ReceivedDate = p.ReceivedDate,
                     Notes = p.Notes,
-                    Items = p.PurchaseItems.Select(i => new PurchaseItemDto
+                    Items = p.PurchItem.Select(i => new PurchaseItemDto
                     {
                         Id = i.Id,
                         ProductId = i.ProductId,

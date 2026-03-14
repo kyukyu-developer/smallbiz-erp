@@ -27,7 +27,7 @@ public class GetBrandByIdQueryHandlerTests
         // Arrange
         var brandId = "1";
 
-        var brand = new Domain.Entities.Brands
+        var brand = new Domain.Entities.ProdBrand
         {
             Id = brandId,
             Name = "Nike",
@@ -61,7 +61,7 @@ public class GetBrandByIdQueryHandlerTests
 
         _brandRepositoryMock
             .Setup(x => x.GetByIdAsync(brandId))
-            .ReturnsAsync((Domain.Entities.Brands)null);
+            .ReturnsAsync((Domain.Entities.ProdBrand)null);
 
         var query = new GetBrandByIdQuery { Id = brandId };
 

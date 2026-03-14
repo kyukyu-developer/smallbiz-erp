@@ -36,7 +36,7 @@ namespace ERP.Tests.Units
                 Active = true
             };
 
-            _unitRepositoryMock.Setup(repo => repo.GetByIdAsync(command.Id)).ReturnsAsync((ERP.Domain.Entities.Units)null);
+            _unitRepositoryMock.Setup(repo => repo.GetByIdAsync(command.Id)).ReturnsAsync((ERP.Domain.Entities.ProdUnit)null);
 
             //Act
 
@@ -57,9 +57,9 @@ namespace ERP.Tests.Units
         public async Task Handle_ShouldReturnFailure_WhenDuplicateNameExists()
         {
             //Arrange
-            var unit = new Domain.Entities.Units { Id="1",Name = "Kilogram",Symbol ="kg" };
+            var unit = new Domain.Entities.ProdUnit { Id="1",Name = "Kilogram",Symbol ="kg" };
 
-            var duplicate = new Domain.Entities.Units { Id = "2", Name = "Kilogram", Symbol = "kg" };
+            var duplicate = new Domain.Entities.ProdUnit { Id = "2", Name = "Kilogram", Symbol = "kg" };
 
             var command = new UpdateUnitCommand
             {
@@ -90,7 +90,7 @@ namespace ERP.Tests.Units
         public async Task Handle_ShouldUpdateUnit_WhenValidRequest()
         {
             //Arrange
-            var unit = new Domain.Entities.Units { Id = "1", Name = "Gram", Symbol = "g" };
+            var unit = new Domain.Entities.ProdUnit { Id = "1", Name = "Gram", Symbol = "g" };
 
 
             var command = new UpdateUnitCommand
@@ -104,7 +104,7 @@ namespace ERP.Tests.Units
 
             _unitRepositoryMock.Setup(repo => repo.GetByIdAsync(command.Id)).ReturnsAsync(unit);
 
-            _unitRepositoryMock.Setup(repo => repo.GetByName(command.Name)).ReturnsAsync((Domain.Entities.Units)null);
+            _unitRepositoryMock.Setup(repo => repo.GetByName(command.Name)).ReturnsAsync((Domain.Entities.ProdUnit)null);
 
             //Act
             var result = await _handler.Handle(command, default);

@@ -35,7 +35,7 @@ namespace ERP.Tests.Units
 
             _unitRepositoryMock
                 .Setup(x => x.GetByIdAsync(command.Id))
-                .ReturnsAsync((Domain.Entities.Units)null);
+                .ReturnsAsync((Domain.Entities.ProdUnit)null);
 
             // Act
             var result = await _handler.Handle(command, default);
@@ -49,7 +49,7 @@ namespace ERP.Tests.Units
         public async Task Handle_ShouldSoftDeleteUnit_WhenUnitExists()
         {
             // Arrange
-            var unit = new Domain.Entities.Units
+            var unit = new Domain.Entities.ProdUnit
             {
                 Id = "1",
                 Name = "Kilogram",

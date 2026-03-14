@@ -36,7 +36,7 @@ namespace ERP.Tests.ProductGroup.Commands
             };
 
             _mockRepo.Setup(r => r.GetByIdAsync(command.Id))
-                     .ReturnsAsync((Domain.Entities.ProductGroup?)null);
+                     .ReturnsAsync((Domain.Entities.ProdGroup?)null);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -46,7 +46,7 @@ namespace ERP.Tests.ProductGroup.Commands
             Assert.Null(result.Data);
             Assert.Contains("not found", result.ErrorMessage);
 
-            _mockRepo.Verify(r => r.Update(It.IsAny<Domain.Entities.ProductGroup>()), Times.Never);
+            _mockRepo.Verify(r => r.Update(It.IsAny<Domain.Entities.ProdGroup>()), Times.Never);
             _mockUnitOfWork.Verify(u => u.SaveChangesAsync(), Times.Never);
         }
 
@@ -62,10 +62,10 @@ namespace ERP.Tests.ProductGroup.Commands
                 Active = true
             };
 
-            var existingProduct = new Domain.Entities.ProductGroup { Id = "2", Name = "Existing Name" };
+            var existingProduct = new Domain.Entities.ProdGroup { Id = "2", Name = "Existing Name" };
 
             _mockRepo.Setup(r => r.GetByIdAsync(command.Id))
-                     .ReturnsAsync(new  Domain.Entities.ProductGroup { Id = command.Id, Name = "Old Name" });
+                     .ReturnsAsync(new  Domain.Entities.ProdGroup { Id = command.Id, Name = "Old Name" });
 
             _mockRepo.Setup(r => r.GetByName(command.Name))
                      .ReturnsAsync(existingProduct);
@@ -78,7 +78,7 @@ namespace ERP.Tests.ProductGroup.Commands
             Assert.Null(result.Data);
             Assert.Contains("already exists", result.ErrorMessage);
 
-            _mockRepo.Verify(r => r.Update(It.IsAny<Domain.Entities.ProductGroup>()), Times.Never);
+            _mockRepo.Verify(r => r.Update(It.IsAny<Domain.Entities.ProdGroup>()), Times.Never);
             _mockUnitOfWork.Verify(u => u.SaveChangesAsync(), Times.Never);
         }
 
@@ -94,7 +94,7 @@ namespace ERP.Tests.ProductGroup.Commands
                 Active = true
             };
 
-            var productGroup = new Domain.Entities.ProductGroup
+            var productGroup = new Domain.Entities.ProdGroup
             {
                 Id = command.Id,
                 Name = "Old Name",
@@ -109,7 +109,7 @@ namespace ERP.Tests.ProductGroup.Commands
 
             // No duplicate
             _mockRepo.Setup(r => r.GetByName(command.Name))
-                     .ReturnsAsync((Domain.Entities.ProductGroup?)null);
+                     .ReturnsAsync((Domain.Entities.ProdGroup?)null);
 
             //_mockUnitOfWork.Setup(u => u.SaveChangesAsync())
             //               .Returns(Task.CompletedTask);
@@ -126,7 +126,7 @@ namespace ERP.Tests.ProductGroup.Commands
             Assert.NotNull(result.Data.UpdatedAt);
             Assert.Equal("System", result.Data.UpdatedBy);
 
-            _mockRepo.Verify(r => r.Update(It.IsAny<Domain.Entities.ProductGroup>()), Times.Once);
+            _mockRepo.Verify(r => r.Update(It.IsAny<Domain.Entities.ProdGroup>()), Times.Once);
             _mockUnitOfWork.Verify(u => u.SaveChangesAsync(), Times.Once);
         }
     }

@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using ERP.Application.DTOs.Products;
 using ERP.Application.DTOs.Common;
 using ERP.Domain.Entities;
@@ -28,19 +28,22 @@ namespace ERP.Application.Features.Products.Commands
                 return Result<ProductDto>.Failure("Product code already exists");
             }
 
-            var product = new Domain.Entities.Products
+            var product = new Domain.Entities.ProdItem
             {
                 Code = request.Code,
                 Name = request.Name,
-                Description = request.Description,
+                GroupId = request.GroupId,
                 CategoryId = request.CategoryId,
+                BrandId = request.BrandId,
+                Description = request.Description,
                 BaseUnitId = request.BaseUnitId,
                 MinimumStock = request.MinimumStock,
                 MaximumStock = request.MaximumStock,
                 ReorderLevel = request.ReorderLevel,
                 Barcode = request.Barcode,
-                IsBatchTracked = request.IsBatchTracked,
-                IsSerialTracked = request.IsSerialTracked,
+                TrackType = request.TrackType,
+                HasVariant = request.HasVariant,
+                AllowNegativeStock = request.AllowNegativeStock,
                 Active = request.Active
             };
 
@@ -52,15 +55,18 @@ namespace ERP.Application.Features.Products.Commands
                 Id = product.Id,
                 Code = product.Code,
                 Name = product.Name,
-                Description = product.Description,
+                GroupId = product.GroupId,
                 CategoryId = product.CategoryId,
+                BrandId = product.BrandId,
+                Description = product.Description,
                 BaseUnitId = product.BaseUnitId,
                 MinimumStock = product.MinimumStock,
                 MaximumStock = product.MaximumStock,
                 ReorderLevel = product.ReorderLevel,
                 Barcode = product.Barcode,
-                IsBatchTracked = product.IsBatchTracked,
-                IsSerialTracked = product.IsSerialTracked,
+                TrackType = product.TrackType,
+                HasVariant = product.HasVariant,
+                AllowNegativeStock = product.AllowNegativeStock,
                 Active = product.Active
             };
 

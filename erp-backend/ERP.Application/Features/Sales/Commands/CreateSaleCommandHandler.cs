@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using ERP.Application.DTOs.Sales;
 using ERP.Application.DTOs.Common;
 using ERP.Domain.Entities;
@@ -24,7 +24,7 @@ namespace ERP.Application.Features.Sales.Commands
             decimal totalDiscount = 0;
             decimal totalTax = 0;
 
-            var saleItems = new List<Domain.Entities.SalesItems>();
+            var saleItems = new List<Domain.Entities.SalesInvoiceItem>();
 
             foreach (var itemDto in request.Items)
             {
@@ -48,7 +48,7 @@ namespace ERP.Application.Features.Sales.Commands
                 totalDiscount += discountAmount;
                 totalTax += taxAmount;
 
-                saleItems.Add(new Domain.Entities.SalesItems
+                saleItems.Add(new Domain.Entities.SalesInvoiceItem
                 {
                     ProductId = itemDto.ProductId,
                     UnitId = itemDto.UnitId,
@@ -63,7 +63,7 @@ namespace ERP.Application.Features.Sales.Commands
                 });
             }
 
-            var sale = new Domain.Entities.Sales
+            var sale = new Domain.Entities.SalesInvoice
             {
                 InvoiceNumber = request.InvoiceNumber,
                 SaleDate = request.SaleDate,
@@ -78,7 +78,7 @@ namespace ERP.Application.Features.Sales.Commands
                 Status = (int)request.Status,
                 DueDate = request.DueDate,
                 Notes = request.Notes,
-                SalesItems = saleItems
+                SalesInvoiceItem = saleItems
             };
 
             await _saleRepository.AddAsync(sale);
@@ -100,7 +100,7 @@ namespace ERP.Application.Features.Sales.Commands
                 Status = (ERP.Domain.Enums.SaleStatus)sale.Status,
                 DueDate = sale.DueDate,
                 Notes = sale.Notes,
-                Items = sale.SalesItems.Select(i => new SaleItemDto
+                Items = sale.SalesInvoiceItem.Select(i => new SaleItemDto
                 {
                     Id = i.Id,
                     ProductId = i.ProductId,

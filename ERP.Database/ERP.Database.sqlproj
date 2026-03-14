@@ -13,7 +13,7 @@
     </RootPath>
     <RootNamespace>ERP.Database</RootNamespace>
     <AssemblyName>ERP.Database</AssemblyName>
-    <ModelCollation>1033, CI</ModelCollation>
+    <ModelCollation>1054,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -22,6 +22,8 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>Thai_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -56,33 +58,31 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="dbo" />
-    <Folder Include="dbo\Tables" />
-    <Folder Include="dbo\Views" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\Categories.sql" />
-    <Build Include="dbo\Tables\Customers.sql" />
-    <Build Include="dbo\Tables\ProductBatches.sql" />
-    <Build Include="dbo\Tables\ProductSerials.sql" />
-    <Build Include="dbo\Tables\ProductUnitPrices.sql" />
-    <Build Include="dbo\Tables\PurchaseItems.sql" />
-    <Build Include="dbo\Tables\Purchases.sql" />
-    <Build Include="dbo\Tables\RefreshTokens.sql" />
-    <Build Include="dbo\Tables\Sales.sql" />
-    <Build Include="dbo\Tables\SalesItems.sql" />
-    <Build Include="dbo\Tables\StockAdjustments.sql" />
-    <Build Include="dbo\Tables\StockMovements.sql" />
-    <Build Include="dbo\Tables\StockTransfers.sql" />
-    <Build Include="dbo\Tables\Suppliers.sql" />
-    <Build Include="dbo\Tables\UnitConversions.sql" />
-    <Build Include="dbo\Tables\Units.sql" />
-    <Build Include="dbo\Tables\Users.sql" />
-    <Build Include="dbo\Tables\Warehouses.sql" />
-    <Build Include="dbo\Tables\WarehouseStocks.sql" />
-    <Build Include="dbo\Tables\Brands.sql" />
-    <Build Include="dbo\Tables\Product_Group.sql" />
-    <Build Include="dbo\Tables\Product.sql" />
-    <Build Include="dbo\Views\ProductView.sql" />
+    <Build Include="dbo\Tables\SalesInvoiceItem.sql" />
+    <Build Include="dbo\Tables\InvStockMovement.sql" />
+    <Build Include="dbo\Tables\ProdItem.sql" />
+    <Build Include="dbo\Tables\ProdCategory.sql" />
+    <Build Include="dbo\Tables\ProdBrand.sql" />
+    <Build Include="dbo\Tables\SalesCustomer.sql" />
+    <Build Include="dbo\Tables\ProdGroup.sql" />
+    <Build Include="dbo\Tables\AuthRefreshToken.sql" />
+    <Build Include="dbo\Tables\PurchSupplier.sql" />
+    <Build Include="dbo\Tables\ProdUnit.sql" />
+    <Build Include="dbo\Tables\AuthUser.sql" />
+    <Build Include="dbo\Tables\InvWarehouse.sql" />
+    <Build Include="dbo\Tables\PurchInvoice.sql" />
+    <Build Include="dbo\Tables\SalesInvoice.sql" />
+    <Build Include="dbo\Tables\ProdBatch.sql" />
+    <Build Include="dbo\Tables\ProdSerial.sql" />
+    <Build Include="dbo\Tables\ProdUnitPrice.sql" />
+    <Build Include="dbo\Tables\InvStockAdjustment.sql" />
+    <Build Include="dbo\Tables\InvStockTransfer.sql" />
+    <Build Include="dbo\Tables\ProdUnitConversion.sql" />
+    <Build Include="dbo\Tables\InvWarehouseStock.sql" />
+    <Build Include="dbo\Tables\PurchItem.sql" />
   </ItemGroup>
 </Project>
