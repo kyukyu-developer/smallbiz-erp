@@ -58,6 +58,8 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<SalesInvoiceItem> SalesInvoiceItem { get; set; }
 
+    public virtual DbSet<VwProdUnitConversion> VwProdUnitConversion { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AuthRefreshToken>(entity =>
@@ -952,6 +954,48 @@ public partial class ApplicationDbContext : DbContext
                 .HasForeignKey(d => d.UnitId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_SalesInvoiceItem_ProdUnit");
+        });
+
+        modelBuilder.Entity<VwProdUnitConversion>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_ProdUnitConversion");
+
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.Factor).HasColumnType("decimal(18, 6)");
+            entity.Property(e => e.FromUnitId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.FromUnitName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.FromUnitSymbol)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Id)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.ProductCode).HasMaxLength(50);
+            entity.Property(e => e.ProductId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ProductName).HasMaxLength(200);
+            entity.Property(e => e.ToUnitId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ToUnitName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ToUnitSymbol)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
         });
 
         OnModelCreatingPartial(modelBuilder);

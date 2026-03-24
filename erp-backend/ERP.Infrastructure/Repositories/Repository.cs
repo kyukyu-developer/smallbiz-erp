@@ -32,7 +32,7 @@ namespace ERP.Infrastructure.Repositories
             return await _dbSet.FindAsync(id) != null;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await GetAllWithActiveFilter().ToListAsync();
         }
@@ -86,7 +86,7 @@ namespace ERP.Infrastructure.Repositories
         }
 
         // Always applies Active filter if entity has Active property
-        private IQueryable<T> GetAllWithActiveFilter()
+        protected IQueryable<T> GetAllWithActiveFilter()
         {
             if (HasActiveProperty())
             {

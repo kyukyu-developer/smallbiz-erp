@@ -101,6 +101,10 @@
       {
          "Name": "[dbo].[SalesInvoiceItem]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[vw_ProdUnitConversion]",
+         "ObjectType": 3
       }
    ],
    "UiHint": null,
@@ -108,7 +112,6 @@
    "UseAsyncStoredProcedureCalls": true,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
-   "UseDatabaseNamesForRoutines": true,
    "UseDateOnlyTimeOnly": true,
    "UseDbContextSplitting": false,
    "UseDecimalDataAnnotationForSprocResult": true,
@@ -127,6 +130,5 @@
    "UseSchemaFolders": false,
    "UseSchemaNamespaces": false,
    "UseSpatial": false,
-   "UseT4": false,
-   "UseT4Split": false
+   "UseT4": false
 }

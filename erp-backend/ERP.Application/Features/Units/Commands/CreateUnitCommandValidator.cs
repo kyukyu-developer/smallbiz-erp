@@ -18,6 +18,9 @@ namespace ERP.Application.Features.Units.Commands
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Unit name is required")
                 .MaximumLength(50).WithMessage("Unit name cannot exceed 50 characters");
+
+            RuleFor(x => x.Symbol)
+               .NotEmpty().WithMessage("Symbol name is required");
         }
     }
 }

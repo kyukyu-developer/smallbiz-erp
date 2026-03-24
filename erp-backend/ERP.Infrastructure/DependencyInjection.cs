@@ -35,10 +35,10 @@ namespace ERP.Infrastructure
             services.AddScoped<IUnitRepository, UnitRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<IProductGroupRepository, ProdGroupRepository>();
+            services.AddScoped<IProductUnitConversionRepository, ProductUnitConversionRepository>();
 
 
-
-            // Services
+            // Servicessss
             services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
 
