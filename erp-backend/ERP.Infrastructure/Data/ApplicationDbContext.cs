@@ -998,6 +998,117 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.UpdatedBy).HasMaxLength(50);
         });
 
+        modelBuilder.Entity<SalesInvoice>(entity =>
+        {
+            entity.HasIndex(e => e.CustomerId, "IX_SalesInvoice_CustomerId");
+
+            entity.HasIndex(e => e.WarehouseId, "IX_SalesInvoice_WarehouseId");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.CustomerId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.InvoiceNumber)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.PaidAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.SubTotal).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TotalDiscount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TotalTax).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+            entity.Property(e => e.WarehouseId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Customer).WithMany(p => p.SalesInvoice)
+                .HasForeignKey(d => d.CustomerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SalesInvoice_SalesCustomer");
+
+            entity.HasOne(d => d.Warehouse).WithMany(p => p.SalesInvoice)
+                .HasForeignKey(d => d.WarehouseId)
+                .HasConstraintName("FK_SalesInvoice_InvWarehouse");
+        });
+
+        modelBuilder.Entity<SalesInvoiceItem>(entity =>
+        {
+            entity.HasIndex(e => e.BatchId, "IX_SalesInvoiceItem_BatchId");
+
+            entity.HasIndex(e => e.ProductId, "IX_SalesInvoiceItem_ProductId");
+
+            entity.HasIndex(e => e.SaleId, "IX_SalesInvoiceItem_SaleId");
+
+            entity.HasIndex(e => e.SerialId, "IX_SalesInvoiceItem_SerialId");
+
+            entity.HasIndex(e => e.UnitId, "IX_SalesInvoiceItem_UnitId");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.BatchId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.DiscountAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.DiscountPercent).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.LastAction).HasMaxLength(50);
+            entity.Property(e => e.ProductId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Quantity).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.SaleId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.SerialId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TaxAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TaxPercent).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.UnitId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+
+            entity.HasOne(d => d.Batch).WithMany(p => p.SalesInvoiceItem)
+                .HasForeignKey(d => d.BatchId)
+                .HasConstraintName("FK_SalesInvoiceItem_ProdBatch");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.SalesInvoiceItem)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SalesInvoiceItem_ProdItem");
+
+            entity.HasOne(d => d.Sale).WithMany(p => p.SalesInvoiceItem)
+                .HasForeignKey(d => d.SaleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SalesInvoiceItem_SalesInvoice");
+
+            entity.HasOne(d => d.Serial).WithMany(p => p.SalesInvoiceItem)
+                .HasForeignKey(d => d.SerialId)
+                .HasConstraintName("FK_SalesInvoiceItem_ProdSerial");
+
+            entity.HasOne(d => d.Unit).WithMany(p => p.SalesInvoiceItem)
+                .HasForeignKey(d => d.UnitId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SalesInvoiceItem_ProdUnit");
+        });
+
         OnModelCreatingPartial(modelBuilder);
     }
 

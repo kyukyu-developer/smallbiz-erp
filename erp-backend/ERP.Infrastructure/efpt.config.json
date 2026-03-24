@@ -1,134 +1,132 @@
 ﻿{
-   "CodeGenerationMode": 4,
-   "ContextClassName": "ApplicationDbContext",
-   "ContextNamespace": null,
-   "FilterSchemas": false,
-   "IncludeConnectionString": false,
-   "ModelNamespace": null,
-   "OutputContextPath": null,
-   "OutputPath": "Data",
-   "PreserveCasingWithRegex": true,
-   "ProjectRootNamespace": "ERP.Infrastructure",
-   "Schemas": null,
-   "SelectedHandlebarsLanguage": 2,
-   "SelectedToBeGenerated": 1,
-   "T4TemplatePath": null,
-   "Tables": [
-      {
-         "Name": "[dbo].[AuthRefreshToken]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[AuthUser]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[InvStockAdjustment]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[InvStockMovement]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[InvStockTransfer]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[InvWarehouse]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[InvWarehouseStock]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ProdBatch]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ProdBrand]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ProdCategory]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ProdGroup]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ProdItem]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ProdSerial]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ProdUnit]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ProdUnitConversion]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ProdUnitPrice]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[PurchInvoice]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[PurchItem]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[PurchSupplier]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[SalesCustomer]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[SalesInvoice]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[SalesInvoiceItem]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[vw_ProdUnitConversion]",
-         "ObjectType": 3
-      }
-   ],
-   "UiHint": null,
-   "UncountableWords": null,
-   "UseAsyncStoredProcedureCalls": true,
-   "UseBoolPropertiesWithoutDefaultSql": false,
-   "UseDatabaseNames": false,
-   "UseDateOnlyTimeOnly": true,
-   "UseDbContextSplitting": false,
-   "UseDecimalDataAnnotationForSprocResult": true,
-   "UseFluentApiOnly": true,
-   "UseHandleBars": false,
-   "UseHierarchyId": false,
-   "UseInflector": false,
-   "UseLegacyPluralizer": false,
-   "UseManyToManyEntity": false,
-   "UseNoDefaultConstructor": false,
-   "UseNoNavigations": false,
-   "UseNoObjectFilter": false,
-   "UseNodaTime": false,
-   "UseNullableReferences": false,
-   "UsePrefixNavigationNaming": false,
-   "UseSchemaFolders": false,
-   "UseSchemaNamespaces": false,
-   "UseSpatial": false,
-   "UseT4": false
+  "CodeGenerationMode": 4,
+  "ContextClassName": "ApplicationDbContext",
+  "ContextNamespace": null,
+  "FilterSchemas": false,
+  "IncludeConnectionString": false,
+  "ModelNamespace": null,
+  "OutputContextPath": null,
+  "OutputPath": "Data",
+  "PreserveCasingWithRegex": true,
+  "ProjectRootNamespace": "ERP.Infrastructure",
+  "Schemas": null,
+  "SelectedHandlebarsLanguage": 2,
+  "SelectedToBeGenerated": 1,
+  "T4TemplatePath": null,
+  "Tables": [
+    {
+      "Name": "[dbo].[AuthRefreshToken]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[AuthUser]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[InvStockAdjustment]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[InvStockMovement]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[InvStockTransfer]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[InvWarehouse]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[InvWarehouseStock]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[ProdBatch]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[ProdBrand]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[ProdCategory]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[ProdGroup]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[ProdItem]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[ProdSerial]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[ProdUnit]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[ProdUnitConversion]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[ProdUnitPrice]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[PurchInvoice]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[PurchItem]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[PurchSupplier]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[SalesCustomer]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[SalesInvoice]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[dbo].[SalesInvoiceItem]",
+      "ObjectType": 0
+    }
+  ],
+  "UiHint": null,
+  "UncountableWords": null,
+  "UseAsyncStoredProcedureCalls": true,
+  "UseBoolPropertiesWithoutDefaultSql": false,
+  "UseDatabaseNames": false,
+  "UseDatabaseNamesForRoutines": true,
+  "UseDateOnlyTimeOnly": true,
+  "UseDbContextSplitting": false,
+  "UseDecimalDataAnnotationForSprocResult": true,
+  "UseFluentApiOnly": true,
+  "UseHandleBars": false,
+  "UseHierarchyId": false,
+  "UseInflector": false,
+  "UseLegacyPluralizer": false,
+  "UseManyToManyEntity": false,
+  "UseNoDefaultConstructor": false,
+  "UseNoNavigations": false,
+  "UseNoObjectFilter": false,
+  "UseNodaTime": false,
+  "UseNullableReferences": false,
+  "UsePrefixNavigationNaming": false,
+  "UseSchemaFolders": false,
+  "UseSchemaNamespaces": false,
+  "UseSpatial": false,
+  "UseT4": false,
+  "UseT4Split": false
 }
