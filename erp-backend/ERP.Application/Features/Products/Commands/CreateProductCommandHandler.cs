@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using ERP.Application.DTOs.Products;
 using ERP.Application.DTOs.Common;
 using ERP.Domain.Entities;
@@ -44,7 +44,8 @@ namespace ERP.Application.Features.Products.Commands
                 TrackType = request.TrackType,
                 HasVariant = request.HasVariant,
                 AllowNegativeStock = request.AllowNegativeStock,
-                Active = request.Active
+                Active = request.Active,
+                LastAction = "CREATE"
             };
 
             await _productRepository.AddAsync(product);

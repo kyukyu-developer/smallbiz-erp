@@ -13,16 +13,27 @@ namespace ERP.Tests.Products.Commands
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly CreateProductCommandHandler _handler;
 
-        public CreateProductCommandHandlerTests()
-        {
-            _productRepoMock = new Mock<IProductRepository>();
-            _unitRepoMock = new Mock<IUnitRepository>();
-            _unitOfWorkMock = new Mock<IUnitOfWork>();
-            _handler = new CreateProductCommandHandler(
-                _productRepoMock.Object,
-                _unitRepoMock.Object,
-                _unitOfWorkMock.Object);
-        }
+    public CreateProductCommandHandlerTests()
+    {
+        _productRepoMock = new Mock<IProductRepository>();
+        _unitRepoMock = new Mock<IUnitRepository>();
+        _unitOfWorkMock = new Mock<IUnitOfWork>();
+        _handler = new CreateProductCommandHandler(
+            _productRepoMock.Object,
+            _unitRepoMock.Object,
+            _unitOfWorkMock.Object);
+
+        // Setup AddAsync to generate an Id if not set
+        _productRepoMock.Setup(r => r.AddAsync(It.IsAny<Domain.Entities.ProdItem>()))
+            .Callback<Domain.Entities.ProdItem>(p =>
+            {
+                if (string.IsNullOrEmpty(p.Id))
+                {
+                    p.Id = Guid.NewGuid().ToString();
+                }
+            })
+            .Returns(Task.CompletedTask);
+    }
 
         private CreateProductCommand CreateValidCommand() => new()
         {

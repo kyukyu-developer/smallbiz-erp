@@ -23,9 +23,14 @@ namespace ERP.Application.Features.Brands.Commands
         {
             var brand = new Domain.Entities.ProdBrand
             {
+                Id = Guid.NewGuid().ToString(),
+
                 Name = request.Name,
                 Description = request.Description,
-                Active = request.Active
+                Active = request.Active,
+                  LastAction = "CREATE",
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = "System"
             };
 
             await _brandRepository.AddAsync(brand);

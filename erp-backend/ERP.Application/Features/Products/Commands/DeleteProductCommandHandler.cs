@@ -21,7 +21,10 @@ namespace ERP.Application.Features.Products.Commands
                 return Result<bool>.Failure("Product not found");
             }
 
-            _productRepository.Delete(product);
+            product.Active = false;
+            product.LastAction = "DELETE";
+
+            _productRepository.Update(product);
             await _productRepository.SaveChangesAsync();
 
             return Result<bool>.Success(true);

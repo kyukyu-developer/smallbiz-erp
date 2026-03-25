@@ -47,6 +47,7 @@ namespace ERP.Application.Features.Products.Commands
             product.HasVariant = request.HasVariant;
             product.AllowNegativeStock = request.AllowNegativeStock;
             product.Active = request.Active;
+            product.LastAction = "UPDATE";
 
             _productRepository.Update(product);
             await _productRepository.SaveChangesAsync();

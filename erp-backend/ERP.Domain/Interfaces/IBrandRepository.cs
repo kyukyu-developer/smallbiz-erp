@@ -1,4 +1,4 @@
-﻿using ERP.Domain.Entities;
+using ERP.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace ERP.Domain.Interfaces
 {
 
-    public interface IBrandRepository : IRepository<ProdBrand>
-    {
-    }
+public interface IBrandRepository : IRepository<ProdBrand>
+{
+    Task<ProdBrand?> GetByNameAsync(string name);
+}
  }
