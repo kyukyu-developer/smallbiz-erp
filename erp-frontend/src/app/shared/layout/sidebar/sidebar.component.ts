@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 interface MenuItem {
   label: string;
@@ -15,7 +20,8 @@ interface MenuSection {
 
 @Component({
   selector: 'app-sidebar',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, RouterModule, MatListModule, MatIconModule, MatDividerModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })

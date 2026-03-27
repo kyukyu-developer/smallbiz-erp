@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MainLayoutComponent } from './shared/layout/main-layout/main-layout.component';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, RouterModule, MainLayoutComponent],
   templateUrl: './app.component.html',
-  standalone: false,
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {

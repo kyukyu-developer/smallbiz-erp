@@ -1,13 +1,38 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Warehouse } from '../models/warehouse.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-warehouse-detail',
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatDividerModule,
+    MatTooltipModule
+  ],
   templateUrl: './warehouse-detail.component.html',
-  styleUrls: ['./warehouse-detail.component.scss']
+  styleUrls: ['./warehouse-detail.component.scss'],
 })
 export class WarehouseDetailComponent implements OnInit {
   warehouseForm!: FormGroup;
@@ -30,7 +55,7 @@ export class WarehouseDetailComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -53,8 +78,22 @@ export class WarehouseDetailComponent implements OnInit {
    */
   private initializeForm(): void {
     this.warehouseForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      city: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50),
+        ],
+      ],
+      city: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50),
+        ],
+      ],
       branch_type: ['Main', [Validators.required]],
       is_main_warehouse: [true],
       parent_warehouse_id: [null],
@@ -65,7 +104,7 @@ export class WarehouseDetailComponent implements OnInit {
       description: ['', [Validators.maxLength(255)]],
       address: ['', [Validators.maxLength(255)]],
       phone: ['', [Validators.maxLength(20)]],
-      email: ['', [Validators.email, Validators.maxLength(100)]]
+      email: ['', [Validators.email, Validators.maxLength(100)]],
     });
   }
 
@@ -74,9 +113,11 @@ export class WarehouseDetailComponent implements OnInit {
    */
   private setupFormListeners(): void {
     // Listen to branch_type changes
-    this.warehouseForm.get('branch_type')?.valueChanges.subscribe(branchType => {
-      this.onBranchTypeChange(branchType);
-    });
+    this.warehouseForm
+      .get('branch_type')
+      ?.valueChanges.subscribe((branchType) => {
+        this.onBranchTypeChange(branchType);
+      });
   }
 
   /**
@@ -118,7 +159,7 @@ export class WarehouseDetailComponent implements OnInit {
         branch_type: 'Main',
         is_main_warehouse: true,
         is_used_warehouse: true,
-        active: true
+        active: true,
       },
       {
         id: '2',
@@ -127,8 +168,8 @@ export class WarehouseDetailComponent implements OnInit {
         branch_type: 'Main',
         is_main_warehouse: true,
         is_used_warehouse: true,
-        active: true
-      }
+        active: true,
+      },
     ];
   }
 
@@ -177,7 +218,7 @@ export class WarehouseDetailComponent implements OnInit {
       description: formValue.description,
       address: formValue.address,
       phone: formValue.phone,
-      email: formValue.email
+      email: formValue.email,
     };
 
     if (this.isEditMode && this.warehouseId) {
@@ -256,7 +297,7 @@ export class WarehouseDetailComponent implements OnInit {
       description: 'Description',
       address: 'Address',
       phone: 'Phone',
-      email: 'Email'
+      email: 'Email',
     };
     return labels[fieldName] || fieldName;
   }
@@ -286,8 +327,8 @@ export class WarehouseDetailComponent implements OnInit {
           },
           {
             threshold: [0, 0.25, 0.5, 0.75, 0.8, 1], // Multiple thresholds for more precise detection
-            rootMargin: '0px 0px -80px 0px' // Add margin at bottom to trigger earlier
-          }
+            rootMargin: '0px 0px -80px 0px', // Add margin at bottom to trigger earlier
+          },
         );
 
         observer.observe(buttonSection);

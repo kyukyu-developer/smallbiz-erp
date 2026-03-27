@@ -1,15 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { LoginUseCase, LoginResult } from '../../features/auth/application/usecases/auth.usecase';
+import { AUTH_REPOSITORY } from '../../core/interfaces/repositories/repository-tokens';
 
 @Component({
   selector: 'app-login',
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatCheckboxModule
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
+  private formBuilder = inject(FormBuilder);
+  private loginUseCase = inject(LoginUseCase);
+  private authRepository = inject(AUTH_REPOSITORY);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   loginForm!: FormGroup;
   loading = false;
   submitted = false;
@@ -17,16 +44,8 @@ export class LoginComponent implements OnInit {
   hidePassword = true;
   returnUrl: string = '/dashboard';
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
-
   ngOnInit(): void {
-    // Redirect to dashboard if already logged in
-    if (this.authService.isAuthenticated()) {
+    if (this.authRepository.isAuthenticated()) {
       this.router.navigate(['/dashboard']);
     }
 
@@ -36,7 +55,6 @@ export class LoginComponent implements OnInit {
       rememberMe: [false]
     });
 
-    // Get return url from route parameters or default to '/dashboard'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
 
@@ -54,17 +72,21 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
 
-    this.authService
-      .login(this.f['username'].value, this.f['password'].value)
-      .subscribe({
-        next: () => {
+    this.loginUseCase.execute({
+      username: this.f['username'].value,
+      password: this.f['password'].value,
+      rememberMe: this.f['rememberMe'].value
+    }).subscribe({
+      next: (result: LoginResult) => {
+        if (result.success) {
           this.router.navigate([this.returnUrl]);
-        },
-        error: (error) => {
-          this.error = 'Invalid username or password';
-          this.loading = false;
         }
-      });
+      },
+      error: () => {
+        this.error = 'Invalid username or password';
+        this.loading = false;
+      }
+    });
   }
 
   togglePasswordVisibility(): void {

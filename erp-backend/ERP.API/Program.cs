@@ -100,7 +100,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 // Use CORS
 app.UseCors("AngularApp");

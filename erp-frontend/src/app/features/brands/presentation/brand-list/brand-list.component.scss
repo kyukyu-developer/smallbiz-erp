@@ -1,0 +1,87 @@
+.brand-list-container {
+  padding: 24px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  .subtitle {
+    margin: 4px 0 0;
+    color: rgba(0, 0, 0, 0.54);
+  }
+}
+
+.stats-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  .stat-card {
+    flex: 1;
+    max-width: 200px;
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 500;
+    }
+
+    .stat-label {
+      color: rgba(0, 0, 0, 0.54);
+    }
+  }
+}
+
+.filter-row {
+  margin-bottom: 16px;
+
+  .search-field {
+    width: 300px;
+  }
+}
+
+.table-container {
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+
+  .brands-table {
+    width: 100%;
+  }
+
+  .loading-spinner {
+    display: flex;
+    justify-content: center;
+    padding: 48px;
+  }
+
+  .no-data {
+    text-align: center;
+    padding: 48px;
+    color: rgba(0, 0, 0, 0.54);
+
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+    }
+  }
+}
+
+.status-active {
+  color: #4caf50;
+  font-weight: 500;
+}
+
+.status-inactive {
+  color: #f44336;
+  font-weight: 500;
+}

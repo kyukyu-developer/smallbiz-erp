@@ -1,0 +1,100 @@
+<div class="brand-list-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1>Brands</h1>
+      <p class="subtitle">Manage product brands</p>
+    </div>
+    <div class="header-right">
+      <button mat-raised-button color="primary" (click)="addNewBrand()">
+        <mat-icon>add</mat-icon>
+        Add Brand
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-value">{{ totalBrands }}</div>
+        <div class="stat-label">Total Brands</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-value">{{ activeBrands }}</div>
+        <div class="stat-label">Active</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Search & Filter -->
+  <div class="filter-row">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search brands</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (keyup)="applyFilter()" placeholder="Search by name...">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <!-- Table -->
+  <div class="table-container">
+    <table mat-table [dataSource]="brands" class="brands-table">
+      
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let brand">{{ brand.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let brand">{{ brand.description || '-' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let brand">
+          <span [class]="getStatusClass(brand.active)">
+            {{ brand.active ? 'Active' : 'Inactive' }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let brand">
+          <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Actions">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="viewBrand(brand)">
+              <mat-icon>visibility</mat-icon>
+              <span>View</span>
+            </button>
+            <button mat-menu-item (click)="editBrand(brand)">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="deleteBrand(brand)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div *ngIf="loading" class="loading-spinner">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+
+    <div *ngIf="!loading && brands.length === 0" class="no-data">
+      <mat-icon>inventory_2</mat-icon>
+      <p>No brands found</p>
+    </div>
+  </div>
+</div>

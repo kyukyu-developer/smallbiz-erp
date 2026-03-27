@@ -1,0 +1,232 @@
+<div class="brand-detail-container">
+  <!-- Toggle Button for Tips Column -->
+  <button
+    mat-mini-fab
+    class="tips-toggle-btn"
+    (click)="toggleTipsColumn()"
+    [matTooltip]="showTipsColumn ? 'Hide Rules and Tips' : 'Show Rules and Tips'"
+    matTooltipPosition="left">
+    <mat-icon>{{ showTipsColumn ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+  </button>
+
+  <!-- Two Column Layout -->
+  <div class="two-column-layout" [class.full-width]="!showTipsColumn">
+    <!-- Left Column: Form -->
+    <div class="form-column">
+      <div class="modern-form-card">
+        <form id="brandForm" [formGroup]="brandForm" (ngSubmit)="onSave()">
+
+          <!-- Section 1: Basic Information -->
+          <div class="form-section">
+            <div class="section-header">
+              <mat-icon>label</mat-icon>
+              <h3>Brand Information</h3>
+            </div>
+
+            <div class="form-fields">
+              <!-- Brand Name Field -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Brand Name <span class="required">*</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>label</mat-icon>
+                  <input
+                    matInput
+                    formControlName="name"
+                    placeholder="e.g., Samsung, Apple, Sony"
+                    maxlength="50">
+                  <mat-hint align="end">{{ brandForm.get('name')?.value?.length || 0 }}/50</mat-hint>
+                  <mat-error *ngIf="hasError('name', 'required')">
+                    Brand name is required
+                  </mat-error>
+                  <mat-error *ngIf="hasError('name', 'minlength')">
+                    Name must be at least 2 characters
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!-- Description Field (Optional) -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Description <span class="optional">(Optional)</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>description</mat-icon>
+                  <textarea
+                    matInput
+                    formControlName="description"
+                    placeholder="Brief description of the brand"
+                    rows="3"
+                    maxlength="255"></textarea>
+                  <mat-hint align="end">{{ brandForm.get('description')?.value?.length || 0 }}/255</mat-hint>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Status -->
+          <div class="form-section">
+            <div class="section-header">
+              <mat-icon>toggle_on</mat-icon>
+              <h3>Status Settings</h3>
+            </div>
+
+            <div class="form-fields checkbox-group">
+              <div class="checkbox-wrapper">
+                <mat-slide-toggle formControlName="active" color="primary">
+                  <div class="toggle-label">
+                    <strong>Active</strong>
+                    <span class="toggle-hint">Active brands appear in product forms</span>
+                  </div>
+                </mat-slide-toggle>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="form-actions">
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="onCancel()"
+              class="btn-cancel">
+              <mat-icon>arrow_back</mat-icon>
+              Cancel
+            </button>
+
+            <button
+              mat-flat-button
+              type="button"
+              (click)="onReset()"
+              class="btn-reset"
+              [disabled]="!brandForm.dirty">
+              <mat-icon>restart_alt</mat-icon>
+              Reset
+            </button>
+
+            <button
+              mat-flat-button
+              type="submit"
+              class="btn-primary"
+              [disabled]="brandForm.invalid || saving">
+              <mat-icon>{{ isEditMode ? 'check_circle' : 'save' }}</mat-icon>
+              {{ saving ? 'Saving...' : (isEditMode ? 'Update Brand' : 'Create Brand') }}
+            </button>
+          </div>
+
+          <!-- Footer Note -->
+          <div class="form-footer">
+            <div class="footer-note">
+              <mat-icon>info_outline</mat-icon>
+              <span>Fields marked with <strong>*</strong> are required</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Column: Business Rules & Tips -->
+    <div class="tips-column" *ngIf="showTipsColumn">
+      <!-- Business Rules Card -->
+      <div class="modern-info-card business-rules">
+        <div class="info-header">
+          <mat-icon>rule</mat-icon>
+          <h4>Business Rules</h4>
+        </div>
+        <ul class="info-list">
+          <li>
+            <mat-icon class="icon-info">info</mat-icon>
+            <span><strong>Unique Name:</strong> Brand name must be unique across the system</span>
+          </li>
+          <li>
+            <mat-icon class="icon-info">info</mat-icon>
+            <span><strong>Product Linking:</strong> Brands are used to categorize products</span>
+          </li>
+          <li>
+            <mat-icon class="icon-info">info</mat-icon>
+            <span><strong>Active Status:</strong> Inactive brands won't appear in product forms</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Quick Tips Card -->
+      <div class="modern-info-card">
+        <div class="info-header">
+          <mat-icon>lightbulb</mat-icon>
+          <h4>Quick Tips</h4>
+        </div>
+        <ul class="info-list">
+          <li>
+            <mat-icon>check_circle</mat-icon>
+            <span>Use official brand names (Samsung, Apple, Sony)</span>
+          </li>
+          <li>
+            <mat-icon>check_circle</mat-icon>
+            <span>Add description to help identify the brand</span>
+          </li>
+          <li>
+            <mat-icon>check_circle</mat-icon>
+            <span>Disable brands that are no longer in use</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Brand Examples -->
+      <div class="modern-info-card type-legend">
+        <div class="info-header">
+          <mat-icon>help_outline</mat-icon>
+          <h4>Brand Examples</h4>
+        </div>
+        <div class="type-items">
+          <div class="type-item">
+            <div class="type-badge electronics">Electronics</div>
+            <span>Samsung, Apple, Sony, LG</span>
+          </div>
+          <div class="type-item">
+            <div class="type-badge clothing">Clothing</div>
+            <span>Nike, Adidas, Puma</span>
+          </div>
+          <div class="type-item">
+            <div class="type-badge food">Food & Beverage</div>
+            <span>Coca-Cola, Pepsi, Nestle</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Action Buttons -->
+  <div class="sticky-actions" [class.visible]="showStickyButtons" [class.tips-visible]="showTipsColumn">
+    <div class="sticky-actions-container">
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="onCancel()"
+        class="btn-cancel">
+        <mat-icon>arrow_back</mat-icon>
+        Cancel
+      </button>
+
+      <button
+        mat-flat-button
+        type="button"
+        (click)="onReset()"
+        class="btn-reset"
+        [disabled]="!brandForm.dirty">
+        <mat-icon>restart_alt</mat-icon>
+        Reset
+      </button>
+
+      <button
+        mat-flat-button
+        type="submit"
+        (click)="onSave()"
+        class="btn-primary"
+        [disabled]="brandForm.invalid || saving">
+        <mat-icon>{{ isEditMode ? 'check_circle' : 'save' }}</mat-icon>
+        {{ saving ? 'Saving...' : (isEditMode ? 'Update Brand' : 'Create Brand') }}
+      </button>
+    </div>
+  </div>
+</div>
