@@ -1,0 +1,102 @@
+// ============================================
+// ERP System - Global Theme Variables
+// ============================================
+// Import this file in any component SCSS:
+//   @import '../../../../theme/variables';
+// ============================================
+
+// ── Colors ──────────────────────────────────
+
+// Primary
+$primary-color: #002e5c;
+$primary-dark: #002147;
+$primary-light: #004785;
+$secondary-color: #005494;
+
+// Status
+$success-color: #10b981;
+$success-light: #d1fae5;
+$warning-color: #f59e0b;
+$warning-light: #fef3c7;
+$danger-color: #ef4444;
+$danger-light: #fee2e2;
+$info-color: #3b82f6;
+$info-light: #dbeafe;
+
+// Text
+$text-primary: #111827;
+$text-secondary: #6b7280;
+$text-muted: #9ca3af;
+
+// Backgrounds
+$bg-primary: #ffffff;
+$bg-secondary: #f9fafb;
+$bg-tertiary: #f3f4f6;
+
+// Borders
+$border-color: #e5e7eb;
+$border-light: #f3f4f6;
+
+// ── Font Sizes ──────────────────────────────
+
+// Headings
+$font-size-h1: 1.5rem;       // 24px - Page titles
+$font-size-h2: 1.25rem;      // 20px - Section titles (list headers)
+$font-size-h3: 0.9375rem;    // 15px - Form section headers
+$font-size-h4: 0.8125rem;    // 13px - Card headers (sidebar)
+
+// Body
+$font-size-base: 0.8125rem;  // 13px - Default body text
+$font-size-sm: 0.75rem;      // 12px - Hints, captions, helper text
+$font-size-xs: 0.6875rem;    // 11px - Badges, micro text
+
+// Form
+$font-size-label: 0.8125rem; // 13px - Field labels
+$font-size-input: 0.8125rem; // 13px - Input text
+$font-size-placeholder: 0.8125rem; // 13px - Placeholder text
+$font-size-error: 0.75rem;   // 12px - Error messages
+$font-size-hint: 0.75rem;    // 12px - Field hints
+
+// Buttons
+$font-size-btn: 0.8125rem;   // 13px - Button text
+$font-size-btn-sm: 0.75rem;  // 12px - Small button text
+
+// ── Icon Sizes ──────────────────────────────
+
+$icon-size-lg: 24px;         // Large icons
+$icon-size-md: 20px;         // Section header icons
+$icon-size-base: 16px;       // Default icons (fields, buttons)
+$icon-size-sm: 14px;         // Small icons (hints, sidebar items)
+
+// ── Spacing ─────────────────────────────────
+
+$section-padding: 20px 28px;
+$card-padding: 14px;
+$field-gap: 16px;
+$section-gap: 16px;
+
+// ── Border Radius ───────────────────────────
+
+$radius-lg: 16px;
+$radius-md: 12px;
+$radius-base: 8px;
+$radius-sm: 6px;
+$radius-xs: 5px;
+
+// ── Button Heights ──────────────────────────
+
+$btn-height: 36px;
+$btn-height-lg: 44px;
+$btn-height-sticky: 42px;
+
+// ── Transitions ─────────────────────────────
+
+$transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-fast: all 0.2s ease;
+
+// ── Shadows ─────────────────────────────────
+
+$shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 6px 20px rgba(0, 46, 92, 0.35);
+$shadow-card: 0 2px 10px rgba(0, 46, 92, 0.08);

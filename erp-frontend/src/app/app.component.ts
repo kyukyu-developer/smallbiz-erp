@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MainLayoutComponent } from './shared/layout/main-layout/main-layout.component';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { MainLayoutComponent } from './shared/layout/main-layout/main-layout.com
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
+  private themeService = inject(ThemeService);
   title = 'erp-project';
   showLayout = false;
 

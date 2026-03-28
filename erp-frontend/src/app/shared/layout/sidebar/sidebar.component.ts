@@ -48,7 +48,15 @@ export class SidebarComponent {
             { label: 'Categories', icon: 'category', route: '/inventory/categories' },
             { label: 'Stock Management', icon: 'inventory', route: '/inventory/stock' },
             { label: 'Warehouse', icon: 'warehouse', route: '/inventory/warehouses' },
-            { label: 'Suppliers', icon: 'local_shipping', route: '/inventory/suppliers' }
+            { label: 'Suppliers', icon: 'local_shipping', route: '/inventory/suppliers' },
+            {
+              label: 'Setup',
+              icon: 'settings',
+              expanded: false,
+              children: [
+                { label: 'Brands', icon: 'loyalty', route: '/inventory/brands' }
+              ]
+            }
           ]
         },
         {

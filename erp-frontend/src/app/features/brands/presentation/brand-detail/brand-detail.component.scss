@@ -1,192 +1,160 @@
+@import '../../../../../theme/form-detail';
+
 .brand-detail-container {
-  padding: 24px;
-  position: relative;
+  @include detail-container;
 }
 
 .tips-toggle-btn {
-  position: fixed;
-  right: 24px;
-  top: 100px;
-  z-index: 100;
+  @include tips-toggle-btn;
 }
 
 .two-column-layout {
-  display: flex;
-  gap: 24px;
-  transition: all 0.3s ease;
-
-  &.full-width {
-    .form-column {
-      flex: 1;
-    }
-  }
+  @include two-column-layout;
 }
 
 .form-column {
-  flex: 2;
-}
-
-.modern-form-card {
-  background: white;
-  border-radius: 8px;
-  padding: 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.form-section {
-  margin-bottom: 32px;
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #e0e0e0;
-
-    mat-icon {
-      color: #1976d2;
-    }
-
-    h3 {
-      margin: 0;
-      font-size: 18px;
-      font-weight: 500;
-      color: #333;
-    }
-  }
-}
-
-.form-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.field-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-
-  .field-label {
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
-
-    .required {
-      color: #f44336;
-    }
-
-    .optional {
-      color: #999;
-      font-weight: 400;
-      font-size: 12px;
-    }
-  }
-
-  .modern-field {
-    width: 100%;
-  }
-
-  .field-hint {
-    font-size: 12px;
-    color: #666;
-    margin-top: 4px;
-  }
-}
-
-.form-actions {
-  display: flex;
-  gap: 12px;
-  padding-top: 16px;
-  border-top: 1px solid #e0e0e0;
-
-  button {
-    mat-icon {
-      margin-right: 8px;
-    }
-  }
+  @include form-column;
 }
 
 .tips-column {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 320px;
+  @include tips-column;
 }
 
-.tips-card,
-.rules-card {
-  background: white;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.modern-form-card {
+  @include modern-form-card;
+}
 
-  h4 {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0 0 12px;
-    font-size: 16px;
-    font-weight: 500;
-    color: #333;
+form {
+  .form-section {
+    @include form-section;
 
-    mat-icon {
-      color: #ff9800;
+    .section-header {
+      @include section-header;
+    }
+
+    .form-fields {
+      @include form-fields;
+    }
+  }
+
+  .field-wrapper {
+    @include field-wrapper;
+
+    .field-label {
+      @include field-label;
+    }
+
+    .modern-field {
+      @include modern-field;
+    }
+  }
+
+  .checkbox-group {
+    @include checkbox-group;
+
+    .checkbox-wrapper {
+      @include checkbox-wrapper;
+
+      .toggle-label {
+        @include toggle-label;
+      }
+    }
+  }
+
+  .form-actions {
+    @include form-actions;
+
+    .btn-primary {
+      @include btn-primary;
+    }
+
+    .btn-cancel {
+      @include btn-cancel;
+    }
+
+    .btn-reset {
+      @include btn-reset;
+    }
+  }
+
+  .form-footer {
+    @include form-footer;
+  }
+}
+
+// Sidebar Info Cards
+.modern-info-card {
+  @include info-card;
+
+  .info-header {
+    @include info-card-header;
+  }
+
+  .info-list {
+    @include info-list;
+  }
+
+  &.business-rules {
+    @include info-card-business-rules;
+  }
+
+  &.type-legend {
+    @include info-card-legend;
+  }
+}
+
+.type-items {
+  @include type-items;
+
+  .type-item .type-badge {
+    &.electronics {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+    }
+
+    &.clothing {
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      color: white;
+    }
+
+    &.food {
+      background: linear-gradient(135deg, $success-color 0%, #059669 100%);
+      color: white;
     }
   }
 }
 
-.tips-content {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+// Animations
+@include fade-in-up-animation;
 
-  .tip-item {
-    strong {
-      display: block;
-      margin-bottom: 4px;
-      color: #333;
-    }
-
-    p {
-      margin: 0;
-      font-size: 13px;
-      color: #666;
-      line-height: 1.4;
-    }
-  }
+.field-wrapper {
+  @include field-animations;
 }
 
-.rules-list {
-  margin: 0;
-  padding-left: 20px;
-
-  li {
-    font-size: 13px;
-    color: #666;
-    margin-bottom: 8px;
-    line-height: 1.4;
-  }
+.modern-info-card {
+  @include card-animations;
 }
 
+// Sticky Actions
 .sticky-actions {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: white;
-  padding: 16px 24px;
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
+  @include sticky-actions;
 
-  button {
-    mat-icon {
-      margin-right: 8px;
+  .sticky-actions-container {
+    @include sticky-actions-container;
+
+    .btn-primary {
+      @include btn-primary;
+    }
+
+    .btn-cancel {
+      @include btn-cancel;
+    }
+
+    .btn-reset {
+      @include btn-reset;
     }
   }
 }
+
+// Responsive
+@include detail-responsive;

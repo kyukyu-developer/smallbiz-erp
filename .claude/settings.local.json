@@ -60,7 +60,12 @@
       "Bash(for f in erp-backend/ERP.Tests/ProductGroup/Commands/CreateProductGroupCommandHandlerTests.cs erp-backend/ERP.Tests/ProductGroup/Commands/UpdateProductGroupCommandHandlerTests.cs erp-backend/ERP.Tests/ProductGroup/Queries/GetProductGroupByIdQueryHandlerTests.cs erp-backend/ERP.Tests/ProductGroup/Queries/GetProductGroupQueryHandlerTests.cs)",
       "Bash(do sed -i 's/Domain\\\\.Entities\\\\.ProductGroup\\\\b/Domain.Entities.ProdGroup/g' \"$f\")",
       "Bash(for f in erp-backend/ERP.Tests/Products/Commands/CreateProductCommandHandlerTests.cs erp-backend/ERP.Tests/Products/Commands/DeleteProductCommandHandlerTests.cs erp-backend/ERP.Tests/Products/Queries/GetProductByIdQueryHandlerTests.cs erp-backend/ERP.Tests/Products/Queries/GetProductsQueryHandlerTests.cs)",
-      "Bash(do sed -i 's/Domain\\\\.Entities\\\\.Products\\\\b/Domain.Entities.ProdItem/g' \"$f\")"
+      "Bash(do sed -i 's/Domain\\\\.Entities\\\\.Products\\\\b/Domain.Entities.ProdItem/g' \"$f\")",
+      "Bash(find /c/Guu/ERP_Project -type d -name *warehouse*)",
+      "Bash(find c:/Guu/ERP_Project -type f \\\\\\(-name *warehouse*list* -o -name *list*warehouse* \\\\\\))",
+      "Bash(npx ng:*)",
+      "Read(//tmp/claude/**)",
+      "Read(//c/tmp/**)"
     ]
   }
 }
