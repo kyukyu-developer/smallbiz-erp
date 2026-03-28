@@ -1,8 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
-import { LoginCredentials, AuthResponse, User } from '../../domain/entities/user.entity';
+import {
+  LoginCredentials,
+  AuthResponse,
+  User,
+} from '../../domain/entities/user.entity';
 import { IAuthRepository } from '../../domain/repositories/auth.repository.interface';
-import { AUTH_REPOSITORY } from '../../../../core/interfaces/repositories/repository-tokens';
+import { AUTH_REPOSITORY } from '../../domain/repositories/auth.token';
 
 export interface LoginResult {
   success: boolean;
@@ -13,22 +17,22 @@ export interface LoginResult {
 
 @Injectable({ providedIn: 'root' })
 export class LoginUseCase {
-  private repository = inject(AUTH_REPOSITORY);
+  private repository = inject<IAuthRepository>(AUTH_REPOSITORY);
 
   execute(credentials: LoginCredentials): Observable<LoginResult> {
     return this.repository.login(credentials).pipe(
       map((response: AuthResponse) => ({
         success: true,
         user: response.user,
-        token: response.accessToken
-      }))
+        token: response.accessToken,
+      })),
     );
   }
 }
 
 @Injectable({ providedIn: 'root' })
 export class LogoutUseCase {
-  private repository = inject(AUTH_REPOSITORY);
+  private repository = inject<IAuthRepository>(AUTH_REPOSITORY);
 
   execute(): Observable<void> {
     return this.repository.logout();
@@ -37,7 +41,7 @@ export class LogoutUseCase {
 
 @Injectable({ providedIn: 'root' })
 export class GetCurrentUserUseCase {
-  private repository = inject(AUTH_REPOSITORY);
+  private repository = inject<IAuthRepository>(AUTH_REPOSITORY);
 
   execute(): Observable<User | null> {
     return this.repository.getCurrentUser();
@@ -46,7 +50,7 @@ export class GetCurrentUserUseCase {
 
 @Injectable({ providedIn: 'root' })
 export class IsAuthenticatedUseCase {
-  private repository = inject(AUTH_REPOSITORY);
+  private repository = inject<IAuthRepository>(AUTH_REPOSITORY);
 
   execute(): boolean {
     return this.repository.isAuthenticated();

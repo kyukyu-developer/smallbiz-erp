@@ -8,4 +8,5 @@ export interface IAuthRepository {
   getCurrentUser(): Observable<User | null>;
   isAuthenticated(): boolean;
   getToken(): string | null;
+  getRefreshToken(): string | null;
 }

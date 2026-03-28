@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { BaseEntity, PaginationParams, PaginatedResult, FilterParams } from '../models/base.model';
+import { BaseEntity, PaginationParams, PaginatedResult, FilterParams } from '../../models/base.model';
 
 export interface IBaseRepository<T extends BaseEntity> {
   getAll(): Observable<T[]>;
