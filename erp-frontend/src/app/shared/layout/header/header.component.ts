@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -7,7 +7,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
-import { AuthService, User } from '../../../auth/services/auth.service';
+import { AUTH_REPOSITORY } from '../../../core/interfaces/repositories/repository-tokens';
+import { IAuthRepository } from '../../../features/auth/domain/repositories/auth.repository.interface';
+import { User } from '../../../features/auth/domain/entities/user.entity';
 import { Observable } from 'rxjs';
 
 interface SubMenuItem {
@@ -40,6 +42,9 @@ export class HeaderComponent implements OnInit {
   baseTitle: string = '';
   detailParam: string = '';
   baseRoute: string = '';
+
+  // Inject auth repository as class property
+  private authRepo = inject<IAuthRepository>(AUTH_REPOSITORY);
 
   menuItems: MenuItem[] = [
     {
@@ -121,11 +126,8 @@ export class HeaderComponent implements OnInit {
     }
   ];
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {
-    this.currentUser$ = this.authService.currentUser;
+  constructor(private router: Router) {
+    this.currentUser$ = this.authRepo.getCurrentUser();
   }
 
   ngOnInit() {
@@ -225,6 +227,8 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
+    this.authRepo.logout().subscribe(() => {
+      this.router.navigate(['/login']);
+    });
   }
 }

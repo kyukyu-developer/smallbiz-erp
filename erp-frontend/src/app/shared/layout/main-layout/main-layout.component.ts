@@ -8,9 +8,15 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatSidenavModule, HeaderComponent, SidebarComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatSidenavModule,
+    HeaderComponent,
+    SidebarComponent,
+  ],
   templateUrl: './main-layout.component.html',
-  styleUrl: './main-layout.component.scss'
+  styleUrl: './main-layout.component.scss',
 })
 export class MainLayoutComponent {
   sidenavOpened = true;

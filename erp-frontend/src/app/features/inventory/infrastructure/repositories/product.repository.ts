@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product, CreateProductDto, ProductFilter } from '../../domain/entities/product.entity';
 import { IProductRepository } from '../../domain/repositories/product.repository.interface';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ProductRepository implements IProductRepository {

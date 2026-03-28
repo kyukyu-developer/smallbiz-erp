@@ -1,3 +1,3 @@
-export * from './base.model';
-export * from './repositories/base-repository.interface';
-export * from './usecases/base-usecase.interface';
+export * from './models/base.model';
+export * from './interfaces/repositories/base-repository.interface';
+export * from './interfaces/usecases/base-usecase.interface';

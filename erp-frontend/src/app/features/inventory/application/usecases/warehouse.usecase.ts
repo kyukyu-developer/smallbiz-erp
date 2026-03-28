@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Warehouse, WarehouseFilter } from '../../domain/entities/warehouse.entity';
 import { IWarehouseRepository } from '../../domain/repositories/warehouse.repository.interface';
+import { WAREHOUSE_REPOSITORY } from '../../domain/repositories/warehouse.token';
 
 export interface GetAllWarehousesResult {
   warehouses: Warehouse[];
@@ -16,7 +17,7 @@ export interface WarehouseGroup {
 
 @Injectable({ providedIn: 'root' })
 export class GetAllWarehousesUseCase {
-  private repository = inject(IWarehouseRepository);
+  private repository = inject<IWarehouseRepository>(WAREHOUSE_REPOSITORY);
 
   execute(): Observable<GetAllWarehousesResult> {
     return this.repository.getAll().pipe(
@@ -30,7 +31,7 @@ export class GetAllWarehousesUseCase {
 
 @Injectable({ providedIn: 'root' })
 export class GetWarehousesByFilterUseCase {
-  private repository = inject(IWarehouseRepository);
+  private repository = inject<IWarehouseRepository>(WAREHOUSE_REPOSITORY);
 
   execute(filter: WarehouseFilter): Observable<Warehouse[]> {
     return this.repository.getByFilter(filter);
@@ -39,7 +40,7 @@ export class GetWarehousesByFilterUseCase {
 
 @Injectable({ providedIn: 'root' })
 export class GetWarehouseByIdUseCase {
-  private repository = inject(IWarehouseRepository);
+  private repository = inject<IWarehouseRepository>(WAREHOUSE_REPOSITORY);
 
   execute(id: string): Observable<Warehouse | null> {
     return this.repository.getById(id);
@@ -48,7 +49,7 @@ export class GetWarehouseByIdUseCase {
 
 @Injectable({ providedIn: 'root' })
 export class CreateWarehouseUseCase {
-  private repository = inject(IWarehouseRepository);
+  private repository = inject<IWarehouseRepository>(WAREHOUSE_REPOSITORY);
 
   execute(warehouse: Partial<Warehouse>): Observable<Warehouse> {
     return this.repository.create(warehouse as any);
@@ -57,7 +58,7 @@ export class CreateWarehouseUseCase {
 
 @Injectable({ providedIn: 'root' })
 export class UpdateWarehouseUseCase {
-  private repository = inject(IWarehouseRepository);
+  private repository = inject<IWarehouseRepository>(WAREHOUSE_REPOSITORY);
 
   execute(id: string, warehouse: Partial<Warehouse>): Observable<Warehouse> {
     return this.repository.update(id, warehouse as any);
@@ -66,7 +67,7 @@ export class UpdateWarehouseUseCase {
 
 @Injectable({ providedIn: 'root' })
 export class DeleteWarehouseUseCase {
-  private repository = inject(IWarehouseRepository);
+  private repository = inject<IWarehouseRepository>(WAREHOUSE_REPOSITORY);
 
   execute(id: string): Observable<void> {
     return this.repository.delete(id);
@@ -75,7 +76,7 @@ export class DeleteWarehouseUseCase {
 
 @Injectable({ providedIn: 'root' })
 export class GetMainWarehousesUseCase {
-  private repository = inject(IWarehouseRepository);
+  private repository = inject<IWarehouseRepository>(WAREHOUSE_REPOSITORY);
 
   execute(): Observable<Warehouse[]> {
     return this.repository.getMainWarehouses();
@@ -84,7 +85,7 @@ export class GetMainWarehousesUseCase {
 
 @Injectable({ providedIn: 'root' })
 export class GetWarehouseGroupsUseCase {
-  private repository = inject(IWarehouseRepository);
+  private repository = inject<IWarehouseRepository>(WAREHOUSE_REPOSITORY);
 
   execute(): Observable<WarehouseGroup[]> {
     return this.repository.getAll().pipe(
