@@ -15,7 +15,6 @@ export interface LoginCredentials {
 
 export interface AuthResponse {
   accessToken: string;
-  refreshToken: string;
   expiresAt: Date;
   user: User;
 }

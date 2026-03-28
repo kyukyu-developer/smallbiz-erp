@@ -9,7 +9,6 @@ import { inject } from '@angular/core';
 import {
   catchError,
   switchMap,
-  tap,
   throwError,
   BehaviorSubject,
   filter,
@@ -36,8 +35,8 @@ export const authInterceptor: HttpInterceptorFn = (
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
-        return handle401Error(req, authReq, next, authRepository);
+      if (error.status === 401 && !req.url.includes('/Auth/refresh-token')) {
+        return handle401Error(req, next, authRepository);
       }
       return throwError(() => error);
     }),
@@ -57,7 +56,6 @@ function addToken(
 
 function handle401Error(
   originalReq: HttpRequest<unknown>,
-  modifiedReq: HttpRequest<unknown>,
   next: HttpHandlerFn,
   authRepository: AuthRepository,
 ): Observable<HttpEvent<unknown>> {
@@ -65,27 +63,16 @@ function handle401Error(
     isRefreshing = true;
     refreshTokenSubject.next(null);
 
-    const refreshToken = authRepository.getRefreshToken();
-    if (!refreshToken) {
-      isRefreshing = false;
-      authRepository.logout();
-      return throwError(() => new Error('No refresh token'));
-    }
-
     return authRepository.refreshToken().pipe(
-      tap((response: AuthResponse) => {
+      switchMap((response: AuthResponse) => {
         isRefreshing = false;
         refreshTokenSubject.next(response.accessToken);
+        return next(addToken(originalReq, response.accessToken));
       }),
       catchError((error: unknown) => {
         isRefreshing = false;
         authRepository.logout();
         return throwError(() => error);
-      }),
-      switchMap((response: AuthResponse) => {
-        refreshTokenSubject.next(response.accessToken);
-        const newReq = addToken(originalReq, response.accessToken);
-        return next(newReq);
       }),
     );
   }
@@ -94,8 +81,7 @@ function handle401Error(
     filter((token): token is string => token !== null),
     take(1),
     switchMap((token: string) => {
-      const newReq = addToken(originalReq, token);
-      return next(newReq);
+      return next(addToken(originalReq, token));
     }),
   );
 }

@@ -54,7 +54,66 @@ namespace ERP.API.Controllers
             if (!result.IsSuccess)
                 return Unauthorized(new { message = result.ErrorMessage });
 
-            return Ok(result.Data);
+            var loginData = result.Data!;
+
+            Response.Cookies.Append("refreshToken", loginData.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = loginData.ExpiresAt
+            });
+
+            return Ok(new
+            {
+                loginData.AccessToken,
+                loginData.ExpiresAt,
+                loginData.User
+            });
+        }
+
+        [HttpPost("refresh-token")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RefreshToken()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+
+            if (string.IsNullOrEmpty(refreshToken))
+                return Unauthorized(new { message = "No refresh token" });
+
+            var command = new RefreshTokenCommand
+            {
+                RefreshToken = refreshToken
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+                return Unauthorized(new { message = result.ErrorMessage });
+
+            var data = result.Data!;
+
+            Response.Cookies.Append("refreshToken", data.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = data.ExpiresAt
+            });
+
+            return Ok(new
+            {
+                data.AccessToken,
+                data.ExpiresAt,
+                data.User
+            });
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("refreshToken");
+            return Ok(new { message = "Logged out" });
         }
 
         [HttpGet("me")]

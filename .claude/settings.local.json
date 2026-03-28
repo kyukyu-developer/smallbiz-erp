@@ -65,7 +65,8 @@
       "Bash(find c:/Guu/ERP_Project -type f \\\\\\(-name *warehouse*list* -o -name *list*warehouse* \\\\\\))",
       "Bash(npx ng:*)",
       "Read(//tmp/claude/**)",
-      "Read(//c/tmp/**)"
+      "Read(//c/tmp/**)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

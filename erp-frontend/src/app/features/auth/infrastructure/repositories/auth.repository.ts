@@ -16,8 +16,8 @@ export class AuthRepository implements IAuthRepository {
 
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
-  private _isRefreshing = false;
-  private refreshTokenSubject = new BehaviorSubject<string | null>(null);
+
+  private accessToken: string | null = null;
 
   constructor() {
     const storedUser = localStorage.getItem('currentUser');
@@ -32,7 +32,7 @@ export class AuthRepository implements IAuthRepository {
       .post<AuthResponse>(`${this.apiUrl}/login`, {
         username: credentials.username,
         password: credentials.password,
-      })
+      }, { withCredentials: true })
       .pipe(
         tap((response) => this.handleAuthSuccess(response)),
         catchError((error) => {
@@ -43,18 +43,8 @@ export class AuthRepository implements IAuthRepository {
   }
 
   refreshToken(): Observable<AuthResponse> {
-    const refreshToken = localStorage.getItem('refreshToken');
-
-    if (!refreshToken) {
-      return new Observable((observer) => {
-        observer.error(new Error('No refresh token available'));
-      });
-    }
-
     return this.http
-      .post<AuthResponse>(`${this.apiUrl}/refresh-token`, {
-        refreshToken: refreshToken,
-      })
+      .post<AuthResponse>(`${this.apiUrl}/refresh-token`, {}, { withCredentials: true })
       .pipe(
         tap((response) => this.handleAuthSuccess(response)),
         catchError((error) => {
@@ -65,22 +55,18 @@ export class AuthRepository implements IAuthRepository {
   }
 
   private handleAuthSuccess(response: AuthResponse): void {
-    localStorage.setItem('token', response.accessToken);
-    localStorage.setItem('refreshToken', response.refreshToken);
-    localStorage.setItem('tokenExpiry', response.expiresAt.toString());
+    this.accessToken = response.accessToken;
     localStorage.setItem('currentUser', JSON.stringify(response.user));
     this.currentUserSubject.next(response.user);
-    this.refreshTokenSubject.next(response.refreshToken);
   }
 
   logout(): Observable<void> {
+    this.accessToken = null;
     localStorage.removeItem('currentUser');
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('tokenExpiry');
     this.currentUserSubject.next(null);
-    this.refreshTokenSubject.next(null);
-    return of(void 0);
+    return this.http.post<void>(`${this.apiUrl}/logout`, {}, { withCredentials: true }).pipe(
+      catchError(() => of(void 0)),
+    );
   }
 
   getCurrentUser(): Observable<User | null> {
@@ -88,22 +74,10 @@ export class AuthRepository implements IAuthRepository {
   }
 
   isAuthenticated(): boolean {
-    return !!this.currentUserSubject.value || !!localStorage.getItem('token');
+    return !!this.accessToken || !!this.currentUserSubject.value;
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  getRefreshToken(): string | null {
-    return localStorage.getItem('refreshToken');
-  }
-
-  isRefreshing(): boolean {
-    return this._isRefreshing;
-  }
-
-  getRefreshTokenSubject(): BehaviorSubject<string | null> {
-    return this.refreshTokenSubject;
+    return this.accessToken;
   }
 }

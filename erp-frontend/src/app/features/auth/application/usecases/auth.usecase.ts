@@ -31,7 +31,6 @@ export class LogoutUseCase {
   private repository = inject(AUTH_REPOSITORY);
 
   execute(): Observable<void> {
-    localStorage.removeItem('token');
     return this.repository.logout();
   }
 }
