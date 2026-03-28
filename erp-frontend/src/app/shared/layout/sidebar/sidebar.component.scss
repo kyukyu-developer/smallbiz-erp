@@ -270,6 +270,105 @@
       }
     }
   }
+
+  // 3rd level submenu styles
+  .submenu-group-wrapper {
+    .submenu-group-header {
+      cursor: pointer;
+
+      .expand-icon-sub {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-right: 0;
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        color: rgba(255, 255, 255, 0.4) !important;
+        transition: color 0.15s ease;
+      }
+
+      &:hover .expand-icon-sub {
+        color: rgba(255, 255, 255, 0.7) !important;
+      }
+    }
+
+    .sub-submenu {
+      overflow: hidden;
+      animation: slideDown 0.2s ease-out;
+
+      .sub-submenu-item {
+        margin: 0;
+        padding-left: 56px;
+        border-radius: 6px;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        color: rgba(255, 255, 255, 0.5) !important;
+        min-height: 36px;
+        position: relative;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: 38px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 4px;
+          height: 4px;
+          background: rgba(255, 255, 255, 0.25);
+          border-radius: 50%;
+          transition: all 0.2s ease;
+        }
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.08);
+          transform: translateX(2px);
+
+          &::before {
+            background: rgba(255, 255, 255, 0.5);
+            width: 5px;
+            height: 5px;
+          }
+        }
+
+        &.active {
+          background: rgba(255, 255, 255, 0.08) !important;
+          color: #ffffff !important;
+
+          &::before {
+            background: rgba(255, 255, 255, 0.9);
+            width: 5px;
+            height: 5px;
+          }
+
+          .submenu-icon {
+            color: rgba(255, 255, 255, 0.9) !important;
+          }
+
+          ::ng-deep .mat-mdc-list-item-title {
+            color: #ffffff !important;
+            font-weight: 600;
+          }
+        }
+
+        .submenu-icon {
+          font-size: 14px;
+          width: 14px;
+          height: 14px;
+          margin-right: 8px;
+          color: rgba(255, 255, 255, 0.35) !important;
+        }
+
+        ::ng-deep {
+          .mat-mdc-list-item-title {
+            font-size: 11.5px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.5) !important;
+          }
+        }
+      }
+    }
+  }
 }
 
 @keyframes slideDown {

@@ -2,17 +2,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Brand } from '../../domain/entities/brand.entity';
 import { GetAllBrandsUseCase, DeleteBrandUseCase, GetAllBrandsResult } from '../../application/usecases/brand.usecase';
@@ -24,17 +16,9 @@ import { GetAllBrandsUseCase, DeleteBrandUseCase, GetAllBrandsResult } from '../
     CommonModule,
     RouterModule,
     FormsModule,
-    MatTableModule,
     MatButtonModule,
     MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatTooltipModule,
     MatMenuModule,
-    MatCheckboxModule,
-    MatCardModule,
-    MatChipsModule,
     MatProgressSpinnerModule
   ],
   templateUrl: './brand-list.component.html',
@@ -46,11 +30,12 @@ export class BrandListComponent implements OnInit {
   private router = inject(Router);
 
   brands: Brand[] = [];
-  displayedColumns: string[] = ['name', 'description', 'status', 'actions'];
+  filteredBrands: Brand[] = [];
   searchTerm: string = '';
   loading: boolean = false;
   totalBrands: number = 0;
   activeBrands: number = 0;
+  inactiveBrands: number = 0;
 
   ngOnInit() {
     this.loadBrands();
@@ -63,6 +48,8 @@ export class BrandListComponent implements OnInit {
         this.brands = result.brands;
         this.totalBrands = result.total;
         this.activeBrands = result.brands.filter((b: Brand) => b.active).length;
+        this.inactiveBrands = this.totalBrands - this.activeBrands;
+        this.filteredBrands = [...this.brands];
         this.loading = false;
       },
       error: (error: unknown) => {
@@ -73,7 +60,15 @@ export class BrandListComponent implements OnInit {
   }
 
   applyFilter() {
-    // Filter will be applied through use case
+    if (!this.searchTerm) {
+      this.filteredBrands = [...this.brands];
+      return;
+    }
+    const term = this.searchTerm.toLowerCase();
+    this.filteredBrands = this.brands.filter(b =>
+      b.name?.toLowerCase().includes(term) ||
+      b.description?.toLowerCase().includes(term)
+    );
   }
 
   viewBrand(brand: Brand) {
@@ -101,7 +96,4 @@ export class BrandListComponent implements OnInit {
     this.router.navigate(['/inventory/brands/new']);
   }
 
-  getStatusClass(active: boolean): string {
-    return active ? 'status-active' : 'status-inactive';
-  }
 }

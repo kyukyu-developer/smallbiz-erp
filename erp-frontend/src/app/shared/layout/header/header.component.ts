@@ -141,6 +141,21 @@ export class HeaderComponent implements OnInit {
   }
 
   updatePageTitle(url: string) {
+    // Handle brand detail pages with parameters (e.g., /inventory/brands/uuid or /inventory/brands/new)
+    if (url.includes('/inventory/brands/')) {
+      const segments = url.split('/');
+      const brandParam = segments[segments.length - 1].split('?')[0];
+      if (brandParam) {
+        const formattedParam = brandParam === 'new' ? 'New' : 'Detail';
+        this.pageTitle = `Brands / ${formattedParam}`;
+        this.hasDetailParam = true;
+        this.baseTitle = 'Brands';
+        this.detailParam = formattedParam;
+        this.baseRoute = '/inventory/brands';
+        return;
+      }
+    }
+
     // Handle warehouse detail pages with parameters (e.g., /inventory/warehouses/WH001 or /inventory/warehouses/new)
     if (url.includes('/inventory/warehouses/')) {
       const segments = url.split('/');
@@ -174,6 +189,7 @@ export class HeaderComponent implements OnInit {
       '/inventory/stock-receive': 'Stock Receive',
       '/inventory/stock-delivery': 'Stock Delivery',
       '/inventory/stock-adjustment': 'Stock Adjustment',
+      '/inventory/brands': 'Brands',
       '/sales': 'Sales',
       '/sales/new': 'New Sale',
       '/sales/orders': 'Sales Orders',

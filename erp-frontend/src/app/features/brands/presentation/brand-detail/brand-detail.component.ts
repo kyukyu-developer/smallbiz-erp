@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -37,13 +37,15 @@ import { GetBrandByIdUseCase, CreateBrandUseCase, UpdateBrandUseCase } from '../
   templateUrl: './brand-detail.component.html',
   styleUrl: './brand-detail.component.scss'
 })
-export class BrandDetailComponent implements OnInit {
+export class BrandDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private getBrandByIdUseCase = inject(GetBrandByIdUseCase);
   private createBrandUseCase = inject(CreateBrandUseCase);
   private updateBrandUseCase = inject(UpdateBrandUseCase);
+
+  @ViewChild('formActionsRef') formActionsRef!: ElementRef;
 
   brandForm!: FormGroup;
   isEditMode = false;
@@ -54,10 +56,12 @@ export class BrandDetailComponent implements OnInit {
   showTipsColumn = true;
   showStickyButtons = false;
 
+  private observer: IntersectionObserver | null = null;
+  private scrollHandler: (() => void) | null = null;
+
   ngOnInit(): void {
     this.initializeForm();
     this.checkMode();
-    this.setupIntersectionObserver();
   }
 
   private initializeForm(): void {
@@ -175,20 +179,50 @@ export class BrandDetailComponent implements OnInit {
     this.showTipsColumn = !this.showTipsColumn;
   }
 
-  private setupIntersectionObserver(): void {
-    setTimeout(() => {
-      const buttonSection = document.querySelector('.form-actions');
-      if (buttonSection) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              this.showStickyButtons = entry.intersectionRatio < 0.8;
-            });
-          },
-          { threshold: [0, 0.25, 0.5, 0.75, 0.8, 1], rootMargin: '0px 0px -80px 0px' }
-        );
-        observer.observe(buttonSection);
+  ngAfterViewInit(): void {
+    this.setupScrollDetection();
+  }
+
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+    if (this.scrollHandler) {
+      document.removeEventListener('scroll', this.scrollHandler, true);
+    }
+  }
+
+  private setupScrollDetection(): void {
+    if (!this.formActionsRef) return;
+
+    const el = this.formActionsRef.nativeElement as HTMLElement;
+
+    // Find the scrollable parent container
+    const scrollParent = this.findScrollParent(el);
+
+    this.scrollHandler = () => {
+      const rect = el.getBoundingClientRect();
+      // Show sticky only when form actions are completely below the viewport
+      this.showStickyButtons = rect.top >= window.innerHeight;
+    };
+
+    // Listen on the scrollable parent (capture phase to catch all scroll events)
+    document.addEventListener('scroll', this.scrollHandler, true);
+
+    // Initial check
+    this.scrollHandler();
+  }
+
+  private findScrollParent(el: HTMLElement): HTMLElement | Window {
+    let parent = el.parentElement;
+    while (parent) {
+      const style = window.getComputedStyle(parent);
+      if (style.overflow === 'auto' || style.overflow === 'scroll' ||
+          style.overflowY === 'auto' || style.overflowY === 'scroll') {
+        return parent;
       }
-    }, 100);
+      parent = parent.parentElement;
+    }
+    return window;
   }
 }

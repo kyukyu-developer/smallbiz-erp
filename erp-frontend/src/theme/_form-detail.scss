@@ -1,0 +1,974 @@
+// ============================================
+// ERP System - Shared Detail Form Styles
+// ============================================
+// Import in any detail form component SCSS:
+//   @import '../../../../theme/form-detail';
+// ============================================
+
+@import 'variables';
+
+// ── Detail Container ────────────────────────
+
+@mixin detail-container {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #fafafa 0%, #ffffff 50%, #fafafa 100%);
+  position: relative;
+}
+
+// ── Tips Toggle Button ──────────────────────
+
+@mixin tips-toggle-btn {
+  position: fixed;
+  top: 80px;
+  right: 24px;
+  z-index: 1000;
+  background: var(--primary-gradient);
+  color: white;
+  box-shadow: 0 4px 16px rgba(0, 46, 92, 0.35);
+  transition: $transition-base;
+  border-radius: 50% !important;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 6px 24px rgba(0, 46, 92, 0.5);
+    transform: scale(1.05);
+    background: var(--primary-gradient);
+    filter: brightness(1.15);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  mat-icon {
+    font-size: $icon-size-md;
+    width: $icon-size-md;
+    height: $icon-size-md;
+    color: white;
+    transition: transform 0.3s ease;
+  }
+}
+
+// ── Two Column Layout ───────────────────────
+
+@mixin two-column-layout {
+  display: grid;
+  grid-template-columns: minmax(600px, 1fr) 420px;
+  gap: 0;
+  align-items: start;
+  transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.full-width {
+    grid-template-columns: 1fr;
+  }
+}
+
+@mixin form-column {
+  background: $bg-primary;
+}
+
+@mixin tips-column {
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
+  overflow-y: auto;
+  background: linear-gradient(180deg, #e6f0f7 0%, #d4e7f3 100%);
+  border-radius: $radius-md;
+  padding: $card-padding + 2px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 46, 92, 0.3);
+    border-radius: 3px;
+
+    &:hover {
+      background: rgba(0, 46, 92, 0.5);
+    }
+  }
+}
+
+// ── Modern Form Card ────────────────────────
+
+@mixin modern-form-card {
+  background: $bg-primary;
+  border-radius: $radius-lg;
+  box-shadow: none;
+  border: none;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+
+// ── Form Sections ───────────────────────────
+
+@mixin form-section {
+  padding: $section-padding;
+  border-bottom: 1px solid $border-light;
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+}
+
+@mixin section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: $section-gap;
+
+  mat-icon {
+    font-size: $icon-size-md;
+    width: $icon-size-md;
+    height: $icon-size-md;
+    color: #ffffff;
+    background: var(--primary-gradient);
+    border-radius: $radius-base;
+    padding: 5px;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: $font-size-h3;
+    font-weight: 700;
+    color: $text-primary;
+    letter-spacing: -0.2px;
+    flex: 1;
+  }
+}
+
+@mixin form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: $field-gap;
+}
+
+// ── Field Wrapper ───────────────────────────
+
+@mixin field-wrapper {
+  position: relative;
+}
+
+@mixin field-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: $font-size-label;
+  font-weight: 600;
+  color: $text-primary;
+  letter-spacing: 0.1px;
+
+  .required {
+    color: $danger-color;
+    margin-left: 2px;
+    font-weight: 700;
+  }
+
+  .optional {
+    color: $text-muted;
+    font-weight: 500;
+    font-size: $font-size-sm;
+  }
+}
+
+@mixin modern-field {
+  width: 100%;
+
+  ::ng-deep {
+    .mat-mdc-text-field-wrapper {
+      background: $bg-secondary;
+      border-radius: $radius-base;
+      padding: 1px 0;
+      transition: $transition-base;
+      border: 2px solid transparent;
+
+      &:hover {
+        background: #f5f6f7;
+        border-color: #e8eaed;
+      }
+    }
+
+    .mat-mdc-form-field-focus-overlay {
+      background: transparent;
+    }
+
+    .mdc-line-ripple {
+      display: none;
+    }
+
+    .mat-mdc-form-field-subscript-wrapper {
+      margin-top: 2px;
+    }
+
+    input, textarea {
+      color: $text-primary;
+      font-size: $font-size-input;
+      font-weight: 500;
+      padding: 0 8px 0 0;
+      caret-color: $primary-color;
+
+      &::placeholder {
+        color: $text-muted;
+        font-weight: 400;
+        font-size: $font-size-placeholder;
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 36px;
+      padding: 4px 8px;
+    }
+
+    .mat-mdc-form-field-icon-prefix {
+      padding: 0 8px;
+
+      mat-icon {
+        color: $text-secondary;
+        font-size: $icon-size-base;
+        width: $icon-size-base;
+        height: $icon-size-base;
+      }
+    }
+
+    // Focused state
+    .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+      background: $bg-primary;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba(0, 46, 92, 0.1);
+
+      .mat-mdc-form-field-icon-prefix mat-icon {
+        color: $primary-color;
+      }
+    }
+
+    // Error state
+    .mat-mdc-text-field-wrapper.mdc-text-field--invalid {
+      background: $danger-light;
+      border-color: $danger-color;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
+
+      .mat-mdc-form-field-icon-prefix mat-icon {
+        color: $danger-color;
+      }
+    }
+
+    .mat-mdc-form-field-error {
+      color: $danger-color;
+      font-size: $font-size-error;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .mat-mdc-form-field-hint {
+      font-size: $font-size-hint;
+      color: $text-muted;
+      font-weight: 500;
+    }
+
+    // Select dropdown
+    .mat-mdc-select {
+      .mat-mdc-select-value {
+        color: $text-primary;
+        font-size: $font-size-input;
+        font-weight: 500;
+      }
+
+      .mat-mdc-select-arrow {
+        color: $text-secondary;
+      }
+    }
+
+    .mat-mdc-text-field-wrapper.mdc-text-field--focused .mat-mdc-select-arrow {
+      color: $primary-color;
+    }
+  }
+}
+
+// ── Checkbox / Toggle Group ─────────────────
+
+@mixin checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@mixin checkbox-wrapper {
+  padding: 12px 14px;
+  background: $bg-secondary;
+  border-radius: $radius-md;
+  border: 2px solid $border-color;
+  transition: $transition-base;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 46, 92, 0.05), transparent);
+    transition: left 0.6s;
+  }
+
+  &:hover {
+    background: #ffffff;
+    border-color: $primary-color;
+    box-shadow: 0 4px 12px rgba(0, 46, 92, 0.15);
+    transform: translateX(4px);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateX(2px);
+    box-shadow: 0 2px 6px rgba(0, 46, 92, 0.12);
+  }
+
+  &.readonly-checkbox {
+    background: #fafafa;
+    opacity: 0.85;
+    cursor: not-allowed;
+
+    &:hover {
+      background: #fafafa;
+      border-color: $border-color;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+}
+
+@mixin toggle-label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+
+  strong {
+    font-size: $font-size-base;
+    font-weight: 700;
+    color: $text-primary;
+    letter-spacing: -0.1px;
+    line-height: 1.3;
+  }
+
+  .toggle-hint,
+  .checkbox-hint {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+}
+
+// ── Form Actions ────────────────────────────
+
+@mixin form-actions {
+  padding: 16px 28px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  border-top: 2px solid $border-light;
+  background: linear-gradient(180deg, $bg-primary 0%, $bg-secondary 100%);
+
+  button {
+    height: $btn-height;
+    padding: 0 18px;
+    border-radius: $radius-md - 2px;
+    font-size: $font-size-btn;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    transition: $transition-base;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: none;
+    text-transform: none;
+
+    mat-icon {
+      font-size: $icon-size-base;
+      width: $icon-size-base;
+      height: $icon-size-base;
+    }
+  }
+}
+
+@mixin btn-primary {
+  background: var(--primary-gradient);
+  color: #ffffff;
+  box-shadow: $shadow-lg;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  &:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(0, 46, 92, 0.45);
+    filter: brightness(1.15);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+    background: lighten($primary-color, 20%);
+  }
+}
+
+@mixin btn-cancel {
+  background: $bg-primary;
+  color: $text-secondary;
+  border: 2px solid $border-color;
+
+  &:hover {
+    background: $bg-secondary;
+    color: $text-primary;
+    border-color: darken($border-color, 15%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+}
+
+@mixin btn-reset {
+  background: $bg-tertiary;
+  color: $text-primary;
+  border: 2px solid transparent;
+
+  &:hover:not(:disabled) {
+    background: darken($bg-tertiary, 5%);
+    border-color: darken($bg-tertiary, 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+// ── Form Footer ─────────────────────────────
+
+@mixin form-footer {
+  padding: 12px 28px;
+  background: $bg-secondary;
+  border-top: 1px solid $border-light;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .footer-note {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    font-weight: 500;
+
+    mat-icon {
+      font-size: $icon-size-sm;
+      width: $icon-size-sm;
+      height: $icon-size-sm;
+      color: $primary-color;
+    }
+
+    strong {
+      color: $danger-color;
+      font-weight: 700;
+    }
+  }
+}
+
+// ── Info Alert ──────────────────────────────
+
+@mixin info-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: linear-gradient(135deg, $warning-light 0%, lighten($warning-light, 3%) 100%);
+  border-left: 3px solid $warning-color;
+  border-radius: $radius-base;
+  margin-top: 12px;
+
+  mat-icon {
+    font-size: $icon-size-base;
+    width: $icon-size-base;
+    height: $icon-size-base;
+    color: darken($warning-color, 10%);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .alert-content {
+    flex: 1;
+
+    strong {
+      display: block;
+      color: darken($warning-color, 15%);
+      font-size: $font-size-sm;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    p {
+      margin: 0;
+      color: darken($warning-color, 20%);
+      font-size: $font-size-xs;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+  }
+}
+
+// ── Sidebar Info Cards ──────────────────────
+
+@mixin info-card {
+  background: white;
+  border-radius: $radius-md;
+  padding: $card-padding;
+  border: 1px solid rgba(0, 46, 92, 0.1);
+  box-shadow: $shadow-card;
+  margin-bottom: $card-padding;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@mixin info-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(0, 46, 92, 0.1);
+
+  mat-icon {
+    font-size: $icon-size-base + 2px;
+    width: $icon-size-base + 2px;
+    height: $icon-size-base + 2px;
+    color: $primary-color;
+    background: linear-gradient(135deg, rgba(0, 46, 92, 0.15) 0%, rgba(0, 46, 92, 0.08) 100%);
+    border-radius: $radius-sm;
+    padding: 4px;
+  }
+
+  h4 {
+    margin: 0;
+    font-size: $font-size-h4;
+    font-weight: 700;
+    color: $text-primary;
+    letter-spacing: -0.2px;
+  }
+}
+
+@mixin info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: $text-primary;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    line-height: 1.4;
+    padding: 6px 8px;
+    background: $bg-secondary;
+    border-radius: $radius-sm;
+    transition: $transition-base;
+
+    &:hover {
+      background: darken($bg-secondary, 3%);
+      transform: translateX(3px);
+    }
+
+    mat-icon {
+      font-size: $icon-size-sm;
+      width: $icon-size-sm;
+      height: $icon-size-sm;
+      color: $success-color;
+      flex-shrink: 0;
+      margin-top: 1px;
+
+      &.icon-warning {
+        color: $warning-color;
+      }
+
+      &.icon-info {
+        color: $info-color;
+      }
+    }
+
+    span {
+      flex: 1;
+      color: lighten($text-primary, 5%);
+
+      strong {
+        color: $text-primary;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+@mixin info-card-business-rules {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  border-color: rgba(245, 158, 11, 0.2);
+  box-shadow: 0 2px 12px rgba(245, 158, 11, 0.12);
+
+  .info-header {
+    border-bottom-color: rgba(245, 158, 11, 0.15);
+
+    mat-icon {
+      color: darken($warning-color, 5%);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.1) 100%);
+    }
+
+    h4 {
+      color: darken($warning-color, 15%);
+    }
+  }
+
+  .info-list li {
+    background: rgba(255, 255, 255, 0.6);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.8);
+    }
+  }
+}
+
+@mixin info-card-legend {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-color: rgba(16, 185, 129, 0.2);
+  box-shadow: 0 2px 12px rgba(16, 185, 129, 0.12);
+
+  .info-header {
+    border-bottom-color: rgba(16, 185, 129, 0.15);
+
+    mat-icon {
+      color: $success-color;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
+    }
+
+    h4 {
+      color: darken($success-color, 15%);
+    }
+  }
+}
+
+// ── Type Badge Items ────────────────────────
+
+@mixin type-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .type-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: $radius-sm;
+    transition: $transition-base;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateX(3px);
+    }
+
+    .type-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: $radius-xs;
+      font-size: $font-size-xs;
+      font-weight: 700;
+      flex-shrink: 0;
+      min-width: 55px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    span {
+      flex: 1;
+      font-size: $font-size-xs;
+      font-weight: 500;
+      color: darken($text-secondary, 10%);
+      line-height: 1.4;
+    }
+  }
+}
+
+// ── Sticky Action Buttons ───────────────────
+
+@mixin sticky-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(249, 250, 251, 0.98) 100%);
+  backdrop-filter: blur(12px);
+  border-top: 2px solid $border-light;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 16px 24px;
+
+  &.visible {
+    transform: translateY(0);
+  }
+
+  &.tips-visible {
+    right: 445px;
+
+    @media (max-width: 1400px) {
+      right: 380px;
+    }
+
+    @media (max-width: 1200px) {
+      right: 340px;
+    }
+
+    @media (max-width: 1024px) {
+      right: 0;
+    }
+  }
+}
+
+@mixin sticky-actions-container {
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 16px;
+
+  button {
+    height: $btn-height-sticky;
+    padding: 0 24px;
+    border-radius: $radius-md - 2px;
+    font-size: $font-size-btn;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    transition: $transition-base;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: none;
+    text-transform: none;
+
+    mat-icon {
+      font-size: $icon-size-base;
+      width: $icon-size-base;
+      height: $icon-size-base;
+    }
+  }
+}
+
+// ── Animations ──────────────────────────────
+
+@mixin fade-in-up-animation {
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@mixin field-animations {
+  animation: fadeInUp 0.5s ease-out;
+  animation-fill-mode: backwards;
+
+  &:nth-child(1) { animation-delay: 0.05s; }
+  &:nth-child(2) { animation-delay: 0.1s; }
+  &:nth-child(3) { animation-delay: 0.15s; }
+  &:nth-child(4) { animation-delay: 0.2s; }
+}
+
+@mixin card-animations {
+  animation: fadeInUp 0.6s ease-out;
+  animation-fill-mode: backwards;
+
+  &:nth-child(1) { animation-delay: 0.3s; }
+  &:nth-child(2) { animation-delay: 0.4s; }
+  &:nth-child(3) { animation-delay: 0.5s; }
+}
+
+// ── Responsive ──────────────────────────────
+
+@mixin detail-responsive {
+  @media (max-width: 1400px) {
+    .two-column-layout {
+      grid-template-columns: 1fr 380px;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .two-column-layout {
+      grid-template-columns: 1fr 340px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .two-column-layout {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .form-column {
+      border-right: none;
+      border-bottom: 2px solid $border-light;
+    }
+
+    .tips-column {
+      position: static;
+      max-height: none;
+      padding: 24px;
+      background: linear-gradient(180deg, #e6f0f7 0%, #d4e7f3 100%);
+    }
+  }
+
+  @media (max-width: 768px) {
+    form {
+      .form-section {
+        padding: 20px 18px;
+
+        .section-header {
+          margin-bottom: 16px;
+
+          h3 {
+            font-size: $font-size-base;
+          }
+        }
+
+        .form-fields {
+          gap: 20px;
+        }
+      }
+
+      .form-actions {
+        padding: 16px 18px;
+        flex-direction: column;
+
+        button {
+          width: 100%;
+          height: $btn-height-lg;
+          justify-content: center;
+        }
+      }
+
+      .form-footer {
+        padding: 12px 18px;
+      }
+    }
+
+    .tips-column {
+      padding: 20px 18px;
+    }
+
+    .modern-info-card {
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .sticky-actions {
+      padding: 12px 16px;
+
+      .sticky-actions-container {
+        flex-direction: column;
+
+        button {
+          width: 100%;
+          height: $btn-height-lg;
+          justify-content: center;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    form {
+      .form-section {
+        padding: 16px 12px;
+
+        .section-header {
+          margin-bottom: 14px;
+        }
+
+        .form-fields {
+          gap: 16px;
+        }
+      }
+
+      .form-actions {
+        padding: 14px 12px;
+      }
+
+      .form-footer {
+        padding: 10px 12px;
+      }
+    }
+
+    .tips-column {
+      padding: 16px 12px;
+    }
+
+    .modern-info-card {
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  }
+}

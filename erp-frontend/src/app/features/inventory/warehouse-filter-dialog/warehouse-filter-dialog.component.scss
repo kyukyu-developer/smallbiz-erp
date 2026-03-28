@@ -1,6 +1,4 @@
-$primary-color: #002e5c;
-$primary-dark: #002147;
-$primary-light: #004785;
+@use 'variables' as *;
 
 .filter-dialog {
   display: flex;
