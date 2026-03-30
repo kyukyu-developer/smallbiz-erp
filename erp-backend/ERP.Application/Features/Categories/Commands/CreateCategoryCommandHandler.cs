@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using ERP.Application.DTOs.Categories;
 using ERP.Application.DTOs.Common;
 using ERP.Domain.Entities;
@@ -19,11 +19,15 @@ namespace ERP.Application.Features.Categories.Commands
         {
             var category = new Domain.Entities.ProdCategory
             {
+                Id = Guid.NewGuid().ToString(),
                 Code = request.Code,
                 Name = request.Name,
                 Description = request.Description,
                 ParentCategoryId = request.ParentCategoryId,
-                Active = request.Active
+                Active = request.Active,
+                LastAction = "CREATE",
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = "System"
             };
 
             await _categoryRepository.AddAsync(category);

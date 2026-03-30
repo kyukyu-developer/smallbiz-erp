@@ -1,0 +1,122 @@
+<div class="product-group-list-container">
+  <!-- Stats Card -->
+  <div class="stats-card">
+    <div class="stats-left">
+      <div class="stat-icon-circle">
+        <mat-icon>group_work</mat-icon>
+      </div>
+      <div class="stat-main">
+        <div class="stat-label">TOTAL PRODUCT GROUPS</div>
+        <div class="stat-value">{{ totalProductGroups }}</div>
+      </div>
+    </div>
+
+    <div class="stats-right">
+      <div class="summary-count">{{ totalProductGroups }} <span>group{{ totalProductGroups !== 1 ? 's' : '' }}</span></div>
+      <div class="status-bars">
+        <div class="status-bar-group">
+          <div class="bar active" [style.width.%]="totalProductGroups > 0 ? (activeProductGroups / totalProductGroups) * 100 : 0"></div>
+          <div class="bar inactive" [style.width.%]="totalProductGroups > 0 ? (inactiveProductGroups / totalProductGroups) * 100 : 0"></div>
+        </div>
+        <div class="status-labels">
+          <div class="status-item">
+            <span class="dot active"></span>
+            <span class="label">Active: <strong>{{ activeProductGroups }}</strong></span>
+          </div>
+          <div class="status-item">
+            <span class="dot inactive"></span>
+            <span class="label">Inactive: <strong>{{ inactiveProductGroups }}</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions Bar -->
+  <div class="actions-bar">
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+      <input type="text" [(ngModel)]="searchTerm" (keyup)="applyFilter()" placeholder="Search product groups...">
+    </div>
+    <div class="action-buttons">
+      <button mat-raised-button class="add-btn" (click)="addNewProductGroup()">
+        <mat-icon>add</mat-icon>
+        Add Product Group
+      </button>
+    </div>
+  </div>
+
+  <!-- Product Group Table -->
+  <div class="table-container">
+    <table class="product-group-table">
+      <thead>
+        <tr class="table-header-row">
+          <th>NAME</th>
+          <th>DESCRIPTION</th>
+          <th>STATUS</th>
+          <th class="actions">ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let productGroup of filteredProductGroups">
+          <tr class="table-row">
+            <!-- Name -->
+            <td class="group-name">
+              <div class="name-wrapper">
+                <div class="name-text">{{ productGroup.name }}</div>
+              </div>
+            </td>
+
+            <!-- Description -->
+            <td class="description">{{ productGroup.description || '-' }}</td>
+
+            <!-- Status -->
+            <td class="status">
+              <div class="status-badges">
+                <span class="status-badge" [ngClass]="productGroup.active ? 'active' : 'inactive'">
+                  {{ productGroup.active ? 'Active' : 'Inactive' }}
+                </span>
+              </div>
+            </td>
+
+            <!-- Actions -->
+            <td class="actions">
+              <button mat-button class="view-btn" (click)="viewProductGroup(productGroup)">
+                <mat-icon>visibility</mat-icon>
+                View
+              </button>
+              <button mat-icon-button [matMenuTriggerFor]="productGroupMenu" class="more-btn">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #productGroupMenu="matMenu">
+                <button mat-menu-item (click)="editProductGroup(productGroup)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="deleteProductGroup(productGroup)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+
+        <!-- Empty State -->
+        <tr *ngIf="!loading && filteredProductGroups.length === 0" class="empty-state-row">
+          <td colspan="4">
+            <div class="empty-state">
+              <mat-icon>group_work</mat-icon>
+              <h3>No Product Groups Found</h3>
+              <p>Try adjusting your search criteria or add a new product group</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="loading" class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="supplier-list-container">
+  <div class="stats-card">
+    <div class="stats-left">
+      <div class="stat-icon-circle"><mat-icon>local_shipping</mat-icon></div>
+      <div class="stat-main">
+        <div class="stat-label">TOTAL SUPPLIERS</div>
+        <div class="stat-value">{{ totalSuppliers }}</div>
+      </div>
+    </div>
+    <div class="stats-right">
+      <div class="summary-count">{{ totalSuppliers }} <span>supplier{{ totalSuppliers !== 1 ? 's' : '' }}</span></div>
+      <div class="status-bars">
+        <div class="status-bar-group">
+          <div class="bar active" [style.width.%]="totalSuppliers > 0 ? (activeSuppliers / totalSuppliers) * 100 : 0"></div>
+          <div class="bar inactive" [style.width.%]="totalSuppliers > 0 ? (inactiveSuppliers / totalSuppliers) * 100 : 0"></div>
+        </div>
+        <div class="status-labels">
+          <div class="status-item"><span class="dot active"></span><span class="label">Active: <strong>{{ activeSuppliers }}</strong></span></div>
+          <div class="status-item"><span class="dot inactive"></span><span class="label">Inactive: <strong>{{ inactiveSuppliers }}</strong></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions-bar">
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+      <input type="text" [(ngModel)]="searchTerm" (keyup)="applyFilter()" placeholder="Search suppliers...">
+    </div>
+    <div class="action-buttons">
+      <button mat-raised-button class="add-btn" (click)="addNewSupplier()"><mat-icon>add</mat-icon> Add Supplier</button>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="supplier-table">
+      <thead><tr><th>CODE</th><th>NAME</th><th>EMAIL</th><th>PHONE</th><th>CITY</th><th>STATUS</th><th class="actions">ACTIONS</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let supplier of filteredSuppliers" class="table-row">
+          <td class="supplier-code"><div class="code-wrapper"><div class="code-text">{{ supplier.code }}</div></div></td>
+          <td class="supplier-name"><div class="name-wrapper"><div class="name-text">{{ supplier.name }}</div><div class="contact-person" *ngIf="supplier.contactPerson">{{ supplier.contactPerson }}</div></div></td>
+          <td class="email">{{ supplier.email || '-' }}</td>
+          <td class="phone">{{ supplier.phone || '-' }}</td>
+          <td class="city">{{ supplier.city || '-' }}</td>
+          <td class="status"><span class="status-badge" [ngClass]="supplier.active ? 'active' : 'inactive'">{{ supplier.active ? 'Active' : 'Inactive' }}</span></td>
+          <td class="actions">
+            <button mat-button class="view-btn" (click)="viewSupplier(supplier)"><mat-icon>visibility</mat-icon> View</button>
+            <button mat-icon-button [matMenuTriggerFor]="supplierMenu" class="more-btn"><mat-icon>more_vert</mat-icon></button>
+            <mat-menu #supplierMenu="matMenu">
+              <button mat-menu-item (click)="editSupplier(supplier)"><mat-icon>edit</mat-icon><span>Edit</span></button>
+              <button mat-menu-item (click)="deleteSupplier(supplier)"><mat-icon>delete</mat-icon><span>Delete</span></button>
+            </mat-menu>
+          </td>
+        </tr>
+        <tr *ngIf="!loading && filteredSuppliers.length === 0">
+          <td colspan="7"><div class="empty-state"><mat-icon>local_shipping</mat-icon><h3>No Suppliers Found</h3><p>Add a new supplier to get started</p></div></td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="loading" class="loading-state"><mat-spinner diameter="40"></mat-spinner></div>
+  </div>
+</div>

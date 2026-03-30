@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using ERP.Application.DTOs.Customers;
 using ERP.Application.DTOs.Common;
 using ERP.Domain.Entities;
@@ -19,6 +19,7 @@ namespace ERP.Application.Features.Customers.Commands
         {
             var customer = new Domain.Entities.SalesCustomer
             {
+                Id = Guid.NewGuid().ToString(),
                 Code = request.Code,
                 Name = request.Name,
                 ContactPerson = request.ContactPerson,
@@ -29,7 +30,10 @@ namespace ERP.Application.Features.Customers.Commands
                 Country = request.Country,
                 TaxNumber = request.TaxNumber,
                 CreditLimit = request.CreditLimit,
-                Active = request.Active
+                Active = request.Active,
+                LastAction = "CREATE",
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = "System"
             };
 
             await _customerRepository.AddAsync(customer);

@@ -1,0 +1,130 @@
+<div class="category-list-container">
+  <!-- Stats Card -->
+  <div class="stats-card">
+    <div class="stats-left">
+      <div class="stat-icon-circle">
+        <mat-icon>category</mat-icon>
+      </div>
+      <div class="stat-main">
+        <div class="stat-label">TOTAL CATEGORIES</div>
+        <div class="stat-value">{{ totalCategories }}</div>
+      </div>
+    </div>
+
+    <div class="stats-right">
+      <div class="summary-count">{{ totalCategories }} <span>category{{ totalCategories !== 1 ? 's' : '' }}</span></div>
+      <div class="status-bars">
+        <div class="status-bar-group">
+          <div class="bar active" [style.width.%]="totalCategories > 0 ? (activeCategories / totalCategories) * 100 : 0"></div>
+          <div class="bar inactive" [style.width.%]="totalCategories > 0 ? (inactiveCategories / totalCategories) * 100 : 0"></div>
+        </div>
+        <div class="status-labels">
+          <div class="status-item">
+            <span class="dot active"></span>
+            <span class="label">Active: <strong>{{ activeCategories }}</strong></span>
+          </div>
+          <div class="status-item">
+            <span class="dot inactive"></span>
+            <span class="label">Inactive: <strong>{{ inactiveCategories }}</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions Bar -->
+  <div class="actions-bar">
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+      <input type="text" [(ngModel)]="searchTerm" (keyup)="applyFilter()" placeholder="Search categories...">
+    </div>
+    <div class="action-buttons">
+      <button mat-raised-button class="add-btn" (click)="addNewCategory()">
+        <mat-icon>add</mat-icon>
+        Add Category
+      </button>
+    </div>
+  </div>
+
+  <!-- Category Table -->
+  <div class="table-container">
+    <table class="category-table">
+      <thead>
+        <tr class="table-header-row">
+          <th>CATEGORY CODE</th>
+          <th>CATEGORY NAME</th>
+          <th>DESCRIPTION</th>
+          <th>STATUS</th>
+          <th class="actions">ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let category of filteredCategories">
+          <tr class="table-row">
+            <!-- Category Code -->
+            <td class="category-code">
+              <div class="code-wrapper">
+                <div class="code-text">{{ category.code }}</div>
+              </div>
+            </td>
+
+            <!-- Category Name -->
+            <td class="category-name">
+              <div class="name-wrapper">
+                <div class="name-text">{{ category.name }}</div>
+              </div>
+            </td>
+
+            <!-- Description -->
+            <td class="description">{{ category.description || '-' }}</td>
+
+            <!-- Status -->
+            <td class="status">
+              <div class="status-badges">
+                <span class="status-badge" [ngClass]="category.active ? 'active' : 'inactive'">
+                  {{ category.active ? 'Active' : 'Inactive' }}
+                </span>
+              </div>
+            </td>
+
+            <!-- Actions -->
+            <td class="actions">
+              <button mat-button class="view-btn" (click)="viewCategory(category)">
+                <mat-icon>visibility</mat-icon>
+                View
+              </button>
+              <button mat-icon-button [matMenuTriggerFor]="categoryMenu" class="more-btn">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #categoryMenu="matMenu">
+                <button mat-menu-item (click)="editCategory(category)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="deleteCategory(category)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+
+        <!-- Empty State -->
+        <tr *ngIf="!loading && filteredCategories.length === 0" class="empty-state-row">
+          <td colspan="5">
+            <div class="empty-state">
+              <mat-icon>category</mat-icon>
+              <h3>No Categories Found</h3>
+              <p>Try adjusting your search criteria or add a new category</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="loading" class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  </div>
+</div>

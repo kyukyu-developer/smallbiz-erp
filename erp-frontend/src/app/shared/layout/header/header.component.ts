@@ -143,6 +143,51 @@ export class HeaderComponent implements OnInit {
   }
 
   updatePageTitle(url: string) {
+    // Handle product group detail pages with parameters (e.g., /inventory/product-groups/uuid or /inventory/product-groups/new)
+    if (url.includes('/inventory/product-groups/')) {
+      const segments = url.split('/');
+      const productGroupParam = segments[segments.length - 1].split('?')[0];
+      if (productGroupParam) {
+        const formattedParam = productGroupParam === 'new' ? 'New' : 'Detail';
+        this.pageTitle = `Product Groups / ${formattedParam}`;
+        this.hasDetailParam = true;
+        this.baseTitle = 'Product Groups';
+        this.detailParam = formattedParam;
+        this.baseRoute = '/inventory/product-groups';
+        return;
+      }
+    }
+
+    // Handle customer detail pages with parameters (e.g., /sales/customers/uuid or /sales/customers/new)
+    if (url.includes('/sales/customers/')) {
+      const segments = url.split('/');
+      const customerParam = segments[segments.length - 1].split('?')[0];
+      if (customerParam) {
+        const formattedParam = customerParam === 'new' ? 'New' : 'Detail';
+        this.pageTitle = `Customers / ${formattedParam}`;
+        this.hasDetailParam = true;
+        this.baseTitle = 'Customers';
+        this.detailParam = formattedParam;
+        this.baseRoute = '/sales/customers';
+        return;
+      }
+    }
+
+    // Handle category detail pages with parameters (e.g., /inventory/categories/uuid or /inventory/categories/new)
+    if (url.includes('/inventory/categories/')) {
+      const segments = url.split('/');
+      const categoryParam = segments[segments.length - 1].split('?')[0];
+      if (categoryParam) {
+        const formattedParam = categoryParam === 'new' ? 'New' : 'Detail';
+        this.pageTitle = `Categories / ${formattedParam}`;
+        this.hasDetailParam = true;
+        this.baseTitle = 'Categories';
+        this.detailParam = formattedParam;
+        this.baseRoute = '/inventory/categories';
+        return;
+      }
+    }
+
     // Handle brand detail pages with parameters (e.g., /inventory/brands/uuid or /inventory/brands/new)
     if (url.includes('/inventory/brands/')) {
       const segments = url.split('/');

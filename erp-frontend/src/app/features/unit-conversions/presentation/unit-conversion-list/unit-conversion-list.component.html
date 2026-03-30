@@ -1,0 +1,37 @@
+<div class="conversion-list-container">
+  <div class="actions-bar">
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+      <input type="text" [(ngModel)]="searchTerm" (keyup)="applyFilter()" placeholder="Search conversions...">
+    </div>
+    <div class="action-buttons">
+      <button mat-raised-button class="add-btn" (click)="addNew()"><mat-icon>add</mat-icon> Add Conversion</button>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="conversion-table">
+      <thead><tr><th>FROM UNIT</th><th>TO UNIT</th><th>FACTOR</th><th>STATUS</th><th class="actions">ACTIONS</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let c of filteredConversions" class="table-row">
+          <td class="from-unit">{{ c.fromUnitName || c.fromUnitId }}</td>
+          <td class="to-unit">{{ c.toUnitName || c.toUnitId }}</td>
+          <td class="factor">{{ c.factor }}</td>
+          <td class="status"><span class="status-badge" [ngClass]="c.active ? 'active' : 'inactive'">{{ c.active ? 'Active' : 'Inactive' }}</span></td>
+          <td class="actions">
+            <button mat-button class="view-btn" (click)="viewConversion(c)"><mat-icon>visibility</mat-icon> View</button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn"><mat-icon>more_vert</mat-icon></button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editConversion(c)"><mat-icon>edit</mat-icon><span>Edit</span></button>
+              <button mat-menu-item (click)="deleteConversion(c)"><mat-icon>delete</mat-icon><span>Delete</span></button>
+            </mat-menu>
+          </td>
+        </tr>
+        <tr *ngIf="!loading && filteredConversions.length === 0">
+          <td colspan="5"><div class="empty-state"><mat-icon>swap_horiz</mat-icon><h3>No Conversions Found</h3><p>Add a unit conversion to get started</p></div></td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="loading" class="loading-state"><mat-spinner diameter="40"></mat-spinner></div>
+  </div>
+</div>

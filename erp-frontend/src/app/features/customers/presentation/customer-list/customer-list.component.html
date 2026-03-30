@@ -1,0 +1,139 @@
+<div class="customer-list-container">
+  <!-- Stats Card -->
+  <div class="stats-card">
+    <div class="stats-left">
+      <div class="stat-icon-circle">
+        <mat-icon>people</mat-icon>
+      </div>
+      <div class="stat-main">
+        <div class="stat-label">TOTAL CUSTOMERS</div>
+        <div class="stat-value">{{ totalCustomers }}</div>
+      </div>
+    </div>
+
+    <div class="stats-right">
+      <div class="summary-count">{{ totalCustomers }} <span>customer{{ totalCustomers !== 1 ? 's' : '' }}</span></div>
+      <div class="status-bars">
+        <div class="status-bar-group">
+          <div class="bar active" [style.width.%]="totalCustomers > 0 ? (activeCustomers / totalCustomers) * 100 : 0"></div>
+          <div class="bar inactive" [style.width.%]="totalCustomers > 0 ? (inactiveCustomers / totalCustomers) * 100 : 0"></div>
+        </div>
+        <div class="status-labels">
+          <div class="status-item">
+            <span class="dot active"></span>
+            <span class="label">Active: <strong>{{ activeCustomers }}</strong></span>
+          </div>
+          <div class="status-item">
+            <span class="dot inactive"></span>
+            <span class="label">Inactive: <strong>{{ inactiveCustomers }}</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions Bar -->
+  <div class="actions-bar">
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+      <input type="text" [(ngModel)]="searchTerm" (keyup)="applyFilter()" placeholder="Search customers...">
+    </div>
+    <div class="action-buttons">
+      <button mat-raised-button class="add-btn" (click)="addNewCustomer()">
+        <mat-icon>add</mat-icon>
+        Add Customer
+      </button>
+    </div>
+  </div>
+
+  <!-- Customer Table -->
+  <div class="table-container">
+    <table class="customer-table">
+      <thead>
+        <tr class="table-header-row">
+          <th>CUSTOMER CODE</th>
+          <th>CUSTOMER NAME</th>
+          <th>EMAIL</th>
+          <th>PHONE</th>
+          <th>CITY</th>
+          <th>STATUS</th>
+          <th class="actions">ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let customer of filteredCustomers">
+          <tr class="table-row">
+            <!-- Customer Code -->
+            <td class="customer-code">
+              <div class="code-wrapper">
+                <div class="code-text">{{ customer.code }}</div>
+              </div>
+            </td>
+
+            <!-- Customer Name -->
+            <td class="customer-name">
+              <div class="name-wrapper">
+                <div class="name-text">{{ customer.name }}</div>
+                <div class="contact-person" *ngIf="customer.contactPerson">{{ customer.contactPerson }}</div>
+              </div>
+            </td>
+
+            <!-- Email -->
+            <td class="email">{{ customer.email || '-' }}</td>
+
+            <!-- Phone -->
+            <td class="phone">{{ customer.phone || '-' }}</td>
+
+            <!-- City -->
+            <td class="city">{{ customer.city || '-' }}</td>
+
+            <!-- Status -->
+            <td class="status">
+              <div class="status-badges">
+                <span class="status-badge" [ngClass]="customer.active ? 'active' : 'inactive'">
+                  {{ customer.active ? 'Active' : 'Inactive' }}
+                </span>
+              </div>
+            </td>
+
+            <!-- Actions -->
+            <td class="actions">
+              <button mat-button class="view-btn" (click)="viewCustomer(customer)">
+                <mat-icon>visibility</mat-icon>
+                View
+              </button>
+              <button mat-icon-button [matMenuTriggerFor]="customerMenu" class="more-btn">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #customerMenu="matMenu">
+                <button mat-menu-item (click)="editCustomer(customer)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="deleteCustomer(customer)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+
+        <!-- Empty State -->
+        <tr *ngIf="!loading && filteredCustomers.length === 0" class="empty-state-row">
+          <td colspan="7">
+            <div class="empty-state">
+              <mat-icon>people</mat-icon>
+              <h3>No Customers Found</h3>
+              <p>Try adjusting your search criteria or add a new customer</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="loading" class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  </div>
+</div>

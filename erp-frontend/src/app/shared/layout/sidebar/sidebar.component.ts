@@ -45,16 +45,18 @@ export class SidebarComponent {
           expanded: false,
           children: [
             { label: 'Products', icon: 'shopping_bag', route: '/inventory/products' },
-            { label: 'Categories', icon: 'category', route: '/inventory/categories' },
             { label: 'Stock Management', icon: 'inventory', route: '/inventory/stock' },
             { label: 'Warehouse', icon: 'warehouse', route: '/inventory/warehouses' },
-            { label: 'Suppliers', icon: 'local_shipping', route: '/inventory/suppliers' },
             {
               label: 'Setup',
               icon: 'settings',
               expanded: false,
               children: [
-                { label: 'Brands', icon: 'loyalty', route: '/inventory/brands' }
+                { label: 'Brands', icon: 'loyalty', route: '/inventory/brands' },
+                { label: 'Categories', icon: 'category', route: '/inventory/categories' },
+                { label: 'Product Groups', icon: 'group_work', route: '/inventory/product-groups' },
+                { label: 'Units', icon: 'straighten', route: '/inventory/units' },
+                { label: 'Unit Conversions', icon: 'swap_horiz', route: '/inventory/unit-conversions' }
               ]
             }
           ]
@@ -78,6 +80,7 @@ export class SidebarComponent {
           expanded: false,
           children: [
             { label: 'Purchase Orders', icon: 'shopping_cart', route: '/purchases/orders' },
+            { label: 'Suppliers', icon: 'local_shipping', route: '/purchases/suppliers' },
             { label: 'Vendors', icon: 'store', route: '/purchases/vendors' },
             { label: 'Bills', icon: 'receipt_long', route: '/purchases/bills' }
           ]

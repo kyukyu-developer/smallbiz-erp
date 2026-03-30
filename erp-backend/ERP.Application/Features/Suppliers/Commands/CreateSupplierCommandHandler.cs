@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using ERP.Application.DTOs.Suppliers;
 using ERP.Application.DTOs.Common;
 using ERP.Domain.Entities;
@@ -19,6 +19,7 @@ namespace ERP.Application.Features.Suppliers.Commands
         {
             var supplier = new Domain.Entities.PurchSupplier
             {
+                Id = Guid.NewGuid().ToString(),
                 Code = request.Code,
                 Name = request.Name,
                 ContactPerson = request.ContactPerson,
@@ -29,7 +30,10 @@ namespace ERP.Application.Features.Suppliers.Commands
                 Country = request.Country,
                 TaxNumber = request.TaxNumber,
                 PaymentTermDays = request.PaymentTermDays,
-                Active = request.Active
+                Active = request.Active,
+                LastAction = "CREATE",
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = "System"
             };
 
             await _supplierRepository.AddAsync(supplier);

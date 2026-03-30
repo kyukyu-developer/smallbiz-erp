@@ -1,0 +1,160 @@
+@import '../../../../../theme/form-detail';
+
+.customer-detail-container {
+  @include detail-container;
+}
+
+.tips-toggle-btn {
+  @include tips-toggle-btn;
+}
+
+.two-column-layout {
+  @include two-column-layout;
+}
+
+.form-column {
+  @include form-column;
+}
+
+.tips-column {
+  @include tips-column;
+}
+
+.modern-form-card {
+  @include modern-form-card;
+}
+
+form {
+  .form-section {
+    @include form-section;
+
+    .section-header {
+      @include section-header;
+    }
+
+    .form-fields {
+      @include form-fields;
+    }
+  }
+
+  .field-wrapper {
+    @include field-wrapper;
+
+    .field-label {
+      @include field-label;
+    }
+
+    .modern-field {
+      @include modern-field;
+    }
+  }
+
+  .checkbox-group {
+    @include checkbox-group;
+
+    .checkbox-wrapper {
+      @include checkbox-wrapper;
+
+      .toggle-label {
+        @include toggle-label;
+      }
+    }
+  }
+
+  .form-actions {
+    @include form-actions;
+
+    .btn-primary {
+      @include btn-primary;
+    }
+
+    .btn-cancel {
+      @include btn-cancel;
+    }
+
+    .btn-reset {
+      @include btn-reset;
+    }
+  }
+
+  .form-footer {
+    @include form-footer;
+  }
+}
+
+// Sidebar Info Cards
+.modern-info-card {
+  @include info-card;
+
+  .info-header {
+    @include info-card-header;
+  }
+
+  .info-list {
+    @include info-list;
+  }
+
+  &.business-rules {
+    @include info-card-business-rules;
+  }
+
+  &.type-legend {
+    @include info-card-legend;
+  }
+}
+
+.type-items {
+  @include type-items;
+
+  .type-item .type-badge {
+    &.retail {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+    }
+
+    &.wholesale {
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      color: white;
+    }
+
+    &.vip {
+      background: linear-gradient(135deg, $success-color 0%, #059669 100%);
+      color: white;
+    }
+  }
+}
+
+// Animations
+@include fade-in-up-animation;
+
+.field-wrapper {
+  @include field-animations;
+}
+
+.modern-info-card {
+  @include card-animations;
+}
+
+// Sticky Actions
+.sticky-actions {
+  @include sticky-actions;
+
+  .sticky-actions-container {
+    @include sticky-actions-container;
+
+    .btn-primary {
+      @include btn-primary;
+    }
+
+    .btn-cancel {
+      @include btn-cancel;
+    }
+
+    .btn-reset {
+      @include btn-reset;
+    }
+  }
+}
+
+// Responsive
+@include detail-responsive;

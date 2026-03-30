@@ -26,13 +26,23 @@ export class AuthRepository implements IAuthRepository {
     );
     this.currentUser = this.currentUserSubject.asObservable();
   }
+  getRefreshToken(): string | null {
+    // If you store the refresh token in localStorage or another secure place, retrieve it here.
+    // For security, it's best not to store refresh tokens in localStorage. Adjust as needed.
+    const stored = localStorage.getItem('refreshToken');
+    return stored ? stored : null;
+  }
 
   login(credentials: LoginCredentials): Observable<AuthResponse> {
     return this.http
-      .post<AuthResponse>(`${this.apiUrl}/login`, {
-        username: credentials.username,
-        password: credentials.password,
-      }, { withCredentials: true })
+      .post<AuthResponse>(
+        `${this.apiUrl}/login`,
+        {
+          username: credentials.username,
+          password: credentials.password,
+        },
+        { withCredentials: true },
+      )
       .pipe(
         tap((response) => this.handleAuthSuccess(response)),
         catchError((error) => {
@@ -44,7 +54,11 @@ export class AuthRepository implements IAuthRepository {
 
   refreshToken(): Observable<AuthResponse> {
     return this.http
-      .post<AuthResponse>(`${this.apiUrl}/refresh-token`, {}, { withCredentials: true })
+      .post<AuthResponse>(
+        `${this.apiUrl}/refresh-token`,
+        {},
+        { withCredentials: true },
+      )
       .pipe(
         tap((response) => this.handleAuthSuccess(response)),
         catchError((error) => {
@@ -64,9 +78,9 @@ export class AuthRepository implements IAuthRepository {
     this.accessToken = null;
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
-    return this.http.post<void>(`${this.apiUrl}/logout`, {}, { withCredentials: true }).pipe(
-      catchError(() => of(void 0)),
-    );
+    return this.http
+      .post<void>(`${this.apiUrl}/logout`, {}, { withCredentials: true })
+      .pipe(catchError(() => of(void 0)));
   }
 
   getCurrentUser(): Observable<User | null> {

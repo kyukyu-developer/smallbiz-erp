@@ -1,0 +1,390 @@
+<div class="customer-detail-container">
+  <!-- Toggle Button for Tips Column -->
+  <button
+    mat-mini-fab
+    class="tips-toggle-btn"
+    (click)="toggleTipsColumn()"
+    [matTooltip]="showTipsColumn ? 'Hide Rules and Tips' : 'Show Rules and Tips'"
+    matTooltipPosition="left">
+    <mat-icon>{{ showTipsColumn ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+  </button>
+
+  <!-- Two Column Layout -->
+  <div class="two-column-layout" [class.full-width]="!showTipsColumn">
+    <!-- Left Column: Form -->
+    <div class="form-column">
+      <div class="modern-form-card">
+        <form id="customerForm" [formGroup]="customerForm" (ngSubmit)="onSave()">
+
+          <!-- Section 1: Basic Information -->
+          <div class="form-section">
+            <div class="section-header">
+              <mat-icon>person</mat-icon>
+              <h3>Customer Information</h3>
+            </div>
+
+            <div class="form-fields">
+              <!-- Customer Code Field -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Customer Code <span class="required">*</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>code</mat-icon>
+                  <input
+                    matInput
+                    formControlName="code"
+                    placeholder="e.g., CUST001, CUST002"
+                    maxlength="20">
+                  <mat-hint align="end">{{ customerForm.get('code')?.value?.length || 0 }}/20</mat-hint>
+                  <mat-error *ngIf="hasError('code', 'required')">
+                    Customer code is required
+                  </mat-error>
+                  <mat-error *ngIf="hasError('code', 'minlength')">
+                    Code must be at least 2 characters
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!-- Customer Name Field -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Customer Name <span class="required">*</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>business</mat-icon>
+                  <input
+                    matInput
+                    formControlName="name"
+                    placeholder="e.g., ABC Corporation, John Trading"
+                    maxlength="100">
+                  <mat-hint align="end">{{ customerForm.get('name')?.value?.length || 0 }}/100</mat-hint>
+                  <mat-error *ngIf="hasError('name', 'required')">
+                    Customer name is required
+                  </mat-error>
+                  <mat-error *ngIf="hasError('name', 'minlength')">
+                    Name must be at least 2 characters
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!-- Contact Person Field -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Contact Person <span class="optional">(Optional)</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>person</mat-icon>
+                  <input
+                    matInput
+                    formControlName="contactPerson"
+                    placeholder="e.g., John Smith"
+                    maxlength="100">
+                </mat-form-field>
+              </div>
+
+              <!-- Email Field -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Email <span class="optional">(Optional)</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>email</mat-icon>
+                  <input
+                    matInput
+                    formControlName="email"
+                    placeholder="e.g., customer@example.com"
+                    maxlength="100"
+                    type="email">
+                  <mat-error *ngIf="hasError('email', 'email')">
+                    Please enter a valid email address
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!-- Phone Field -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Phone <span class="optional">(Optional)</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>phone</mat-icon>
+                  <input
+                    matInput
+                    formControlName="phone"
+                    placeholder="e.g., +1 234 567 8900"
+                    maxlength="20">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Address Information -->
+          <div class="form-section">
+            <div class="section-header">
+              <mat-icon>location_on</mat-icon>
+              <h3>Address Information</h3>
+            </div>
+
+            <div class="form-fields">
+              <!-- Address Field -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Address <span class="optional">(Optional)</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>home</mat-icon>
+                  <textarea
+                    matInput
+                    formControlName="address"
+                    placeholder="Street address"
+                    rows="2"
+                    maxlength="255"></textarea>
+                </mat-form-field>
+              </div>
+
+              <!-- City Field -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  City <span class="optional">(Optional)</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>location_city</mat-icon>
+                  <input
+                    matInput
+                    formControlName="city"
+                    placeholder="e.g., New York"
+                    maxlength="50">
+                </mat-form-field>
+              </div>
+
+              <!-- Country Field -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Country <span class="optional">(Optional)</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>public</mat-icon>
+                  <input
+                    matInput
+                    formControlName="country"
+                    placeholder="e.g., USA"
+                    maxlength="50">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Business Information -->
+          <div class="form-section">
+            <div class="section-header">
+              <mat-icon>account_balance</mat-icon>
+              <h3>Business Information</h3>
+            </div>
+
+            <div class="form-fields">
+              <!-- Tax Number Field -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Tax Number <span class="optional">(Optional)</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>receipt</mat-icon>
+                  <input
+                    matInput
+                    formControlName="taxNumber"
+                    placeholder="e.g., TAX-12345678"
+                    maxlength="50">
+                </mat-form-field>
+              </div>
+
+              <!-- Credit Limit Field -->
+              <div class="field-wrapper">
+                <label class="field-label">
+                  Credit Limit <span class="optional">(Optional)</span>
+                </label>
+                <mat-form-field appearance="fill" class="modern-field">
+                  <mat-icon matPrefix>credit_card</mat-icon>
+                  <input
+                    matInput
+                    formControlName="creditLimit"
+                    placeholder="e.g., 10000"
+                    type="number">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 4: Status -->
+          <div class="form-section">
+            <div class="section-header">
+              <mat-icon>toggle_on</mat-icon>
+              <h3>Status Settings</h3>
+            </div>
+
+            <div class="form-fields checkbox-group">
+              <div class="checkbox-wrapper">
+                <mat-slide-toggle formControlName="active" color="primary">
+                  <div class="toggle-label">
+                    <strong>Active</strong>
+                    <span class="toggle-hint">Active customers appear in sales forms</span>
+                  </div>
+                </mat-slide-toggle>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="form-actions" #formActionsRef>
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="onCancel()"
+              class="btn-cancel">
+              <mat-icon>arrow_back</mat-icon>
+              Cancel
+            </button>
+
+            <button
+              mat-flat-button
+              type="button"
+              (click)="onReset()"
+              class="btn-reset"
+              [disabled]="!customerForm.dirty">
+              <mat-icon>restart_alt</mat-icon>
+              Reset
+            </button>
+
+            <button
+              mat-flat-button
+              type="submit"
+              class="btn-primary"
+              [disabled]="customerForm.invalid || saving">
+              <mat-icon>{{ isEditMode ? 'check_circle' : 'save' }}</mat-icon>
+              {{ saving ? 'Saving...' : (isEditMode ? 'Update Customer' : 'Create Customer') }}
+            </button>
+          </div>
+
+          <!-- Footer Note -->
+          <div class="form-footer">
+            <div class="footer-note">
+              <mat-icon>info_outline</mat-icon>
+              <span>Fields marked with <strong>*</strong> are required</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Column: Business Rules & Tips -->
+    <div class="tips-column" *ngIf="showTipsColumn">
+      <!-- Business Rules Card -->
+      <div class="modern-info-card business-rules">
+        <div class="info-header">
+          <mat-icon>rule</mat-icon>
+          <h4>Business Rules</h4>
+        </div>
+        <ul class="info-list">
+          <li>
+            <mat-icon class="icon-info">info</mat-icon>
+            <span><strong>Unique Code:</strong> Customer code must be unique across the system</span>
+          </li>
+          <li>
+            <mat-icon class="icon-info">info</mat-icon>
+            <span><strong>Contact Info:</strong> At least one contact method is recommended</span>
+          </li>
+          <li>
+            <mat-icon class="icon-info">info</mat-icon>
+            <span><strong>Credit Limit:</strong> Used for credit control in sales</span>
+          </li>
+          <li>
+            <mat-icon class="icon-info">info</mat-icon>
+            <span><strong>Active Status:</strong> Inactive customers won't appear in sales forms</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Quick Tips Card -->
+      <div class="modern-info-card">
+        <div class="info-header">
+          <mat-icon>lightbulb</mat-icon>
+          <h4>Quick Tips</h4>
+        </div>
+        <ul class="info-list">
+          <li>
+            <mat-icon>check_circle</mat-icon>
+            <span>Use consistent customer codes (e.g., CUST001)</span>
+          </li>
+          <li>
+            <mat-icon>check_circle</mat-icon>
+            <span>Add complete address for delivery purposes</span>
+          </li>
+          <li>
+            <mat-icon>check_circle</mat-icon>
+            <span>Set credit limits for B2B customers</span>
+          </li>
+          <li>
+            <mat-icon>check_circle</mat-icon>
+            <span>Disable customers that are no longer active</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Customer Types -->
+      <div class="modern-info-card type-legend">
+        <div class="info-header">
+          <mat-icon>help_outline</mat-icon>
+          <h4>Customer Types</h4>
+        </div>
+        <div class="type-items">
+          <div class="type-item">
+            <div class="type-badge retail">Retail</div>
+            <span>Individual customers</span>
+          </div>
+          <div class="type-item">
+            <div class="type-badge wholesale">Wholesale</div>
+            <span>Business customers</span>
+          </div>
+          <div class="type-item">
+            <div class="type-badge vip">VIP</div>
+            <span>Premium customers</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Action Buttons -->
+  <div class="sticky-actions" [class.visible]="showStickyButtons" [class.tips-visible]="showTipsColumn">
+    <div class="sticky-actions-container">
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="onCancel()"
+        class="btn-cancel">
+        <mat-icon>arrow_back</mat-icon>
+        Cancel
+      </button>
+
+      <button
+        mat-flat-button
+        type="button"
+        (click)="onReset()"
+        class="btn-reset"
+        [disabled]="!customerForm.dirty">
+        <mat-icon>restart_alt</mat-icon>
+        Reset
+      </button>
+
+      <button
+        mat-flat-button
+        type="submit"
+        (click)="onSave()"
+        class="btn-primary"
+        [disabled]="customerForm.invalid || saving">
+        <mat-icon>{{ isEditMode ? 'check_circle' : 'save' }}</mat-icon>
+        {{ saving ? 'Saving...' : (isEditMode ? 'Update Customer' : 'Create Customer') }}
+      </button>
+    </div>
+  </div>
+</div>

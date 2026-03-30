@@ -1,0 +1,114 @@
+<div class="supplier-detail-container">
+  <div class="form-container">
+    <form [formGroup]="supplierForm" (ngSubmit)="onSave()">
+      <div class="form-section">
+        <div class="section-header"><mat-icon>business</mat-icon><h3>Supplier Information</h3></div>
+        <div class="form-fields">
+          <div class="field-wrapper">
+            <label class="field-label">Supplier Code <span class="required">*</span></label>
+            <mat-form-field appearance="fill" class="modern-field">
+              <mat-icon matPrefix>code</mat-icon>
+              <input matInput formControlName="code" placeholder="e.g., SUP001" maxlength="20">
+              <mat-error *ngIf="hasError('code', 'required')">Code is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="field-wrapper">
+            <label class="field-label">Supplier Name <span class="required">*</span></label>
+            <mat-form-field appearance="fill" class="modern-field">
+              <mat-icon matPrefix>business</mat-icon>
+              <input matInput formControlName="name" placeholder="e.g., ABC Supplies" maxlength="100">
+              <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="field-wrapper">
+            <label class="field-label">Contact Person <span class="optional">(Optional)</span></label>
+            <mat-form-field appearance="fill" class="modern-field">
+              <mat-icon matPrefix>person</mat-icon>
+              <input matInput formControlName="contactPerson" placeholder="e.g., John Smith" maxlength="100">
+            </mat-form-field>
+          </div>
+          <div class="field-wrapper">
+            <label class="field-label">Email <span class="optional">(Optional)</span></label>
+            <mat-form-field appearance="fill" class="modern-field">
+              <mat-icon matPrefix>email</mat-icon>
+              <input matInput formControlName="email" placeholder="e.g., supplier@example.com" type="email">
+              <mat-error *ngIf="hasError('email', 'email')">Valid email required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="field-wrapper">
+            <label class="field-label">Phone <span class="optional">(Optional)</span></label>
+            <mat-form-field appearance="fill" class="modern-field">
+              <mat-icon matPrefix>phone</mat-icon>
+              <input matInput formControlName="phone" placeholder="e.g., +1 234 567 8900" maxlength="20">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-header"><mat-icon>location_on</mat-icon><h3>Address Information</h3></div>
+        <div class="form-fields">
+          <div class="field-wrapper">
+            <label class="field-label">Address <span class="optional">(Optional)</span></label>
+            <mat-form-field appearance="fill" class="modern-field">
+              <mat-icon matPrefix>home</mat-icon>
+              <textarea matInput formControlName="address" rows="2" maxlength="255"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="field-wrapper">
+            <label class="field-label">City <span class="optional">(Optional)</span></label>
+            <mat-form-field appearance="fill" class="modern-field">
+              <mat-icon matPrefix>location_city</mat-icon>
+              <input matInput formControlName="city" maxlength="50">
+            </mat-form-field>
+          </div>
+          <div class="field-wrapper">
+            <label class="field-label">Country <span class="optional">(Optional)</span></label>
+            <mat-form-field appearance="fill" class="modern-field">
+              <mat-icon matPrefix>public</mat-icon>
+              <input matInput formControlName="country" maxlength="50">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-header"><mat-icon>account_balance</mat-icon><h3>Business Information</h3></div>
+        <div class="form-fields">
+          <div class="field-wrapper">
+            <label class="field-label">Tax Number <span class="optional">(Optional)</span></label>
+            <mat-form-field appearance="fill" class="modern-field">
+              <mat-icon matPrefix>receipt</mat-icon>
+              <input matInput formControlName="taxNumber" maxlength="50">
+            </mat-form-field>
+          </div>
+          <div class="field-wrapper">
+            <label class="field-label">Payment Term (Days) <span class="optional">(Optional)</span></label>
+            <mat-form-field appearance="fill" class="modern-field">
+              <mat-icon matPrefix>calendar_today</mat-icon>
+              <input matInput formControlName="paymentTermDays" type="number">
+            </mat-form-field>
+          </div>
+          <div class="checkbox-wrapper">
+            <mat-slide-toggle formControlName="active" color="primary">
+              <div class="toggle-label"><strong>Active</strong><span class="toggle-hint">Active suppliers appear in purchase forms</span></div>
+            </mat-slide-toggle>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button mat-stroked-button type="button" (click)="onCancel()" class="btn-cancel"><mat-icon>arrow_back</mat-icon> Cancel</button>
+        <button mat-flat-button type="button" (click)="onReset()" class="btn-reset" [disabled]="!supplierForm.dirty"><mat-icon>restart_alt</mat-icon> Reset</button>
+        <button mat-flat-button type="submit" class="btn-primary" [disabled]="supplierForm.invalid || saving">
+          <mat-icon>{{ isEditMode ? 'check_circle' : 'save' }}</mat-icon>
+          {{ saving ? 'Saving...' : (isEditMode ? 'Update Supplier' : 'Create Supplier') }}
+        </button>
+      </div>
+
+      <div class="form-footer">
+        <div class="footer-note"><mat-icon>info_outline</mat-icon><span>Fields marked with <strong>*</strong> are required</span></div>
+      </div>
+    </form>
+  </div>
+</div>

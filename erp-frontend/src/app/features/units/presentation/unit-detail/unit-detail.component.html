@@ -1,0 +1,64 @@
+<div class="unit-detail-container">
+  <div class="form-container">
+    <form [formGroup]="unitForm" (ngSubmit)="onSave()">
+      <div class="form-section">
+        <div class="section-header">
+          <mat-icon>straighten</mat-icon>
+          <h3>Unit Information</h3>
+        </div>
+
+        <div class="form-fields">
+          <div class="field-wrapper">
+            <label class="field-label">Unit Name <span class="required">*</span></label>
+            <mat-form-field appearance="fill" class="modern-field">
+              <mat-icon matPrefix>label</mat-icon>
+              <input matInput formControlName="name" placeholder="e.g., Kilogram, Liter" maxlength="50">
+              <mat-hint align="end">{{ unitForm.get('name')?.value?.length || 0 }}/50</mat-hint>
+              <mat-error *ngIf="hasError('name', 'required')">Unit name is required</mat-error>
+              <mat-error *ngIf="hasError('name', 'minlength')">Name must be at least 2 characters</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="field-wrapper">
+            <label class="field-label">Symbol <span class="required">*</span></label>
+            <mat-form-field appearance="fill" class="modern-field">
+              <mat-icon matPrefix>code</mat-icon>
+              <input matInput formControlName="symbol" placeholder="e.g., kg, L, m" maxlength="10">
+              <mat-hint align="end">{{ unitForm.get('symbol')?.value?.length || 0 }}/10</mat-hint>
+              <mat-error *ngIf="hasError('symbol', 'required')">Symbol is required</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="checkbox-wrapper">
+            <mat-slide-toggle formControlName="active" color="primary">
+              <div class="toggle-label">
+                <strong>Active</strong>
+                <span class="toggle-hint">Active units can be used in products</span>
+              </div>
+            </mat-slide-toggle>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button mat-stroked-button type="button" (click)="onCancel()" class="btn-cancel">
+          <mat-icon>arrow_back</mat-icon> Cancel
+        </button>
+        <button mat-flat-button type="button" (click)="onReset()" class="btn-reset" [disabled]="!unitForm.dirty">
+          <mat-icon>restart_alt</mat-icon> Reset
+        </button>
+        <button mat-flat-button type="submit" class="btn-primary" [disabled]="unitForm.invalid || saving">
+          <mat-icon>{{ isEditMode ? 'check_circle' : 'save' }}</mat-icon>
+          {{ saving ? 'Saving...' : (isEditMode ? 'Update Unit' : 'Create Unit') }}
+        </button>
+      </div>
+
+      <div class="form-footer">
+        <div class="footer-note">
+          <mat-icon>info_outline</mat-icon>
+          <span>Fields marked with <strong>*</strong> are required</span>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

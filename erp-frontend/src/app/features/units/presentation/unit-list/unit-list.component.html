@@ -1,0 +1,65 @@
+<div class="unit-list-container">
+  <div class="stats-card">
+    <div class="stats-left">
+      <div class="stat-icon-circle"><mat-icon>straighten</mat-icon></div>
+      <div class="stat-main">
+        <div class="stat-label">TOTAL UNITS</div>
+        <div class="stat-value">{{ totalUnits }}</div>
+      </div>
+    </div>
+    <div class="stats-right">
+      <div class="summary-count">{{ totalUnits }} <span>unit{{ totalUnits !== 1 ? 's' : '' }}</span></div>
+      <div class="status-bars">
+        <div class="status-bar-group">
+          <div class="bar active" [style.width.%]="totalUnits > 0 ? (activeUnits / totalUnits) * 100 : 0"></div>
+          <div class="bar inactive" [style.width.%]="totalUnits > 0 ? (inactiveUnits / totalUnits) * 100 : 0"></div>
+        </div>
+        <div class="status-labels">
+          <div class="status-item"><span class="dot active"></span><span class="label">Active: <strong>{{ activeUnits }}</strong></span></div>
+          <div class="status-item"><span class="dot inactive"></span><span class="label">Inactive: <strong>{{ inactiveUnits }}</strong></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions-bar">
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+      <input type="text" [(ngModel)]="searchTerm" (keyup)="applyFilter()" placeholder="Search units...">
+    </div>
+    <div class="action-buttons">
+      <button mat-raised-button class="add-btn" (click)="addNewUnit()">
+        <mat-icon>add</mat-icon> Add Unit
+      </button>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="unit-table">
+      <thead>
+        <tr><th>NAME</th><th>SYMBOL</th><th>STATUS</th><th class="actions">ACTIONS</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let unit of filteredUnits" class="table-row">
+          <td class="unit-name"><div class="name-wrapper"><div class="name-text">{{ unit.name }}</div></div></td>
+          <td class="symbol">{{ unit.symbol }}</td>
+          <td class="status"><span class="status-badge" [ngClass]="unit.active ? 'active' : 'inactive'">{{ unit.active ? 'Active' : 'Inactive' }}</span></td>
+          <td class="actions">
+            <button mat-button class="view-btn" (click)="viewUnit(unit)"><mat-icon>visibility</mat-icon> View</button>
+            <button mat-icon-button [matMenuTriggerFor]="unitMenu" class="more-btn"><mat-icon>more_vert</mat-icon></button>
+            <mat-menu #unitMenu="matMenu">
+              <button mat-menu-item (click)="editUnit(unit)"><mat-icon>edit</mat-icon><span>Edit</span></button>
+              <button mat-menu-item (click)="deleteUnit(unit)"><mat-icon>delete</mat-icon><span>Delete</span></button>
+            </mat-menu>
+          </td>
+        </tr>
+        <tr *ngIf="!loading && filteredUnits.length === 0">
+          <td colspan="4">
+            <div class="empty-state"><mat-icon>straighten</mat-icon><h3>No Units Found</h3><p>Add a new unit to get started</p></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="loading" class="loading-state"><mat-spinner diameter="40"></mat-spinner></div>
+  </div>
+</div>

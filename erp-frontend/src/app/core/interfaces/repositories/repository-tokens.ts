@@ -1,5 +1,11 @@
 export { AUTH_REPOSITORY } from '../../../features/auth/domain/repositories/auth.token';
 export { DASHBOARD_REPOSITORY } from '../../../features/dashboard/domain/repositories/dashboard.token';
 export { BRAND_REPOSITORY } from '../../../features/brands/domain/repositories/brand.token';
+export { CATEGORY_REPOSITORY } from '../../../features/categories/domain/repositories/category.token';
+export { CUSTOMER_REPOSITORY } from '../../../features/customers/domain/repositories/customer.token';
+export { PRODUCT_GROUP_REPOSITORY } from '../../../features/product-groups/domain/repositories/product-group.token';
+export { UNIT_REPOSITORY } from '../../../features/units/domain/repositories/unit.token';
+export { SUPPLIER_REPOSITORY } from '../../../features/suppliers/domain/repositories/supplier.token';
+export { UNIT_CONVERSION_REPOSITORY } from '../../../features/unit-conversions/domain/repositories/unit-conversion.token';
 export { PRODUCT_REPOSITORY } from '../../../features/inventory/domain/repositories/product.token';
 export { WAREHOUSE_REPOSITORY } from '../../../features/inventory/domain/repositories/warehouse.token';

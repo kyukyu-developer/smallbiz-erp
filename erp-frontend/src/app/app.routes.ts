@@ -43,18 +43,72 @@ export const routes: Routes = [
       {
         path: 'brands/:id',
         loadComponent: () => import('./features/brands/presentation/brand-detail/brand-detail.component').then(m => m.BrandDetailComponent)
+      },
+      {
+        path: 'product-groups',
+        loadComponent: () => import('./features/product-groups/presentation/product-group-list/product-group-list.component').then(m => m.ProductGroupListComponent)
+      },
+      {
+        path: 'product-groups/:id',
+        loadComponent: () => import('./features/product-groups/presentation/product-group-detail/product-group-detail.component').then(m => m.ProductGroupDetailComponent)
+      },
+      {
+        path: 'categories',
+        loadComponent: () => import('./features/categories/presentation/category-list/category-list.component').then(m => m.CategoryListComponent)
+      },
+      {
+        path: 'categories/:id',
+        loadComponent: () => import('./features/categories/presentation/category-detail/category-detail.component').then(m => m.CategoryDetailComponent)
+      },
+      {
+        path: 'units',
+        loadComponent: () => import('./features/units/presentation/unit-list/unit-list.component').then(m => m.UnitListComponent)
+      },
+      {
+        path: 'units/:id',
+        loadComponent: () => import('./features/units/presentation/unit-detail/unit-detail.component').then(m => m.UnitDetailComponent)
+      },
+      {
+        path: 'unit-conversions',
+        loadComponent: () => import('./features/unit-conversions/presentation/unit-conversion-list/unit-conversion-list.component').then(m => m.UnitConversionListComponent)
       }
     ]
   },
   {
     path: 'sales',
-    loadComponent: () => import('./features/sales/sales.component').then(m => m.SalesComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./features/sales/sales.component').then(m => m.SalesComponent)
+      },
+      {
+        path: 'customers',
+        loadComponent: () => import('./features/customers/presentation/customer-list/customer-list.component').then(m => m.CustomerListComponent)
+      },
+      {
+        path: 'customers/:id',
+        loadComponent: () => import('./features/customers/presentation/customer-detail/customer-detail.component').then(m => m.CustomerDetailComponent)
+      }
+    ]
   },
   {
     path: 'purchases',
-    loadComponent: () => import('./features/purchases/purchases.component').then(m => m.PurchasesComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./features/purchases/purchases.component').then(m => m.PurchasesComponent)
+      },
+      {
+        path: 'suppliers',
+        loadComponent: () => import('./features/suppliers/presentation/supplier-list/supplier-list.component').then(m => m.SupplierListComponent)
+      },
+      {
+        path: 'suppliers/:id',
+        loadComponent: () => import('./features/suppliers/presentation/supplier-detail/supplier-detail.component').then(m => m.SupplierDetailComponent)
+      }
+    ]
   },
   {
     path: 'accounting',
