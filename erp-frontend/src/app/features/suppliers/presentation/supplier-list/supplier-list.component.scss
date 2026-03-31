@@ -1,4 +1,4 @@
-.customer-list-container {
+.supplier-list-container {
   padding: 0;
   color: var(--text-primary);
   width: 100%;
@@ -229,7 +229,7 @@
   background: var(--bg-primary);
   overflow: hidden;
 
-  .customer-table {
+  .supplier-table {
     width: 100%;
     border-collapse: collapse;
 
@@ -285,7 +285,7 @@
             padding-right: 20px;
           }
 
-          &.customer-code {
+          &.supplier-code {
             min-width: 100px;
 
             .code-wrapper .code-text {
@@ -296,7 +296,7 @@
             }
           }
 
-          &.customer-name {
+          &.supplier-name {
             min-width: 180px;
 
             .name-wrapper {
@@ -313,7 +313,9 @@
             }
           }
 
-          &.email, &.phone, &.city {
+          &.email,
+          &.phone,
+          &.city {
             color: var(--text-secondary);
             font-size: var(--font-size-sm);
           }
@@ -474,7 +476,7 @@
   .table-container {
     overflow-x: auto;
 
-    .customer-table {
+    .supplier-table {
       min-width: 800px;
     }
   }
