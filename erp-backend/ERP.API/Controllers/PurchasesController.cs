@@ -66,5 +66,41 @@ namespace ERP.API.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = result.Data!.Id }, result.Data);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(string id, [FromBody] UpdatePurchaseCommand command)
+        {
+            command.Id = id;
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.ErrorMessage);
+
+            return Ok(result.Data);
+        }
+
+        [HttpPatch("{id}/cancel")]
+        public async Task<IActionResult> Cancel(string id)
+        {
+            var command = new CancelPurchaseCommand { Id = id };
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.ErrorMessage);
+
+            return Ok(result.Data);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var command = new DeletePurchaseCommand { Id = id };
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.ErrorMessage);
+
+            return Ok(result.Data);
+        }
     }
 }

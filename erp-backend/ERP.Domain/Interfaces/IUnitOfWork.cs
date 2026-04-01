@@ -26,7 +26,12 @@ namespace ERP.Domain.Interfaces
         IRepository<PurchSupplier> Suppliers { get; }
 
         IRepository<ProdBrand> Brands { get; }
-
+        IRepository<ProdGroup> ProductGroup { get; }
+        IRepository<PurchOrder> PurchaseOrders { get; }
+        IRepository<PurchOrderItem> PurchaseOrderItems { get; }
+        IRepository<PurchGoodsReceive> GoodsReceives { get; }
+        IRepository<PurchGoodsReceiveItem> GoodsReceiveItems { get; }
+        IRepository<PurchPayment> PurchasePayments { get; }
 
         Task<int> SaveChangesAsync();
         Task BeginTransactionAsync();

@@ -19,7 +19,7 @@ namespace ERP.Application.Features.Purchases.Queries
             var purchases = await _purchaseRepository.GetAllWithDetailsAsync();
 
             var filteredPurchases = purchases
-                .Where(p => !String.IsNullOrEmpty(request.SupplierId) || p.SupplierId == request.SupplierId)
+                .Where(p => string.IsNullOrEmpty(request.SupplierId) || p.SupplierId == request.SupplierId)
                 .Where(p => !request.StartDate.HasValue || p.PurchaseDate >= request.StartDate)
                 .Where(p => !request.EndDate.HasValue || p.PurchaseDate <= request.EndDate)
                 .Where(p => !request.Status.HasValue || p.Status == (int)request.Status)

@@ -36,6 +36,11 @@ namespace ERP.Infrastructure.Repositories
             Suppliers = new Repository<PurchSupplier>(context);
             Brands = new Repository<ProdBrand>(context);
             ProductGroup = new Repository<ProdGroup>(context);
+            PurchaseOrders = new Repository<PurchOrder>(context);
+            PurchaseOrderItems = new Repository<PurchOrderItem>(context);
+            GoodsReceives = new Repository<PurchGoodsReceive>(context);
+            GoodsReceiveItems = new Repository<PurchGoodsReceiveItem>(context);
+            PurchasePayments = new Repository<PurchPayment>(context);
         }
 
         public IRepository<AuthUser> Users { get; }
@@ -61,8 +66,11 @@ namespace ERP.Infrastructure.Repositories
 
         public IRepository<ProdBrand> Brands { get; }
         public IRepository<ProdGroup> ProductGroup { get; }
-
-
+        public IRepository<PurchOrder> PurchaseOrders { get; }
+        public IRepository<PurchOrderItem> PurchaseOrderItems { get; }
+        public IRepository<PurchGoodsReceive> GoodsReceives { get; }
+        public IRepository<PurchGoodsReceiveItem> GoodsReceiveItems { get; }
+        public IRepository<PurchPayment> PurchasePayments { get; }
 
         public async Task<int> SaveChangesAsync()
         {

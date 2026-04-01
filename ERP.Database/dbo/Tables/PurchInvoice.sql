@@ -13,6 +13,8 @@
     [Status]              INT             NOT NULL,
     [ExpectedDate]        DATETIME2 (7)   NULL,
     [ReceivedDate]        DATETIME2 (7)   NULL,
+    [PurchaseOrderId]     VARCHAR (50)    NULL,
+    [GoodsReceiveId]      VARCHAR (50)    NULL,
     [Notes]               NVARCHAR (MAX)  NULL,
     [Active]              BIT             DEFAULT (CONVERT([bit],(1))) NOT NULL,
     [CreatedAt]           DATETIME2 (7)   DEFAULT (getutcdate()) NOT NULL,
@@ -22,6 +24,8 @@
     [LastAction]          NVARCHAR (50)   NULL,
     CONSTRAINT [PK_PurchInvoice] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_PurchInvoice_InvWarehouse] FOREIGN KEY ([WarehouseId]) REFERENCES [dbo].[InvWarehouse] ([Id]),
+    CONSTRAINT [FK_PurchInvoice_PurchOrder] FOREIGN KEY ([PurchaseOrderId]) REFERENCES [dbo].[PurchOrder] ([Id]),
+    CONSTRAINT [FK_PurchInvoice_PurchGoodsReceive] FOREIGN KEY ([GoodsReceiveId]) REFERENCES [dbo].[PurchGoodsReceive] ([Id]),
     CONSTRAINT [FK_PurchInvoice_PurchSupplier] FOREIGN KEY ([SupplierId]) REFERENCES [dbo].[PurchSupplier] ([Id])
 );
 
@@ -29,6 +33,16 @@
 GO
 CREATE NONCLUSTERED INDEX [IX_PurchInvoice_SupplierId]
     ON [dbo].[PurchInvoice]([SupplierId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_PurchInvoice_PurchaseOrderId]
+    ON [dbo].[PurchInvoice]([PurchaseOrderId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_PurchInvoice_GoodsReceiveId]
+    ON [dbo].[PurchInvoice]([GoodsReceiveId] ASC);
 
 
 GO

@@ -37,5 +37,49 @@ namespace ERP.API.Controllers
 
             return Ok(result.Data);
         }
+
+        [HttpGet("low-stock")]
+        public async Task<IActionResult> GetLowStock(
+            [FromQuery] string? warehouseId)
+        {
+            var query = new GetLowStockQuery
+            {
+                WarehouseId = warehouseId
+            };
+
+            var result = await _mediator.Send(query);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.ErrorMessage);
+
+            return Ok(result.Data);
+        }
+
+        [HttpGet("movements")]
+        public async Task<IActionResult> GetStockMovements(
+            [FromQuery] string? warehouseId,
+            [FromQuery] string? productId,
+            [FromQuery] string? movementType,
+            [FromQuery] int? referenceType,
+            [FromQuery] DateTime? startDate,
+            [FromQuery] DateTime? endDate)
+        {
+            var query = new GetStockMovementsQuery
+            {
+                WarehouseId = warehouseId,
+                ProductId = productId,
+                MovementType = movementType,
+                ReferenceType = referenceType,
+                StartDate = startDate,
+                EndDate = endDate
+            };
+
+            var result = await _mediator.Send(query);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.ErrorMessage);
+
+            return Ok(result.Data);
+        }
     }
 }
