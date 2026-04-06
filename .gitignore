@@ -11,6 +11,10 @@ packages/
 # Logs
 *.log
 
+# SSDT artifacts
+*.jfm
+*.dbmdl
+
 # IDE and local settings
 .vs/
 .vscode/

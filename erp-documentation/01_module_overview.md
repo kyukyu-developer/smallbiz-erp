@@ -29,7 +29,7 @@
 │             │ Groups      │  ├ Invoice  │  ├ Sales Report       │
 │             │ Units       │  └ Payment  │  ├ Stock Report       │
 │             │ Suppliers   │             │  ├ Payment Report     │
-│             │ Customers   │ Sales       │  └ Profit/Loss       │
+│             │ Customers   │ Sales       │  └ Profit/Loss        │
 │             │ Warehouses  │  ├ Quotation│                       │
 │             │             │  ├ SO       │                       │
 │             │             │  ├ Invoice  │                       │
