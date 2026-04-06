@@ -60,10 +60,7 @@
     <Folder Include="Properties" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
-<<<<<<< HEAD
     <Folder Include="dbo\Views" />
-=======
->>>>>>> ff3b309dac4c0fd24e29c154e14d915a4c1d1bed
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\SalesInvoiceItem.sql" />
@@ -88,9 +85,16 @@
     <Build Include="dbo\Tables\ProdUnitConversion.sql" />
     <Build Include="dbo\Tables\InvWarehouseStock.sql" />
     <Build Include="dbo\Tables\PurchItem.sql" />
-<<<<<<< HEAD
+    <Build Include="dbo\Tables\PurchOrder.sql" />
+    <Build Include="dbo\Tables\PurchOrderItem.sql" />
+    <Build Include="dbo\Tables\PurchGoodsReceive.sql" />
+    <Build Include="dbo\Tables\PurchGoodsReceiveItem.sql" />
+    <Build Include="dbo\Tables\PurchPayment.sql" />
+    <Build Include="dbo\Tables\SalesQuotation.sql" />
+    <Build Include="dbo\Tables\SalesQuotationItem.sql" />
+    <Build Include="dbo\Tables\SalesOrder.sql" />
+    <Build Include="dbo\Tables\SalesOrderItem.sql" />
+    <Build Include="dbo\Tables\SalesPayment.sql" />
     <Build Include="dbo\Views\vw_ProdUnitConversion.sql" />
-=======
->>>>>>> ff3b309dac4c0fd24e29c154e14d915a4c1d1bed
   </ItemGroup>
 </Project>
