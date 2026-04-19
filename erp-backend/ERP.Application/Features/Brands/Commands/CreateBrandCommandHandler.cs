@@ -1,5 +1,4 @@
 ﻿
-
 using MediatR;
 using ERP.Application.DTOs.Common;
 using ERP.Domain.Interfaces;
@@ -11,12 +10,20 @@ namespace ERP.Application.Features.Brands.Commands
     {
         private readonly IBrandRepository _brandRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICacheService _cache;
+        private readonly ICacheKeyBuilder _keyBuilder;
 
 
-        public CreateBrandCommandHandler(IBrandRepository brandRepository, IUnitOfWork unitOfWork)
+        public CreateBrandCommandHandler(
+            IBrandRepository brandRepository, 
+            IUnitOfWork unitOfWork,
+            ICacheService cache,
+            ICacheKeyBuilder keyBuilder)
         {
             _brandRepository = brandRepository;
             _unitOfWork = unitOfWork;
+            _cache = cache;
+            _keyBuilder = keyBuilder;
         }
 
         public async Task<Result<BrandDto>> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
@@ -35,6 +42,8 @@ namespace ERP.Application.Features.Brands.Commands
 
             await _brandRepository.AddAsync(brand);
             await _unitOfWork.SaveChangesAsync();
+
+            await _cache.InvalidateCacheAsync(_keyBuilder.Brand_All, cancellationToken);
 
             var BrandDto = new BrandDto
             {

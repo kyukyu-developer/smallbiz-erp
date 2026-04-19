@@ -6,6 +6,7 @@ using ERP.Domain.Interfaces;
 using ERP.Infrastructure.Data;
 using ERP.Infrastructure.Repositories;
 using ERP.Infrastructure.Services;
+using StackExchange.Redis;
 
 namespace ERP.Infrastructure
 {
@@ -38,9 +39,18 @@ namespace ERP.Infrastructure
             services.AddScoped<IProductUnitConversionRepository, ProductUnitConversionRepository>();
 
 
-            // Servicessss
+            // Services
             services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
+
+            // Cache
+            services.AddSingleton<ICacheKeyBuilder, CacheKeyBuilder>();
+            services.AddMemoryCache();
+            
+            var redisConnection = configuration["CacheSettings:Redis:ConnectionString"] ?? "localhost:6379";
+            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnection));
+            services.AddSingleton<IRedisClient, RedisClient>();
+            services.AddSingleton<ICacheService, DualCacheService>();
 
             return services;
         }

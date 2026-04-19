@@ -10,13 +10,23 @@ namespace ERP.Tests.Brands;
 public class GetBrandsQueryHandlerTests
 {
     private readonly Mock<IBrandRepository> _brandRepositoryMock;
+    private readonly Mock<ICacheService> _cacheMock;
+    private readonly Mock<ICacheKeyBuilder> _keyBuilderMock;
     private readonly GetBrandsQueryHandler _handler;
 
     public GetBrandsQueryHandlerTests()
     {
         _brandRepositoryMock = new Mock<IBrandRepository>();
+        _cacheMock = new Mock<ICacheService>();
+        _keyBuilderMock = new Mock<ICacheKeyBuilder>();
 
-        _handler = new GetBrandsQueryHandler(_brandRepositoryMock.Object);
+        _keyBuilderMock.Setup(x => x.Brand_All).Returns("brand:all");
+
+        _handler = new GetBrandsQueryHandler(
+            _brandRepositoryMock.Object,
+            _cacheMock.Object,
+            _keyBuilderMock.Object
+        );
     }
 
     [Fact]
@@ -41,8 +51,12 @@ public class GetBrandsQueryHandlerTests
             }
         };
 
-        _brandRepositoryMock
-            .Setup(x => x.GetAllAsync())
+        _cacheMock
+            .Setup(x => x.GetOrSetAsync(
+                It.IsAny<string>(),
+                It.IsAny<Func<Task<IEnumerable<ProdBrand>>>>(),
+                It.IsAny<TimeSpan?>(),
+                It.IsAny<CancellationToken>()))
             .ReturnsAsync(brands);
 
         var query = new GetBrandsQuery();
@@ -57,16 +71,26 @@ public class GetBrandsQueryHandlerTests
         Assert.Equal("Nike", result.Data[0].Name);
         Assert.Equal("Adidas", result.Data[1].Name);
 
-        _brandRepositoryMock.Verify(x => x.GetAllAsync(), Times.Once);
+        _cacheMock.Verify(x => x.GetOrSetAsync(
+            It.IsAny<string>(),
+            It.IsAny<Func<Task<IEnumerable<ProdBrand>>>>(),
+            It.IsAny<TimeSpan?>(),
+            It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
     public async Task Handle_ShouldReturnEmptyList_WhenNoBrandsExist()
     {
         // Arrange
-        _brandRepositoryMock
-            .Setup(x => x.GetAllAsync())
-            .ReturnsAsync(new List<Domain.Entities.ProdBrand>());
+        var emptyBrands = new List<Domain.Entities.ProdBrand>();
+
+        _cacheMock
+            .Setup(x => x.GetOrSetAsync(
+                It.IsAny<string>(),
+                It.IsAny<Func<Task<IEnumerable<ProdBrand>>>>(),
+                It.IsAny<TimeSpan?>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(emptyBrands);
 
         var query = new GetBrandsQuery();
 

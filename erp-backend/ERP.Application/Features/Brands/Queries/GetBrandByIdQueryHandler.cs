@@ -9,15 +9,29 @@ namespace ERP.Application.Features.Brands.Queries
     public class GetBrandByIdQueryHandler : IRequestHandler<GetBrandByIdQuery, Result<BrandDto>>
     {
         private readonly IBrandRepository _brandRepository;
+        private readonly ICacheService _cache;
+        private readonly ICacheKeyBuilder _keyBuilder;
 
-        public GetBrandByIdQueryHandler(IBrandRepository brandRepository)
+        public GetBrandByIdQueryHandler(
+            IBrandRepository brandRepository,
+            ICacheService cache,
+            ICacheKeyBuilder keyBuilder)
         {
             _brandRepository = brandRepository;
+            _cache = cache;
+            _keyBuilder = keyBuilder;
         }
 
         public async Task<Result<BrandDto>> Handle(GetBrandByIdQuery request, CancellationToken cancellationToken)
         {
-            var brand = await _brandRepository.GetByIdAsync(request.Id);
+            var brands = await _cache.GetOrSetAsync(
+                _keyBuilder.Brand_All,
+                () => _brandRepository.GetAllAsync(),
+                TimeSpan.FromMinutes(15),
+                cancellationToken
+            );
+
+            var brand = brands.FirstOrDefault(b => b.Id == request.Id);
             if (brand == null)
             {
                 return Result<BrandDto>.Failure("Brand not found");

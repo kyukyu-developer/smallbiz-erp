@@ -11,11 +11,19 @@ namespace ERP.Application.Features.Brands.Commands
     {
         private readonly IBrandRepository _brandRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICacheService _cache;
+        private readonly ICacheKeyBuilder _keyBuilder;
 
-        public UpdateBrandCommandHandler(IBrandRepository brandRepository, IUnitOfWork unitOfWork)
+        public UpdateBrandCommandHandler(
+            IBrandRepository brandRepository, 
+            IUnitOfWork unitOfWork,
+            ICacheService cache,
+            ICacheKeyBuilder keyBuilder)
         {
             _brandRepository = brandRepository;
             _unitOfWork = unitOfWork;
+            _cache = cache;
+            _keyBuilder = keyBuilder;
         }
 
         public async Task<Result<BrandDto>> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
@@ -32,6 +40,8 @@ namespace ERP.Application.Features.Brands.Commands
 
             _brandRepository.Update(brand);
             await _unitOfWork.SaveChangesAsync();
+
+            await _cache.InvalidateCacheAsync(_keyBuilder.Brand_All, cancellationToken);
 
             var brandDto = new BrandDto
             {

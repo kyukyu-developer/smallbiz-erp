@@ -1,5 +1,5 @@
 ﻿
-
+﻿
 using Xunit;
 using Moq;
 using ERP.Application.Features.Brands.Queries;
@@ -13,12 +13,21 @@ namespace ERP.Tests.Brands;
 public class GetBrandByIdQueryHandlerTests
 {
     private readonly Mock<IBrandRepository> _brandRepositoryMock;
+    private readonly Mock<ICacheService> _cacheMock;
+    private readonly Mock<ICacheKeyBuilder> _keyBuilderMock;
     private readonly GetBrandByIdQueryHandler _handler;
 
     public GetBrandByIdQueryHandlerTests()
     {
         _brandRepositoryMock = new Mock<IBrandRepository>();
-        _handler = new GetBrandByIdQueryHandler(_brandRepositoryMock.Object);
+        _cacheMock = new Mock<ICacheService>();
+        _keyBuilderMock = new Mock<ICacheKeyBuilder>();
+
+        _handler = new GetBrandByIdQueryHandler(
+            _brandRepositoryMock.Object,
+            _cacheMock.Object,
+            _keyBuilderMock.Object
+        );
     }
 
     [Fact]

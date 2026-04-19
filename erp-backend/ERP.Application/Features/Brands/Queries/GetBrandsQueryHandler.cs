@@ -1,5 +1,5 @@
 ﻿
-using ERP.Application.DTOs.Brands;
+﻿using ERP.Application.DTOs.Brands;
 using ERP.Application.DTOs.Common;
 using ERP.Application.DTOs.Units;
 using ERP.Domain.Interfaces;
@@ -11,20 +11,28 @@ namespace ERP.Application.Features.Brands.Queries
     public class GetBrandsQueryHandler : IRequestHandler<GetBrandsQuery, Result<List<BrandDto>>>
     {
         private readonly IBrandRepository _brandRepository;
+        private readonly ICacheService _cache;
+        private readonly ICacheKeyBuilder _keyBuilder;
 
-        public GetBrandsQueryHandler(IBrandRepository brandRepository)
+        public GetBrandsQueryHandler(
+            IBrandRepository brandRepository,
+            ICacheService cache,
+            ICacheKeyBuilder keyBuilder)
         {
             _brandRepository = brandRepository;
+            _cache = cache;
+            _keyBuilder = keyBuilder;
         }
 
         public async Task<Result<List<BrandDto>>> Handle(GetBrandsQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.ProdBrand> brands;
+            var brands = await _cache.GetOrSetAsync(
+                _keyBuilder.Brand_All,
+                () => _brandRepository.GetAllAsync(),
+                TimeSpan.FromMinutes(15),
+                cancellationToken
+            );
 
-            brands = await _brandRepository.GetAllAsync();
-
-
-            // Apply active filter
             var filteredBrands = brands
                 .Select(w => new BrandDto
                 {
@@ -32,7 +40,6 @@ namespace ERP.Application.Features.Brands.Queries
                     Name = w.Name,
                     Description = w.Description,
                     Active = w.Active
-                  
                 })
                 .ToList();
 
